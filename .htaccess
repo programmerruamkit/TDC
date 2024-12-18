@@ -1,0 +1,76 @@
+# Disable caching for sensitive content (no-store, no-cache)
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "Sat, 26 Jul 1997 05:00:00 GMT"
+</IfModule>
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # อนุญาตให้เข้าถึงไฟล์ในโฟลเดอร์ uploads
+    RewriteCond %{REQUEST_URI} ^/uploads/ [NC]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule . - [L]
+    
+# Add .php extension if not already present for files that are not directories
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [NC,L]
+</IfModule>
+
+# Redirect specific URLs to corresponding PHP files or HTML pages
+RewriteRule  ^config config/phpinfo.php [NC,L]
+RewriteRule  ^ไม่พบข้อมูล.html app/error/404.html [NC,L]
+# User authentication pages
+RewriteRule  ^เข้าสู่ระบบ.html app/authentication/login.php [NC,L]
+RewriteRule  ^ทะเบียน_(.*).html app/authentication/login.php?id=$1 [NC,L]
+RewriteRule  ^ออกจากระบบ.html app/authentication/logout.php [NC,L]
+# Welcome and landing pages
+RewriteRule  ^ยินดีต้อนรับ.html app/welcome/welcome.php [NC,L]
+RewriteRule  ^หน้าหลัก.html app/landingpage/index.php [NC,L]
+RewriteRule  ^ภาพรวม.html app/dashboard/index.php [NC,L]
+# Web setting management
+RewriteRule  ^ข้อมูลเว็บ.html app/setting_manage/setting.php [NC,L]
+RewriteRule  ^แก้ไขข้อมูลเว็บ-(.*).html app/setting_manage/setting.php?id=$1 [NC,L]
+# User management
+RewriteRule  ^จัดการสมาชิก.html app/user_manage/usermain.php   [NC,L]
+RewriteRule  ^เพิ่มสิทธิ์สมาชิก.html app/user_manage/usermainform.php [NC,L]
+RewriteRule  ^ข้อมูลสมาชิกรหัส-(.*).html app/user_manage/usermainform.php?id=$1 [NC,L]
+# Menu management
+RewriteRule  ^จัดการเมนู.html app/menu_manage/menumain.php [NC,L]
+RewriteRule  ^แก้ไขเมนูหลัก-(.*).html app/menu_manage/menumainedit.php?id=$1 [NC,L]
+RewriteRule  ^จัดการเมนูย่อย-(.*).html app/menu_manage/menusub.php?id=$1 [NC,L]
+RewriteRule  ^แก้ไขเมนูย่อย-(.*)-(.*).html app/menu_manage/menusubedit.php?id=$1&mid=$2 [NC,L]
+# Role management (permissions)
+RewriteRule  ^จัดการสิทธิ์.html app/role_manage/rolemain.php [NC,L]
+RewriteRule  ^แก้ไขข้อมูลสิทธิ์-(.*).html app/role_manage/rolemainform.php?id=$1 [NC,L]
+RewriteRule  ^สิทธิ์ใช้งานเมนู-(.*).html app/role_manage/rolesub.php?id=$1 [NC,L]
+RewriteRule  ^เพิ่มสิทธิ์ใช้งานเมนู-(.*).html app/role_manage/rolesubform.php?id=$1 [NC,L]
+RewriteRule  ^แก้ไขสิทธิ์ใช้งานเมนู-(.*)-(.*).html app/role_manage/rolesubform.php?id=$1&rmid=$2 [NC,L]
+# Car management
+RewriteRule  ^จัดการข้อมูลรถ.html app/car_manage/customer.php [NC,L]
+RewriteRule  ^รถของบริษัท-(.*).html app/car_manage/car.php?id=$1 [NC,L]
+# Checklist management (work lines, sheets, etc.)
+RewriteRule  ^จัดการสายงาน.html app/checklist_manage/linework.php [NC,L]
+RewriteRule  ^แก้ไขสายงาน-(.*).html app/checklist_manage/lineworkform.php?id=$1 [NC,L]
+RewriteRule  ^ข้อมูลแบบฟอร์ม-(.*).html app/checklist_manage/sheet.php?id=$1 [NC,L]
+RewriteRule  ^แก้ไขแบบฟอร์ม-(.*)-(.*).html app/checklist_manage/sheetform.php?id=$1&get=$2 [NC,L]
+RewriteRule  ^ข้อมูลรายการตรวจสอบ-(.*)-(.*).html app/checklist_manage/sheetlist.php?id=$1&get=$2 [NC,L]
+RewriteRule  ^เพิ่มรายการตรวจสอบ-(.*)-(.*).html app/checklist_manage/sheetlistform.php?id=$1&get=$2 [NC,L]
+RewriteRule  ^เพิ่มรายการตรวจสอบ_4L-(.*)-(.*).html app/checklist_manage/sheetlistform_gw.php?id=$1&get=$2 [NC,L]
+RewriteRule  ^แก้ไขรายการตรวจสอบ-(.*)-(.*)-(.*).html app/checklist_manage/sheetlistform.php?id=$1&get=$2&shl=$3 [NC,L]
+RewriteRule  ^แก้ไขรายการตรวจสอบ_4L-(.*)-(.*)-(.*).html app/checklist_manage/sheetlistform_gw.php?id=$1&get=$2&shl=$3 [NC,L]
+# Sheet check management
+RewriteRule  ^ใบตรวจสภาพ.html app/checksheet_manage/checksheet.php [NC,L]
+RewriteRule  ^ใบตรวจสภาพรถอมตะ_(.*)_(.*)_(.*)_(.*)_(.*).html app/checksheet_manage/checksheetquestion.php?num=$1&regis=$2&shid=$3&time=$4&datenow=$5 [NC,L]
+RewriteRule  ^ใบตรวจสภาพรถเกตเวย์_(.*)_(.*)_(.*)_(.*)_(.*).html app/checksheet_manage/checksheetquestion.php?num=$1&regis=$2&shid=$3&time=$4&datenow=$5 [NC,L]
+# Daily report management
+RewriteRule  ^รายงานตรวจสอบสภาพรายวัน.html app/report_manage/report_daily.php [NC,L]
+RewriteRule  ^รายงานตรวจสอบสภาพรายวัน_(.*)_ช่วงเวลา_(.*).html app/report_manage/report_daily.php?datenow=$1&periodtime=$2 [NC,L]
+RewriteRule  ^ยืนยันการตรวจสอบรายวันของรถทะเบียน_(.*)_วันที่_(.*)_ช่วงเวลา_(.*)_(.*) app/report_manage/report_daily_check.php?regis=$1&datenow=$2&time=$3&area=$4 [NC,L]
+RewriteRule  ^รายงานการตรวจสอบรายวันของรถทะเบียน_(.*)_วันที่_(.*)_ช่วงเวลา_(.*)_(.*).pdf app/report_manage/report_daily_pdf.php?regis=$1&datenow=$2&time=$3&area=$4 [NC,L]
+# Monthly summary report
+RewriteRule  ^รายงานการสรุปรายเดือน.html app/report_manage/report_monthly.php [NC,L]
+RewriteRule  ^รายงานการสรุปรายเดือนของบริษัท-(.*).html app/report_manage/report_monthly_customer.php?id=$1 [NC,L]
+RewriteRule  ^รายงานอมตะสรุปรายเดือน_(.*)_ของรถทะเบียน_(.*)_ช่วงเวลา_(.*)_ปี_(.*).pdf app/report_manage/report_monthly_amt_pdf.php?month=$1&regis=$2&time=$3&year=$4 [NC,L]
+RewriteRule  ^รายงานเกตเวย์สรุปสัปดาห์ที่_(.*)_ของรถทะเบียน_(.*)_ช่วงเวลา_(.*)_ปี_(.*).pdf app/report_manage/report_monthly_gw_pdf.php?month=$1&regis=$2&time=$3&year=$4 [NC,L]
