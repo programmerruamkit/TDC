@@ -15,18 +15,14 @@
     $qr_reportdaily_who = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
     $qr_reportdaily_who->execute(array(':proc'=>'select_report_gw_who',':datenow'=>$_GET["datenow"],':period'=>'',':reg'=>$_GET['regis'],':countgroup'=>'',':shid'=>'',));
     $rs_reportdaily_who = $qr_reportdaily_who->fetch(PDO::FETCH_OBJ);
-    
-    $sql_check_approve = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
-    $sql_check_approve->execute(array(':proc'=>'check_approve',':datenow'=>$_GET["datenow"],':period'=>'',':reg'=>$_GET['regis'],':countgroup'=>'',':shid'=>'',));
-    $rs_check_approve = $sql_check_approve->fetch(PDO::FETCH_OBJ);
 
     if(isset($_GET["datenow"])){
         $datenow = $_GET["datenow"];
     }else{
         $datenow = date("Y-m-d");
     }
-    if(isset($_GET["periodtime"])){
-        $PERIODTIME=$_GET["periodtime"];
+    if(isset($_GET["time"])){
+        $PERIODTIME=$_GET["time"];
         if($PERIODTIME=="กลางวัน"){
             $P_FIND = "DAY";
         }else if($PERIODTIME=="กลางคืน"){
@@ -36,6 +32,10 @@
         $PERIODTIME="กลางวัน";
         $P_FIND = "DAY";
     }
+    
+    $sql_check_approve = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
+    $sql_check_approve->execute(array(':proc'=>'check_approve',':datenow'=>$_GET["datenow"],':period'=>$P_FIND,':reg'=>$_GET['regis'],':countgroup'=>'',':shid'=>'',));
+    $rs_check_approve = $sql_check_approve->fetch(PDO::FETCH_OBJ);
 
     $date_string = '2024-11-23';
     $timestamp = strtotime($datenow);
@@ -129,7 +129,7 @@
                                 <tbody class="border border-slate-300"></tbody>
                             </table>
                             <br>
-                            <div class="flex items-center justify-center gap-2 shrink-0">                                        
+                            <div class="flex items-center justify-center gap-2 shrink-0">                                   
                                 <?php if(isset($rs_check_approve->SHLA_CREATEBY)){ ?>
                                     <button type="button" class="bt_approve text-white bg-green-500 border-green-500 btn hover:text-white hover:bg-green-600 hover:border-green-600 focus:text-white focus:bg-green-600 focus:border-green-600 focus:ring focus:ring-green-100 active:text-white active:bg-green-600 active:border-green-600 active:ring active:ring-green-100 dark:ring-green-400/10">
                                         ตรวจสอบเรียบร้อย

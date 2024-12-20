@@ -14,7 +14,9 @@
     <link rel="shortcut icon" href="<?php echo $result_setting->ST_ICON; ?>">
     <script src="assets/js/layout.js"></script>
     <link rel="stylesheet" href="assets/css/starcode2.css">
-
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 
 <div style="display:none"><button id="addRow">Add New Row</button></div>

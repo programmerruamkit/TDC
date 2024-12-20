@@ -183,7 +183,7 @@
   $result_setting = $query_setting->fetch(PDO::FETCH_OBJ);  
 
   $localhost     = "http://localhost/enomban/TRAILERDAILYCHECK_TDC/";
-  $webhost        = "http://61.91.5.111:85/";
+  $webhost        = "http://61.91.5.111:85";
 
 // GETDATENOW
   $query_getdate = $conn->prepare("SELECT * FROM vwGETDATE") or die($conn->error);

@@ -34,7 +34,11 @@
         $RGNB = "xx-xxxx";
     }
     
-    $SS_PERIOD = $_SESSION["AD_PERIOD"];
+    if(isset($_POST['period'])){
+        $SS_PERIOD = $_POST['period'];
+    }else if(isset($_SESSION["AD_REGISTRATION"])){
+        $SS_PERIOD = $_SESSION["AD_PERIOD"];
+    }
 
     $sql_get_data = $conn->prepare("EXECUTE ENB_SHEETEXAM :proc,:regis");
     $sql_get_data->execute(array(':proc'=>'select_data',':regis'=>$RGNB,));
@@ -42,10 +46,10 @@
 
     if(isset($_POST['rg'])||isset($_SESSION["AD_REGISTRATION"])){
         $sql_check_process = $conn->prepare("EXECUTE ENB_SHEETEXAMSELECT :proc,:regis,:dateins,:person,:code,:shid,:num");
-        $sql_check_process->execute(array(':proc'=>'check_process',':regis'=>$RGNB,':dateins'=>date('Y-m-d'),':person'=>$_SESSION["AD_PERSONCODE"],':code'=>'',':shid'=>'',':num'=>'',));
+        $sql_check_process->execute(array(':proc'=>'check_process',':regis'=>$RGNB,':dateins'=>date('Y-m-d'),':person'=>$_SESSION["AD_PERSONCODE"],':code'=>$SS_PERIOD,':shid'=>'',':num'=>'',));
         $rs_check_process = $sql_check_process->fetch(PDO::FETCH_OBJ);
     }
-    if(isset($rs_check_process->SHLR_CODE)){
+    if(isset($rs_check_process->SHLR_CODE) && $rs_check_process->SHLR_PERIODTIME==$SS_PERIOD){
         $_SESSION['SHLR_CODE']=$rs_check_process->SHLR_CODE;
     }else{
         $_SESSION['SHLR_CODE']="SHLR_".RandNum($n);
@@ -73,7 +77,7 @@
                                     <div class="grid grid-cols-1 gap-x-5 md:grid-cols-2 xl:grid-cols-3">
                                         <div class="mb-3">
                                             <label class="inline-block mb-2 text-base font-medium">เลือกทะเบียนรถ / ชื่อรถ</label>
-                                            <select name="rg" id="rg" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-choices="">
+                                            <select required name="rg" id="rg" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" data-choices="">
                                                 <option value="">------โปรดเลือก------</option>
                                                 <?php 
                                                     if($_SESSION["AD_AREA"]=="AMT"){
@@ -87,6 +91,14 @@
                                                 ?>
                                                 <option value="<?php echo $rs_rgnb->VEHICLEREGISNUMBER ?>" <?php if($RGNB==$rs_rgnb->VEHICLEREGISNUMBER){echo "selected";}else{echo "";};?>><?php echo $rs_rgnb->VEHICLEREGISNUMBER.' / '.$rs_rgnb->THAINAME ?></option>
                                                 <?php } ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="period" class="inline-block mb-2 text-base font-medium">Shift / เลือกกะ</label>
+                                            <select required name="period" id="period" class="form-select dark:bg-zink-600/50 border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-600 dark:text-zink-100 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                                <option value="">---โปรดเลือกกะ---</option>
+                                                <option value="DAY" <?php if($SS_PERIOD=='DAY'){echo "selected";}else{echo "";};?>>กะกลางวัน / Day Shift</option>
+                                                <option value="NIGHT" <?php if($SS_PERIOD=='NIGHT'){echo "selected";}else{echo "";};?>>กะกลางคืน / Night Shift</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -145,8 +157,8 @@
                                         <p class="mb-1 text-slate-500 dark:text-zink-200">หัวข้อตรวจสอบจำนวน: <b><?php echo $showct;?></b> ข้อ</p>
                                         <p class="mb-0 text-slate-500 dark:text-zink-200">พขร.ผู้ทำการตรวจสอบ: <b><?php echo $_SESSION["AD_NAMETHAI"];?></b></p>
                                     </div>
-                                    <div class="flex items-center gap-2 shrink-0">                                        
-                                        <?php if(isset($rs_check_process->SHLC_STATUS)){ ?>
+                                    <div class="flex items-center gap-2 shrink-0">
+                                        <?php if(isset($rs_check_process->SHLC_STATUS) && $rs_check_process->SHLR_PERIODTIME==$SS_PERIOD){ ?>
                                             <?php if($rs_check_process->SHLC_STATUS=='wait'){ ?>
                                                 <button style="display:<?php echo $display; ?>" type="button" onclick="RedirectQuestionContinue(<?php echo $rs_check_process->SHL_NUMBER;?>,'<?php echo $RGNB;?>','<?php echo $rs_get_data->SH_ID;?>','<?php echo $rs_check_process->SHLR_PERIODTIME;?>','<?php echo $sublw;?>','<?php echo date('Y-m-d');?>')" class="bt_exam text-white bg-orange-500 border-orange-500 btn hover:text-white hover:bg-orange-600 hover:border-orange-600 focus:text-white focus:bg-orange-600 focus:border-orange-600 focus:ring focus:ring-orange-100 active:text-white active:bg-orange-600 active:border-orange-600 active:ring active:ring-orange-100 dark:ring-orange-400/10">
                                                     ดำเนินการต่อจากเดิม
