@@ -14,13 +14,16 @@
             <div class="col-span-12">
                 <!-- Open Section  ############################################################## -->
                 <div class="ag-format-container">
+                    <h1 class="ag-format-container text-white"><?php echo $_SESSION['AD_ROLE_NAME']; ?> - <?php echo $_SESSION['AD_AREA']; ?></h1>
                     <div class="ag-courses_box">
-                        <div class="ag-courses_item">
-                            <a href="ภาพรวม.html" class="ag-courses-item_link" aria-label="link">
-                                <div class="ag-courses-item_bg"></div>
-                                <div class="ag-courses-item_title">จัดการข้อมูล</div>
-                            </a>
-                        </div>
+                        <?php if($_SESSION['AD_ROLE_NAME']!='DRIVER'){ ?>
+                            <div class="ag-courses_item">
+                                <a href="ภาพรวม.html" class="ag-courses-item_link" aria-label="link">
+                                    <div class="ag-courses-item_bg"></div>
+                                    <div class="ag-courses-item_title">จัดการข้อมูล</div>
+                                </a>
+                            </div>
+                        <?php } ?>
                         <div class="ag-courses_item">
                             <a href="ใบตรวจสภาพ.html" class="ag-courses-item_link" aria-label="link">
                                 <div class="ag-courses-item_bg"></div>
@@ -33,12 +36,12 @@
                                 <div class="ag-courses-item_title">ข้อมูลรถ</div>
                             </a>
                         </div>
-                        <div class="ag-courses_item">
+                        <!-- <div class="ag-courses_item">
                             <a href="ไม่พบข้อมูล.html" class="ag-courses-item_link" aria-label="link">
                                 <div class="ag-courses-item_bg"></div>
                                 <div class="ag-courses-item_title">แจ้งซ่อม</div>
                             </a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <!-- Close Section ############################################################## -->

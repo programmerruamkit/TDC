@@ -659,8 +659,19 @@
             }      
             return $randomString;
         } 
+        $n2=9;
+        function RandNum2($n2) {
+            $characters2 = '0123456789';
+            $randomString2 = '';      
+            for ($i2 = 0; $i2 < $n2; $i2++) {
+                $index2 = rand(0, strlen($characters2) - 1);
+                $randomString2 .= $characters2[$index2];
+            }      
+            return $randomString2;
+        } 
         $rand="SHLC_".RandNum($n);
         $rand_request="RPRQ_".RandNum($n);
+        $rand_id="#".RandNum2($n2);
         $PROCESS_BY = $_SESSION["AD_PERSONCODE"];
         $PROCESS_DATE = date("Y-m-d H:i:s");
 
@@ -700,8 +711,8 @@
                 $checknum1->execute(array(":code" => $a1,));
                 $rs_checknum1 = $checknum1->fetch(PDO::FETCH_OBJ);
                 if(empty($rs_checknum1)) {
-                    $sql2 = "INSERT INTO SHEET_LIST_CONFIRM (SHLC_CODE,SHLR_CODE,SHLC_STATUS,SHLC_REGIS,SHLC_DATEINSERT,SHLC_PERIODTIME,SHLC_CREATEBY,SHLC_CREATEDATE)
-                            VALUES ('$NEW_SHLC_CODE','$a1','wait','$a6','$a7','$a8','$PROCESS_BY','$PROCESS_DATE')";
+                    $sql2 = "INSERT INTO SHEET_LIST_CONFIRM (SHLC_CODE,SHLR_CODE,SHLC_STATUS,SHLC_REGIS,SHLC_DATEINSERT,SHLC_PERIODTIME,SHLC_CREATEBY,SHLC_CREATEDATE,SHLC_ID_RANDOM,SHLC_AREA)
+                            VALUES ('$NEW_SHLC_CODE','$a1','wait','$a6','$a7','$a8','$PROCESS_BY','$PROCESS_DATE','$rand_id','".$_SESSION["AD_AREA"]."')";
                     $result2 = $conn->query($sql2);
                 }
             }
@@ -778,6 +789,13 @@
                     SHLC_EDITDATE = '$PROCESS_DATE'
                     WHERE SHLR_CODE = '$a1' AND SHLC_REGIS = '$a6' AND SHLC_DATEINSERT = '$a7' AND SHLC_PERIODTIME = '$a8'";
         }
+        if($PROC=="stopchecking"){    
+            $sql = "UPDATE SHEET_LIST_CONFIRM SET 
+                    SHLC_STATUS = 'stopchecking',
+                    SHLC_EDITBY = '$PROCESS_BY',
+                    SHLC_EDITDATE = '$PROCESS_DATE'
+                    WHERE SHLR_CODE = '$a1' AND SHLC_REGIS = '$a6' AND SHLC_DATEINSERT = '$a7' AND SHLC_PERIODTIME = '$a8'";
+        }
         if($PROC=="nullnorepair"){ 
             $path = '../uploads/'; 
             $check = $conn->prepare("SELECT SHLR_IMG1,SHLR_IMG2 FROM SHEET_LIST_RECORD WHERE SHLR_CODE = :code AND SH_ID = :shid AND SHL_NUMBER = :num");
@@ -837,12 +855,10 @@
                     $query_typerepair = $conn->prepare("EXECUTE ENB_MAINTENANCE :proc,:area,:remark");
                     $query_typerepair->execute(array(':proc'=>'select_typerepair',':area'=>$SESSION_AREA,':remark'=>$a5));
                     $result_typerepair = $query_typerepair->fetch(PDO::FETCH_OBJ);
-
                     $sql = "UPDATE SHEET_LIST_RECORD SET 
                             RPRQ_TYPEREPAIRWORK = '$a5',
                             RPRQ_TYPEREPAIRWORK_NAME = '$result_typerepair->TRPW_NAME'
                             WHERE SHLR_CODE = '$a1' AND SH_ID = '$a2' AND SHL_NUMBER = '$a3' ";
-                    	
             }else{
                 $sql = "UPDATE SHEET_LIST_RECORD SET 
                         $a4 = '$a5',
@@ -876,7 +892,7 @@
             $result_cause = $conn->query($sql_cause);
 
             $old_folder = "../uploads/";
-            $new_folder = "../../TEST_EMSP2/uploads/";
+            $new_folder = "../../TEST/uploads/";
             if(isset($result_data->SHLR_IMG1)){
                 $image_path1 = $result_data->SHLR_IMG1;
                 $source_file1 = $old_folder.$image_path1;

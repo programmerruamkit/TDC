@@ -11,10 +11,6 @@
     $sql_get_data = $conn->prepare("EXECUTE ENB_SHEETEXAM :proc,:regis");
     $sql_get_data->execute(array(':proc'=>'select_data',':regis'=>$_GET['regis'],));
     $rs_get_data = $sql_get_data->fetch(PDO::FETCH_OBJ); 
-    
-    $qr_reportdaily_who = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
-    $qr_reportdaily_who->execute(array(':proc'=>'select_report_gw_who',':datenow'=>$_GET["datenow"],':period'=>'',':reg'=>$_GET['regis'],':countgroup'=>'',':shid'=>'',));
-    $rs_reportdaily_who = $qr_reportdaily_who->fetch(PDO::FETCH_OBJ);
 
     if(isset($_GET["datenow"])){
         $datenow = $_GET["datenow"];
@@ -33,9 +29,13 @@
         $P_FIND = "DAY";
     }
     
-    $sql_check_approve = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
-    $sql_check_approve->execute(array(':proc'=>'check_approve',':datenow'=>$_GET["datenow"],':period'=>$P_FIND,':reg'=>$_GET['regis'],':countgroup'=>'',':shid'=>'',));
-    $rs_check_approve = $sql_check_approve->fetch(PDO::FETCH_OBJ);
+    $qr_reportdaily_who = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
+    $qr_reportdaily_who->execute(array(':proc'=>'select_report_gw_who',':datenow'=>$_GET["datenow"],':period'=>$P_FIND,':reg'=>$_GET['regis'],':countgroup'=>'',':shid'=>'',));
+    $rs_reportdaily_who = $qr_reportdaily_who->fetch(PDO::FETCH_OBJ);
+    
+    $qr_check_approve = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
+    $qr_check_approve->execute(array(':proc'=>'check_approve',':datenow'=>$_GET["datenow"],':period'=>$P_FIND,':reg'=>$_GET['regis'],':countgroup'=>'',':shid'=>'',));
+    $rs_check_approve = $qr_check_approve->fetch(PDO::FETCH_OBJ);
 
     $date_string = '2024-11-23';
     $timestamp = strtotime($datenow);
@@ -62,12 +62,16 @@
                                         <h5 class=" mb-1">ข้อมูลใบตรวจสภาพรถ</h5>
                                     </div>
                                     <div class="text-center xl:col-span-3 ltr:xl:text-left rtl:xl:text-right">
-                                        <a href="รายงานการตรวจสอบรายวันของรถทะเบียน_<?php echo $rs_check_approve->SHLC_REGIS ?>_วันที่_<?php echo $rs_check_approve->SHLC_DATEINSERT ?>_ช่วงเวลา_<?php echo $PERIODTIME ?>_<?php echo $rs_check_approve->SUB_LINEOFWORK; ?>.pdf" target="_blank" class="flex items-center gap-2">
+                                        <button id="generatePdfBtn" class="flex items-center gap-2 px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 active:bg-red-700">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-pdf"><path d="M6 2h12l4 4v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10"></path><path d="M14 2v8h8"></path><path d="M14 14h4v4h-4z"></path></svg>
+                                            Generate PDF
+                                        </button>
+                                        <!-- <a href="รายงานการตรวจสอบรายวันของรถทะเบียน_<?php echo $rs_check_approve->SHLC_REGIS ?>_วันที่_<?php echo $rs_check_approve->SHLC_DATEINSERT ?>_ช่วงเวลา_<?php echo $PERIODTIME ?>_<?php echo $rs_check_approve->SUB_LINEOFWORK; ?>.pdf" target="_blank" class="flex items-center gap-2">
                                             <button class="flex items-center gap-2 px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 active:bg-red-700">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-pdf"><path d="M6 2h12l4 4v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10"></path><path d="M14 2v8h8"></path><path d="M14 14h4v4h-4z"></path></svg>
                                                 PDF
                                             </button>
-                                        </a>
+                                        </a> -->
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 mt-6 text-center divide-y md:divide-y-0 md:divide-x rtl:divide-x-reverse divide-dashed md:grid-cols-4 divide-slate-200 dark:divide-zink-500">
@@ -153,6 +157,7 @@
                     </div>
                     <input type="hidden" id="datenow" value="<?php echo $datenow; ?>">
                     <input type="hidden" id="pfind" value="<?php echo $P_FIND; ?>">
+                    <input type="hidden" id="time" value="<?php echo $PERIODTIME; ?>">
                     <input type="hidden" id="shid" value="<?php echo $rs_get_data->SH_ID; ?>">
                     <input type="hidden" id="regis" value="<?php echo $_GET['regis']; ?>">
                 <!-- Close Section ############################################################## -->
@@ -222,7 +227,11 @@
                             } else if (item.DAY1_CHECK === 'not') {
                                 Day1Check = '<img src="assets/images/remove-gray.png" alt="ไม่ได้ใช้งาน" class="block h-5 w-100 mx-auto">';
                             } else if (item.DAY1_CHECK === null) {
-                                Day1Check = '<img src="assets/images/imgloading.gif" alt="รอการตรวจ" class="block h-5 w-100 mx-auto">';
+                                if (item.CHECK_STATUS === 'stopchecking') {
+                                    Day1Check = '<font color="red"><b>STOP</b></font>';
+                                } else {
+                                    Day1Check = '<img src="assets/images/imgloading.gif" alt="รอการตรวจ" class="block h-5 w-100 mx-auto">';
+                                }
                             }
                             let repaircheck = '';
                             if (item.SAVE_REPAIR === '1') {
@@ -250,6 +259,91 @@
         });
     }
     fetch_reportdaily();
+</script>
+<script>
+    $(document).ready(function() {
+        $('#generatePdfBtn').click(function() {
+            var datenow = $('#datenow').val();
+            var pfind = $('#pfind').val();
+            var time = $('#time').val();
+            var shid = $('#shid').val();
+            var regis = $('#regis').val();
+            Swal.fire({
+                // title: 'Loading...',
+                text: 'กรุณารอสักครู่ ขณะที่เราสร้างไฟล์ PDF ของคุณ',
+                imageUrl: 'assets/images/imgloading.gif',
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+            // ดึงข้อมูลจาก API
+            $.ajax({
+                url: 'api/report/api.php',
+                type: 'POST',
+                data: {
+                    proc: 'report_daily_check',
+                    shid: shid,
+                    period: pfind,
+                    datenow: datenow,
+                    regis: regis
+                },
+                success: function(response) {
+                    try {
+                        var jsonData = typeof response === 'string' ? JSON.parse(response) : response;
+                        if (jsonData.error) {
+                            console.error('Error from report API:', jsonData.error);
+                            return;
+                        }
+
+                        // สร้าง FormData เพื่อส่งข้อมูลไปยัง PHP สำหรับสร้าง PDF
+                        var formData = new FormData();
+                        formData.append('reportData', JSON.stringify(jsonData));
+                        formData.append('shid', shid);
+                        formData.append('time', time);
+                        formData.append('datenow', datenow);
+                        formData.append('regis', regis);
+
+                        $.ajax({
+                            url: 'app/report_manage/report_daily_pdf.php', // URL ของ PHP script ที่จะสร้าง PDF
+                            type: 'POST', // ใช้ HTTP POST method
+                            data: formData, // ข้อมูลที่ต้องการส่ง
+                            processData: false, // ไม่ต้องประมวลผลข้อมูล
+                            contentType: false, // ไม่ต้องกำหนด Content-Type header
+                            success: function(response) {
+                                try {
+                                    // แปลงค่า response เป็น JSON ถ้าจำเป็น
+                                    var pdfData = typeof response === 'string' ? JSON.parse(response) : response;
+                                    if (pdfData.error) {
+                                        console.error('Error from PDF generation:', pdfData.error);
+                                        return;
+                                    }
+                                    // เปิดไฟล์ PDF ที่สร้างขึ้น
+                                    window.open('app/report_manage/'+pdfData.pdfUrl, '_blank');
+                                    // Close SweetAlert
+                                    Swal.close();
+                                } catch (e) {
+                                    console.error('Invalid JSON response from PDF generation:', response);
+                                    // Close SweetAlert
+                                    Swal.close();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error generating PDF:', error);
+                                // Close SweetAlert
+                                Swal.close();
+                            }
+                        });
+                    } catch (e) {
+                        console.error('Invalid JSON response from report API:', response);
+                        // Close SweetAlert
+                        Swal.close();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching report data:', error);
+                }
+            });
+        });
+    });
 </script>
 </body>
 </html>

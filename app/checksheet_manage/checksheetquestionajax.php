@@ -114,30 +114,39 @@
             }
             if(isset($rs_check_select->USE_TAB)){
                 if($rs_check_select->USE_TAB=='tab-1'){
-                    $activetab1='active';
-                    $activetab2='';
+                    $activetab1='bg-custom-500 text-white';
+                    $activetab2='bg-white text-custom-500';
                     $displaytab1='display:block';
                     $displaytab2='display:none';
                 }else{
-                    $activetab1='';
-                    $activetab2='active';
+                    $activetab1='bg-white text-custom-500';
+                    $activetab2='bg-custom-500 text-white';
                     $displaytab1='display:none';
                     $displaytab2='display:block';
                 }
             }else{
-                $activetab1='active';
-                $activetab2='';
+                $activetab1='bg-custom-500 text-white';
+                $activetab2='bg-white text-custom-500';
                 $displaytab1='display:block';
                 $displaytab2='display:none';
+            }
+            if(isset($rs_check_select->RPRQ_SAVE_REPAIR)){
+                if($rs_check_select->RPRQ_SAVE_REPAIR=='1'){
+                    $displaystop='display:block';
+                }else{
+                    $displaystop='display:none';
+                }
+            }else{
+                $displaystop='display:none';
             }
         ?>
         <div class="mb-3" id="divproblems" style="<?php echo $display;?>">
             <div>
                 <ul class="flex flex-wrap w-full text-sm font-medium text-center border-b border-slate-200 dark:border-zink-500 nav-tabs">
-                    <li class="group grow py-1 text-xs px-1.5 bg-custom-500 text-white border border-custom-500 rounded-l-md hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:bg-zink-700 dark:hover:bg-custom-500 dark:ring-custom-400/20 dark:focus:bg-custom-500">
+                    <li class="group grow py-1 text-xs px-1.5 <?php echo $activetab1;?> border border-custom-500 rounded-l-md hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:bg-zink-700 dark:hover:bg-custom-500 dark:ring-custom-400/20 dark:focus:bg-custom-500">
                         <a href="javascript:void(0);" data-tab-toggle="" data-target="divtab1" id="tab1" onclick="activateTab('tab1','tab2'),resetTab2(),nullrepair('nullnorepair','<?php echo $SHLR_CODE;?>','<?php echo $shid; ?>','<?php echo $num; ?>','<?php if(isset($rs_check_select->SHLR_IMG1)){echo $rs_check_select->SHLR_IMG1;}else{echo null;} ?>','<?php if(isset($rs_check_select->SHLR_IMG2)){echo $rs_check_select->SHLR_IMG2;}else{echo null;} ?>','<?php echo $rs_get_data->VEHICLEREGISNUMBER;?>','<?php echo $datenow;?>','tab-1')" class="relative inline-block px-4 w-full py-2 text-base -mb-[1px] ">ลงข้อมูล</a>
                     </li>
-                    <li class="group grow py-1 text-xs px-1.5 bg-white text-custom-500 border border-custom-500 rounded-r-md hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:bg-zink-700 dark:hover:bg-custom-500 dark:ring-custom-400/20 dark:focus:bg-custom-500">
+                    <li class="group grow py-1 text-xs px-1.5 <?php echo $activetab2;?> border border-custom-500 rounded-r-md hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:bg-zink-700 dark:hover:bg-custom-500 dark:ring-custom-400/20 dark:focus:bg-custom-500">
                         <a href="javascript:void(0);" data-tab-toggle="" data-target="divtab2" id="tab2" onclick="activateTab('tab2','tab1'),resetTab1(),nullrepair('nullnorepair','<?php echo $SHLR_CODE;?>','<?php echo $shid; ?>','<?php echo $num; ?>','<?php if(isset($rs_check_select->SHLR_IMG1)){echo $rs_check_select->SHLR_IMG1;}else{echo null;} ?>','<?php if(isset($rs_check_select->SHLR_IMG2)){echo $rs_check_select->SHLR_IMG2;}else{echo null;} ?>','<?php echo $rs_get_data->VEHICLEREGISNUMBER;?>','<?php echo $datenow;?>','tab-2')" class="relative inline-block px-4 w-full py-2 text-base -mb-[1px]">ลงข้อมูลพร้อมส่งแจ้งซ่อม</a>
                     </li>
                 </ul>
@@ -363,6 +372,13 @@
                             <button type="button" id="BTNrepairrequest" onclick="RepairRequest('repairrequest','<?php echo $SHLR_CODE;?>','<?php echo $shid; ?>','<?php echo $num; ?>')" class="bt_exam_select text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-red-400/10">
                                 <span class="align-middle">ส่งแจ้งซ่อมบำรุง</span> 
                             </button>
+                            <br><br>
+                            <div id="stopchecking" style="<?php echo $displaystop;?>">
+                                <font color="red"><b>***ถ้าหากปัญหานี้ เป็นปัญหาร้ายแรง ไม่สามารถใช้รถคันนี้ต่อได้ และจำเป็นต้องเปลี่ยนรถ โปรดกดปุ่ม "หยุดการตรวจสอบ" เพื่อหยุดตรวจสอบใบตรวจสอบใบนี้</b></font><br>
+                                <button type="button" onclick="Stop_Checking('stopchecking','<?php echo $SHLR_CODE;?>','','','','','<?php echo $rs_get_data->VEHICLEREGISNUMBER;?>','<?php echo $datenow;?>','<?php echo $time;?>')" class="bt_exam_select text-black bg-yellow-500 border-yellow-500 btn hover:text-white hover:bg-yellow-600 hover:border-yellow-600 focus:text-white focus:bg-yellow-600 focus:border-yellow-600 focus:ring focus:ring-yellow-100 active:text-white active:bg-yellow-600 active:border-yellow-600 active:ring active:ring-yellow-100 dark:ring-yellow-400/10">
+                                    <span class="align-middle"><small>หยุดการตรวจสอบ</small></span> 
+                                </button>
+                            </div>
                         </center>
                     </div>
                 </div>

@@ -18,7 +18,7 @@ $result_customer = $sql_customer->fetch(PDO::FETCH_OBJ);
 $SUBLINE = $result_customer->SUB_LINEOFWORK;
 
 $query_reportmonth_head = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
-$query_reportmonth_head->execute(array(':proc'=>'select_report_gw_head',':datenow'=>'',':period'=>'',':reg'=>'',':countgroup'=>'',':shid'=>$rs_get_data->SH_ID,));
+$query_reportmonth_head->execute(array(':proc'=>'select_report_head',':datenow'=>'',':period'=>'',':reg'=>'',':countgroup'=>'',':shid'=>$rs_get_data->SH_ID,));
 
 $SHFEX = explode("-", $rs_get_data->SH_EFFECT);
 $SHFEX1 = substr($SHFEX[0],2)+43;
@@ -256,11 +256,17 @@ $mpdf = new mPDF('th', 'A4-L', '0', '');
                                     if(isset($rs_reportdaily->DAY1)){
                                         if($rs_reportdaily->DAY1=='normal'){
                                             $amt_section .='<font color="green"><b><img src="../../assets/images/check_true.gif" style="width: 20px;"></b></font>';
-                                        }else{
+                                        }else if($rs_reportdaily->DAY1=='not_use'){
+                                            $amt_section .='<font color="green"><b><img src="../../assets/images/remove-gray.png" style="width: 20px;"></b></font>';
+                                        }else{                  
                                             $amt_section .='<font color="red"><b><img src="../../assets/images/check_del.gif" style="width: 20px;"></b></font>';
-                                        }   
+                                        }    
                                     }else{
-                                        $amt_section .='';
+                                        if($rs_check_approve->SHLC_STATUS=='stopchecking'){
+                                            $amt_section .='<font color="red"><b>STOP</b></font>';
+                                        }else{
+                                            $amt_section .='';
+                                        }
                                     }                             
                                 $amt_section .='</td>
                                 <td style="border-right: 2px solid black;">'.$rs_reportdaily->DAY1REMARK.'</td>

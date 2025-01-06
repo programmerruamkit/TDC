@@ -46,7 +46,7 @@
 
     if(isset($_POST['rg'])||isset($_SESSION["AD_REGISTRATION"])){
         $sql_check_process = $conn->prepare("EXECUTE ENB_SHEETEXAMSELECT :proc,:regis,:dateins,:person,:code,:shid,:num");
-        $sql_check_process->execute(array(':proc'=>'check_process',':regis'=>$RGNB,':dateins'=>date('Y-m-d'),':person'=>$_SESSION["AD_PERSONCODE"],':code'=>$SS_PERIOD,':shid'=>'',':num'=>'',));
+        $sql_check_process->execute(array(':proc'=>'check_process',':regis'=>$RGNB,':dateins'=>date('Y-m-d'),':person'=>'',':code'=>$SS_PERIOD,':shid'=>'',':num'=>'',));
         $rs_check_process = $sql_check_process->fetch(PDO::FETCH_OBJ);
     }
     if(isset($rs_check_process->SHLR_CODE) && $rs_check_process->SHLR_PERIODTIME==$SS_PERIOD){
@@ -167,6 +167,10 @@
                                                 <button style="display:<?php echo $display; ?>" type="button" class="bt_exam text-white bg-green-500 border-green-500 btn hover:text-white hover:bg-green-600 hover:border-green-600 focus:text-white focus:bg-green-600 focus:border-green-600 focus:ring focus:ring-green-100 active:text-white active:bg-green-600 active:border-green-600 active:ring active:ring-green-100 dark:ring-green-400/10">
                                                     ตรวจสภาพรถเรียบร้อย
                                                 </button>
+                                            <?php }else if($rs_check_process->SHLC_STATUS=='stopchecking'){ ?>
+                                                <button style="display:<?php echo $display; ?>" type="button" class="bt_exam text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-red-400/10">
+                                                    หยุดการตรวจสอบแล้ว
+                                                </button>
                                             <?php } ?>
                                         <?php }else{ ?>
                                                 <button style="display:<?php echo $display; ?>" type="button" onclick="RedirectQuestion(1,'<?php echo $RGNB;?>','<?php echo $rs_get_data->SH_ID;?>','<?php echo $sublw;?>','<?php echo $SS_PERIOD;?>','<?php echo date('Y-m-d');?>')" class="bt_exam text-white bg-purple-500 border-purple-500 btn hover:text-white hover:bg-purple-600 hover:border-purple-600 focus:text-white focus:bg-purple-600 focus:border-purple-600 focus:ring focus:ring-purple-100 active:text-white active:bg-purple-600 active:border-purple-600 active:ring active:ring-purple-100 dark:ring-purple-400/10">
@@ -176,14 +180,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <br>
-                            <div class="flex justify-center gap-2">
-                                <a href="ภาพรวม.html">
-                                    <button aria-label="button" type="button" class="text-white btn bg-red-500 border-red-500 hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-red-400/20">
-                                        <i data-lucide="undo-2" class="inline-block size-4"></i> <span class="align-middle">ย้อนกลับ</span>
-                                    </button>
-                                </a>
-                            </div>
+                            <?php if($_SESSION['AD_ROLE_NAME']!='DRIVER'){ ?>
+                                <br>
+                                <div class="flex justify-center gap-2">
+                                    <a href="ภาพรวม.html">
+                                        <button aria-label="button" type="button" class="text-white btn bg-red-500 border-red-500 hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-red-400/20">
+                                            <i data-lucide="undo-2" class="inline-block size-4"></i> <span class="align-middle">ย้อนกลับ</span>
+                                        </button>
+                                    </a>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
                 <!-- Close Section ############################################################## -->

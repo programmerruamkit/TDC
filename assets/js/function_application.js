@@ -3,7 +3,7 @@
         var a0 = $('#username').val();
         var a1 = $('#password').val();
         var a2 = $('#registration').val();
-        var a3 = $('#period').val();
+        var a3 = $('#period').val();  
         if(a0 == ""){
             var timerInterval;
             Swal.fire({
@@ -106,7 +106,7 @@
                 console.log(2)
                 console.log(RS)
                 if (RS == '"complete"') {
-                    location.href = "ภาพรวม.html"
+                    location.href = "ยินดีต้อนรับ.html"
                 }
             },
                 error: function(){
@@ -1661,6 +1661,7 @@
                                 showConfirmButton: false,
                             }).then(() => {
                                 disableTabsAndButton();
+                                document.getElementById('stopchecking').style.display = 'block';
                             })	
                         }else{                    
                             Swal.fire({
@@ -1673,6 +1674,60 @@
                         }
                     },
                     error: function(){
+                        console.log(3)
+                    }
+                })
+            }
+        })
+    }
+    function Stop_Checking(a0,a1,a2,a3,a4,a5,a6,a7,a8){
+        Swal.fire({
+            title: 'คุณยืนยันที่จะหยุดการตรวจสอบหรือไม่?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#C82333',
+            confirmButtonText: 'ยืนยัน',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "controllers/controllers.php",
+                    data: {
+                        keyword: "check_sheet_question", 
+                        PROC: a0,
+                        a1: a1,
+                        a2: a2,
+                        a3: a3,
+                        a4: a4,
+                        a5: a5,
+                        a6: a6,
+                        a7: a7,
+                        a8: a8,
+                    },
+                    cache: false,
+                    success: function(RS){
+                        if (RS == '"complete"') {                   
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'บันทึกข้อมูลเสร็จสิ้น',
+                                timer: 2000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            }).then(() => {
+                                location.href = 'ใบตรวจสภาพ.html'
+                            })	
+                        }else{                    
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ไม่สามารถบันทึกได้!',
+                                timer: 3000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            })
+                        }
+                    },
+                        error: function(){
                         console.log(3)
                     }
                 })
@@ -1726,7 +1781,7 @@
     function redirect_monthly() {
         var a0 = $('#GETMONTH').val();
         var a1 = $('#REGIS').val();
-        var a2 = $('#PERIODTIME').val();
+        // var a2 = $('#PERIODTIME').val();
         var a3 = $('#GETYEAR').val();
         var a4 = $('#LINEOFWORK').val();
         var a5 = $('#SUB_LINEOFWORK').val();
@@ -1742,6 +1797,7 @@
             return result;
         }
         if((a5=="4L")||(a5=="RCC")||(a5=="RATC")){
+            var a2 = $('#PERIODTIMEGW').val();
             if(a6 == ""){
                 Swal.fire({
                     icon: 'warning',
@@ -1754,6 +1810,7 @@
             }
             window.open('รายงานเกตเวย์สรุปสัปดาห์ที่_'+a6+'_ของรถทะเบียน_'+a1+'_ช่วงเวลา_'+a2+'_ปี_'+a3+'.pdf','_blank').focus();
         }else{
+            var a2 = $('#PERIODTIMEAMT').val();
             window.open('รายงานอมตะสรุปรายเดือน_'+a0+'_ของรถทะเบียน_'+a1+'_ช่วงเวลา_'+a2+'_ปี_'+a3+'.pdf','_blank').focus();
         }
     }

@@ -4,20 +4,12 @@
     Header set Pragma "no-cache"
     Header set Expires "Sat, 26 Jul 1997 05:00:00 GMT"
 </IfModule>
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-
-    # อนุญาตให้เข้าถึงไฟล์ในโฟลเดอร์ uploads
-    RewriteCond %{REQUEST_URI} ^/uploads/ [NC]
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule . - [L]
-    
+# Enable URL rewriting
+RewriteEngine on 
 # Add .php extension if not already present for files that are not directories
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*)$ $1.php [NC,L]
-</IfModule>
-
 # Redirect specific URLs to corresponding PHP files or HTML pages
 RewriteRule  ^config config/phpinfo.php [NC,L]
 RewriteRule  ^ไม่พบข้อมูล.html app/error/404.html [NC,L]
@@ -68,7 +60,7 @@ RewriteRule  ^ใบตรวจสภาพรถเกตเวย์_(.*)_(.*
 RewriteRule  ^รายงานตรวจสอบสภาพรายวัน.html app/report_manage/report_daily.php [NC,L]
 RewriteRule  ^รายงานตรวจสอบสภาพรายวัน_(.*)_ช่วงเวลา_(.*).html app/report_manage/report_daily.php?datenow=$1&periodtime=$2 [NC,L]
 RewriteRule  ^ยืนยันการตรวจสอบรายวันของรถทะเบียน_(.*)_วันที่_(.*)_ช่วงเวลา_(.*)_(.*) app/report_manage/report_daily_check.php?regis=$1&datenow=$2&time=$3&area=$4 [NC,L]
-RewriteRule  ^รายงานการตรวจสอบรายวันของรถทะเบียน_(.*)_วันที่_(.*)_ช่วงเวลา_(.*)_(.*).pdf app/report_manage/report_daily_pdf.php?regis=$1&datenow=$2&time=$3&area=$4 [NC,L]
+RewriteRule  ^รายงานการตรวจสอบรายวันของรถทะเบียน_(.*)_วันที่_(.*)_ช่วงเวลา_(.*)_(.*).pdf app/report_manage/report_daily_pdf_20241227.php?regis=$1&datenow=$2&time=$3&area=$4 [NC,L]
 # Monthly summary report
 RewriteRule  ^รายงานการสรุปรายเดือน.html app/report_manage/report_monthly.php [NC,L]
 RewriteRule  ^รายงานการสรุปรายเดือนของบริษัท-(.*).html app/report_manage/report_monthly_customer.php?id=$1 [NC,L]

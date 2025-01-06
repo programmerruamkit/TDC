@@ -166,7 +166,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="joiningDateInput" class="inline-block mb-2 text-base font-medium">เลือกช่วงเวลา</label>
-                        <select name="PERIODTIME" id="PERIODTIME" class="form-input border-slate-300 focus:outline-none focus:border-custom-500" data-choices-search-false="">
+                        <select name="PERIODTIMEGW" id="PERIODTIMEGW" class="form-input border-slate-300 focus:outline-none focus:border-custom-500" data-choices-search-false="">
                             <option value="กลางวัน" <?php if($PERIODTIME=="กลางวัน"){echo "selected";}else{echo "";}?>>กลางวัน</option>
                             <option value="กลางคืน" <?php if($PERIODTIME=="กลางคืน"){echo "selected";}else{echo "";}?>>กลางคืน</option>
                         </select>
@@ -201,7 +201,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="joiningDateInput" class="inline-block mb-2 text-base font-medium">เลือกช่วงเวลา</label>
-                        <select name="PERIODTIME" id="PERIODTIME" class="form-input border-slate-300 focus:outline-none focus:border-custom-500" data-choices-search-false="">
+                        <select name="PERIODTIMEAMT" id="PERIODTIMEAMT" class="form-input border-slate-300 focus:outline-none focus:border-custom-500" data-choices-search-false="">
                             <option value="กลางวัน" <?php if($PERIODTIME=="กลางวัน"){echo "selected";}else{echo "";}?>>กลางวัน</option>
                             <option value="กลางคืน" <?php if($PERIODTIME=="กลางคืน"){echo "selected";}else{echo "";}?>>กลางคืน</option>
                         </select>

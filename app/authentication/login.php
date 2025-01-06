@@ -43,8 +43,8 @@ require_once($path.'include/head.php');
                     <label for="period" class="inline-block mb-2 text-base font-medium">Shift / เลือกกะ</label>
                     <select name="period" id="period" class="form-select dark:bg-zink-600/50 border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-600 dark:text-zink-100 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
                         <option value="">---โปรดเลือกกะ---</option>
-                        <option value="DAY">กะกลางวัน / Day Shift</option>
-                        <option value="NIGHT">กะกลางคืน / Night Shift</option>
+                        <option value="DAY">กะกลางวัน / Day Shift / 00:00 - 11:59 น.</option>
+                        <option value="NIGHT">กะกลางคืน / Night Shift / 12:00 - 23:59 น.</option> 
                     </select>
                 </div>
                 <div class="mb-3">

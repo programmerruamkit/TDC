@@ -4,14 +4,16 @@
     require_once($path.'config/connect.php'); 
     header('Content-Type: application/json');
     header('Access-Control-Allow-Origin: *');  
+    header('Content-Type: application/json; charset=utf-8');
 
     $PROC = $_POST["proc"];
     
     if($PROC=="report_daily"){
         $datenow = $_POST["a1"];
         $P_FIND = $_POST["a2"];
-        $query_reportdaily = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period");
-        $query_reportdaily->execute(array(':proc'=>'select_all',':datenow'=>$datenow,':period'=>$P_FIND,));
+        $SS_AREA = $_SESSION["AD_AREA"];
+        $query_reportdaily = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg");
+        $query_reportdaily->execute(array(':proc'=>'select_all',':datenow'=>$datenow,':period'=>$P_FIND,':reg'=>$SS_AREA));
         $rs_reportdaily = [];
         while ($result = $query_reportdaily->fetch(PDO::FETCH_OBJ)) {
             $rs_reportdaily[] = $result;
@@ -30,7 +32,7 @@
             // ดึงข้อมูลหัวข้อ
             $data = [];
             $qr_reportdaily_head = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
-            $qr_reportdaily_head->execute(array(':proc'=>'select_report_gw_head',':datenow'=>'',':period'=>'',':reg'=>'',':countgroup'=>'',':shid'=>$shid,));
+            $qr_reportdaily_head->execute(array(':proc'=>'select_report_head',':datenow'=>'',':period'=>'',':reg'=>'',':countgroup'=>'',':shid'=>$shid));
             $rs_reportdaily_head = $qr_reportdaily_head->fetchAll(PDO::FETCH_OBJ);
             // วนลูปผ่านข้อมูลหัวข้อ
             foreach ($rs_reportdaily_head as $row_head) {
@@ -39,11 +41,37 @@
                     'SHL_PERIODTIME_REAL' => $row_head->SHL_PERIODTIME_REAL,
                     'items' => []
                 ];
-                // ดึงข้อมูลรายการตรวจสอบ
+                if($row_head->SHL_PERIODTIME_REAL=="BEFORESTART"){
+                    $qr_reportdaily_amt1 = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
+                    $qr_reportdaily_amt1->execute(array(':proc'=>'select_report_amt_1',':datenow'=>$datenow,':period'=>$period,':reg'=>$regis,':countgroup'=>'BEFORESTART',':shid'=>$shid));
+                    $rs_reportdaily_amt1 = $qr_reportdaily_amt1->fetchAll(PDO::FETCH_OBJ);
+                    foreach ($rs_reportdaily_amt1 as $row_itemshead) {
+                        $itemshead = [
+                            'SHL_NUMBER' => $row_itemshead->SHL_NUMBER,
+                            'SHL_NAME' => $row_itemshead->SHL_NAME,
+                            'DAY1' => $row_itemshead->DAY1,
+                            'DAY1REMARK' => $row_itemshead->DAY1REMARK,
+                            'DAY1_CHECK' => null,  // ค่าเริ่มต้น
+                            'SAVE_REPAIR' => $row_itemshead->SAVE_REPAIR,
+                            'CHECK_STATUS' => $row_itemshead->CHECK_STATUS
+                        ];
+                        // เปลี่ยนจาก ternary เป็น if-elseif-else
+                        if ($row_itemshead->DAY1 == 'normal') {
+                            $itemshead['DAY1_CHECK'] = true;
+                        } elseif ($row_itemshead->DAY1 == 'abnormal') {
+                            $itemshead['DAY1_CHECK'] = false;
+                        } elseif ($row_itemshead->DAY1 == 'not_use') {
+                            $itemshead['DAY1_CHECK'] = 'not';
+                        } elseif ($row_itemshead->DAY1 == '') {
+                            $itemshead['DAY1_CHECK'] = null;
+                        }
+                        $head_data['items'][] = $itemshead;
+                    }
+                }
+
                 $qr_reportdaily = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
-                $qr_reportdaily->execute(array(':proc'=>'select_report_gw_day',':datenow'=>$datenow,':period'=>$period,':reg'=>$regis,':countgroup'=>$row_head->SHL_PERIODTIME_REAL,':shid'=>$shid,));
+                $qr_reportdaily->execute(array(':proc'=>'select_report_gw_day',':datenow'=>$datenow,':period'=>$period,':reg'=>$regis,':countgroup'=>$row_head->SHL_PERIODTIME_REAL,':shid'=>$shid));
                 $rs_reportdaily = $qr_reportdaily->fetchAll(PDO::FETCH_OBJ);
-                // วนลูปผ่านข้อมูลรายการสินค้า
                 foreach ($rs_reportdaily as $row_item) {
                     $item = [
                         'SHL_NUMBER' => $row_item->SHL_NUMBER,
@@ -51,7 +79,8 @@
                         'DAY1' => $row_item->DAY1,
                         'DAY1REMARK' => $row_item->DAY1REMARK,
                         'DAY1_CHECK' => null,  // ค่าเริ่มต้น
-                        'SAVE_REPAIR' => $row_item->SAVE_REPAIR
+                        'SAVE_REPAIR' => $row_item->SAVE_REPAIR,
+                        'CHECK_STATUS' => $row_item->CHECK_STATUS
                     ];
                     // เปลี่ยนจาก ternary เป็น if-elseif-else
                     if ($row_item->DAY1 == 'normal') {

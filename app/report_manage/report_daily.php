@@ -137,19 +137,22 @@
                         data.forEach(function(item, index) {
                             var rowNumber = index + 1;
                             var rowcolor = (rowNumber % 2 === 0) ? 'bg-slate-50' : 'bg-white';
-                            var rowstatus = (item.SHLC_STATUS === 'success') ? "<img src='assets/images/check_true.gif' alt='pic' width='16' height='16'>" : "<img src='assets/images/imgloading.gif' alt='pic' width='25' height='25'>";
+                            var rowstatus = (item.SHLC_STATUS === 'success') ? "<img src='assets/images/check_true.gif' alt='pic' width='16' height='16'>" :
+                                            (item.SHLC_STATUS === 'wait') ? "<img src='assets/images/imgloading.gif' alt='pic' width='25' height='25'>" :
+                                            (item.SHLC_STATUS === 'stopchecking') ? "<font color='red'><b>STOP</b></font>" : "0";
                             var rowapprove = (item.SHLR_CODE_FA === null) ? "<img src='assets/images/imgloading.gif' alt='pic' width='25' height='25'>" : "<img src='assets/images/check_true.gif' alt='pic' width='16' height='16'>";
+                            var chk_linework = (item.SUB_LINEOFWORK === '') ? item.LINEWORK : item.SUB_LINEOFWORK;
                             table.row.add([
                                 '<div class="text-center">'+rowNumber+'</div>', 
                                 '<div class="text-center">'+item.REGIS+'</div>', 
                                 '<div class="text-left">'+item.THAINAME+'</div>', 
-                                '<div class="text-center">'+item.SUB_LINEOFWORK+'</div>', 
+                                '<div class="text-center">'+chk_linework+'</div>', 
                                 '<div class="text-center">'+item.PERIODTIME+'</div>', 
                                 '<div class="text-left">'+item.EMP_CODE+'-'+item.EMP_NAME+'</div>', 
                                 '<center>'+rowstatus+'</center>', 
                                 '<center>'+rowapprove+'</center>', 
                                 '<div class="flex justify-center gap-2">'+
-                                    '<a href="ยืนยันการตรวจสอบรายวันของรถทะเบียน_'+item.REGIS+'_วันที่_'+item.SHLC_DATEINSERT+'_ช่วงเวลา_'+item.PERIODTIME+'_'+item.SUB_LINEOFWORK+'" target="_blank" class="flex items-center gap-2">'+
+                                    '<a href="ยืนยันการตรวจสอบรายวันของรถทะเบียน_'+item.REGIS+'_วันที่_'+item.SHLC_DATEINSERT+'_ช่วงเวลา_'+item.PERIODTIME+'_'+chk_linework+'" target="_blank" class="flex items-center gap-2">'+
                                         '<button aria-label="button" class="py-1 text-xs text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 edit-item-btn">'+
                                             '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>'+
                                         '</button>'+
