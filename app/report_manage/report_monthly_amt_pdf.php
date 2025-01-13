@@ -7,37 +7,38 @@ require($path.'assets/pdf/PDF/vendor/autoload.php');
 // $_GET['month']=$_GET['month'];
 if(isset($_GET['month'])){
     $monthif = $_GET['month'];
-        if($monthif == "01"){
-            $month = "มกราคม";
-        }else if($monthif == "02"){
-            $month = "กุมภาพันธ์";
-        }else if($monthif == "03"){
-            $month = "มีนาคม";
-        }else if($monthif == "04"){
-            $month = "เมษายน";
-        }else if($monthif == "05"){
-            $month = "พฤษภาคม";
-        }else if($monthif == "06"){
-            $month = "มิถุนายน";
-        }else if($monthif == "07"){
-            $month = "กรกฎาคม";
-        }else if($startif8== "08"){
-            $month = "สิงหาคม";
-        }else if($monthif == "09"){
-            $month = "กันยายน";
-        }else if($monthif == "10"){
-            $month = "ตุลาคม";
-        }else if($monthif == "11"){
-            $month = "พฤศจิกายน";
-        }else if($monthif == "12"){
-            $month = "ธันวาคม";
-        }
+    if($monthif == "มกราคม"){
+        $month = "01";
+    } else if($monthif == "กุมภาพันธ์"){
+        $month = "02";
+    } else if($monthif == "มีนาคม"){
+        $month = "03";
+    } else if($monthif == "เมษายน"){
+        $month = "04";
+    } else if($monthif == "พฤษภาคม"){
+        $month = "05";
+    } else if($monthif == "มิถุนายน"){
+        $month = "06";
+    } else if($monthif == "กรกฎาคม"){
+        $month = "07";
+    } else if($monthif == "สิงหาคม"){
+        $month = "08";
+    } else if($monthif == "กันยายน"){
+        $month = "09";
+    } else if($monthif == "ตุลาคม"){
+        $month = "10";
+    } else if($monthif == "พฤศจิกายน"){
+        $month = "11";
+    } else if($monthif == "ธันวาคม"){
+        $month = "12";
+    }
 }
 $year   =   $_GET['year'];
 $dscon  =   $monthif.' ปี '.$year;
 // echo $dscon;
+$datestart = ($year-543).'-'.$month.'-01';
 
-$shid=$_GET['shid'];
+// $shid=$_GET['shid'];
 $time=$_GET['time'];
 if($time=='กลางวัน'){
     $period='DAY';
@@ -185,6 +186,26 @@ $mpdf = new mPDF('th', 'A4-L', '0', '');
                             $SHL_TIME           =   $rs_reportdaily->SHL_TIME;
                         } 
                         
+                        $sql_choice = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup");
+                        $sql_choice->execute(array(':proc'=>'select_check_amt_month',':datenow'=>$datestart,':period'=>$period,':reg'=>$rs_get_data->VEHICLEREGISNUMBER,':countgroup'=>$SHL_NUMBER,));
+                        $result_choice = $sql_choice->fetch(PDO::FETCH_OBJ);   
+
+                        for ($id=1;$id<=31;$id++) {
+                            $dayKey="DAY".$id;
+                            if (!empty($result_choice->$dayKey)) {
+                                $dayValue = $result_choice->$dayKey;
+                                if ($dayValue == 'normal') {
+                                    ${$dayKey} = '<font color="green"><b><img src="../../assets/images/check_true.gif" style="width: 20px;"></b></font>';
+                                } elseif ($dayValue == 'not_use') {
+                                    ${$dayKey} = '<font color="green"><b><img src="../../assets/images/remove-gray.png" style="width: 20px;"></b></font>';
+                                } else {
+                                    ${$dayKey} = '<font color="red"><b><img src="../../assets/images/check_del.gif" style="width: 20px;"></b></font>';
+                                }
+                            } else {
+                                ${$dayKey} = '';
+                            }
+                        }
+                        
                         $rowdata[0]  = '<td style="border-right: 2px solid black;">'.$rs_reportdaily->SHL_PERIODTIME.'</td>';
                         $rowdata[1]  = '<td style="border-right: 2px solid black;">'.$SHL_NUMBER.'</td>';
                         $rowdata[2]  = '<td style="border-right: 2px solid black;" align="left">'.$SHL_NAME.'</td>';
@@ -192,46 +213,17 @@ $mpdf = new mPDF('th', 'A4-L', '0', '');
                         $rowdata[4]  = '<td style="border-right: 2px solid black;">'.$SHL_RANK.'</td>';
                         $rowdata[5]  = '<td style="border-right: 2px solid black;">'.$SHL_HOWTO.'</td>';
                         $rowdata[6]  = '<td style="border-right: 2px solid black;" colspan="2">'.$SHL_TIME.'</td>';
-                        $rowdata[7]  = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[8]  = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[9]  = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[10] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[11] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[12] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[13] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[14] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[15] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[16] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[17] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[18] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[19] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[20] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[21] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[22] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[23] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[24] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[25] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[26] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[27] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[28] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[29] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[30] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[31] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[32] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[33] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[34] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[35] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[36] = '<td style="border-right: 2px solid black;"></td>';
-                        $rowdata[37] = '<td style="border-right: 2px solid black;"></td>';
+                        for ($ir=1;$ir<=31;$ir++) {
+                            $dayKey="DAY".$ir;
+                            $rowdata[$ir+6]='<td style="border-right: 2px solid black;">'.${$dayKey}.'</td>';
+                        }
                 
                         $typeCol = "";
-
                         if ($prevSizeVal != $rs_reportdaily->SHL_PERIODTIME) {
                             $typeStartRow = $counter;
                             $typeCol = '<th rowspan="1" style="text-rotate:90;background-color:lightgray;border: 2px solid black;">'.$rs_reportdaily->SHL_PERIODTIME.'</th>';
                         }else{
                             $output[$typeStartRow][0] = preg_replace('/rowspan="[\d]+"/', 'rowspan="'.($counter-$typeStartRow +1).'"', $output[$typeStartRow][0]);
-                
                         }
                 
                         $rowdata[0] = $typeCol;
@@ -291,10 +283,10 @@ $mpdf = new mPDF('th', 'A4-L', '0', '');
                             </tr>
                         </thead>
                         <tbody>';
-                            for ($i = 0; $i < count($output); $i++){
+                            for ($il = 0; $il < count($output); $il++){
                                 $amt_section .='<tr>';
-                                for ($j = 0; $j < count($output[$i]); $j++){
-                                    $rs_cell = $output[$i][$j];
+                                for ($j = 0; $j < count($output[$il]); $j++){
+                                    $rs_cell = $output[$il][$j];
                                     $amt_section .= $rs_cell;
                                 }
                                 $amt_section .='</tr>';
@@ -304,75 +296,32 @@ $mpdf = new mPDF('th', 'A4-L', '0', '');
                                     <b>&nbsp;<u>หมายเหตุ</u></b> : ถ้าตรวจสอบแล้วพบปัญหาให้แจ้งผู้จัดการแผนกทันที, บันทึกข้อบกพร่อง, ทำใบแจ้งซ่อม <br>
                                     &emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;<b>ระดับ A</b> ให้ระงับและต้องหยุดการใช้งานทันที จนกว่ามีการปรับปรุงแล้วเสร็จ, <b>ระดับ B</b> ให้ใช้งานต่อได้จนกว่าจะเสร็จงานรอบนั้น แล้วนำไปปรับปรุงแก้ไขทันที
                                 </td>
-                                <td style="background-color:lightgray;border: 2px solid black;text-align:center;" colspan="3"><b>ลายเซ็นต์พนักงานขับรถ</b></td>
-                                <td style="border: 2px solid black;text-rotate:90;">100012</td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
+                                <td style="background-color:lightgray;border: 2px solid black;text-align:center;" colspan="3"><b>ลายเซ็นต์พนักงานขับรถ</b></td>';
+                            for ($dl=1;$dl<=31;$dl++) {  
+                                if($dl<10){$dlif='0'.$dl;}else{$dlif = $dl;}
+                                $dlresult = ($year-543).'-'.$month.'-'.$dlif;
+                                $qr_reportdaily_who = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg");
+                                $qr_reportdaily_who->execute(array(':proc'=>'select_report_amt_who',':datenow'=>$dlresult,':period'=>$period,':reg'=>$rs_get_data->VEHICLEREGISNUMBER,));
+                                $rs_reportdaily_who = $qr_reportdaily_who->fetch(PDO::FETCH_OBJ);
+                                $amt_section .='                              
+                                <td style="border: 2px solid black;text-rotate:90;font-size:18px;">'.$rs_reportdaily_who->SHLR_CREATEBY.'</td>';
+                            }$amt_section .='
                             </tr>
                             <tr style="height: 20px;">
                                 <td style="border: none;text-align:left;font-weight: normal;" colspan="5">
                                     <b>&nbsp;</b>'.$rs_get_data->SH_NAME.' แก้ไขครั้งที่ '.$rs_get_data->SH_TIMES.' มีผลบังคับใช้ : '.$SHFEX3.'-'.$SHFEX2.'-'.$SHFEX1.'
                                 </td>
-                                <td style="background-color:lightgray;border: 2px solid black;text-align:center;" colspan="3"><b>หัวหน้าสายงานตรวจสอบ</b></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;">100012</td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
-                                <td style="border: 2px solid black;text-rotate:90;"></td>
+                                <td style="background-color:lightgray;border: 2px solid black;text-align:center;" colspan="3"><b>หัวหน้าสายงานตรวจสอบ</b></td>';
+                                for ($dc=1;$dc<=31;$dc++) {  
+                                    if($dc<10){$dcif='0'.$dc;}else{$dcif = $dc;}
+                                    $dcresult = ($year-543).'-'.$month.'-'.$dcif;
+                                    
+                                    $qr_check_approve = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg");
+                                    $qr_check_approve->execute(array(':proc'=>'check_approve',':datenow'=>$dcresult,':period'=>$period,':reg'=>$rs_get_data->VEHICLEREGISNUMBER,));
+                                    $rs_check_approve = $qr_check_approve->fetch(PDO::FETCH_OBJ);
+                                    $amt_section .='
+                                        <td style="border: 2px solid black;text-rotate:90;font-size:18px;">'.$rs_check_approve->SHLA_CREATEBY.'</td>';
+                                }$amt_section .='                                 
                             </tr>
                             <tr>
                                 <td style="border: none;text-align:left;font-weight: normal;" colspan="5">

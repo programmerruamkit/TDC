@@ -96,6 +96,7 @@
                         </div>
 
                         <div class="relative flex items-center dropdown h-header">
+                        <!-- <div class="relative flex items-center h-header"> -->
                             <button type="button" aria-label="button" class="inline-block p-0 transition-all duration-200 ease-linear bg-topbar rounded-full text-topbar-item dropdown-toggle btn hover:bg-topbar-item-bg-hover hover:text-topbar-item-hover group-data-[topbar=dark]:text-topbar-item-dark group-data-[topbar=dark]:bg-topbar-dark group-data-[topbar=dark]:hover:bg-topbar-item-bg-hover-dark group-data-[topbar=dark]:hover:text-topbar-item-hover-dark group-data-[topbar=brand]:bg-topbar-brand group-data-[topbar=brand]:hover:bg-topbar-item-bg-hover-brand group-data-[topbar=brand]:hover:text-topbar-item-hover-brand group-data-[topbar=dark]:dark:bg-zink-700 group-data-[topbar=dark]:dark:hover:bg-zink-600 group-data-[topbar=brand]:text-topbar-item-brand group-data-[topbar=dark]:dark:hover:text-zink-50 group-data-[topbar=dark]:dark:text-zink-200" id="dropdownMenuButton" data-bs-toggle="dropdown">
                                 <div class="bg-pink-100 rounded-full">
                                     <?php
@@ -112,9 +113,10 @@
                                     <img src="<?=$img;?>" alt="" class="w-[37.5px] h-[37.5px] rounded-full">
                                 </div>
                             </button>
-                            <div class="absolute z-50 hidden p-4 ltr:text-left rtl:text-right bg-white rounded-md shadow-md !top-4 dropdown-menu min-w-[14rem] dark:bg-zink-600" aria-labelledby="dropdownMenuButton">
-                                <!-- <h6 class="mb-2 text-sm font-normal text-slate-500 dark:text-zink-300">Welcome to starcode</h6> -->
-                                <a href="#" class="flex gap-3 mb-3">
+                            <!-- ปิดใช้การแสดงโปรไฟล์แบบเดิม เมื่อกดที่รูป -->
+                            <!-- <div class="absolute z-50 hidden p-4 ltr:text-left rtl:text-right bg-white rounded-md shadow-md !top-4 dropdown-menu min-w-[14rem] dark:bg-zink-600" aria-labelledby="dropdownMenuButton"> -->
+                                <!-- อันนี้ิดอยู่แล้ว <h6 class="mb-2 text-sm font-normal text-slate-500 dark:text-zink-300">Welcome to starcode</h6> -->
+                                <!-- <a href="#" class="flex gap-3 mb-3">
                                     <div class="relative inline-block shrink-0">
                                         <div class="rounded bg-slate-100 dark:bg-zink-500">
                                             <img src="<?=$img;?>" alt="" class="w-12 h-12 rounded">
@@ -131,19 +133,35 @@
                                     <li>
                                         <a class="block ltr:pr-4 rtl:pl-4 py-1.5 text-base font-medium transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:text-custom-500 focus:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:focus:text-custom-500" href="pages-account.html"><i data-lucide="user-2" class="inline-block size-4 ltr:mr-2 rtl:ml-2"></i> Profile</a>
                                     </li>
-                                    <!-- <li>
+                                    <li>
                                         <a class="block ltr:pr-4 rtl:pl-4 py-1.5 text-base font-medium transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:text-custom-500 focus:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:focus:text-custom-500" href="apps-mailbox.html"><i data-lucide="mail" class="inline-block size-4 ltr:mr-2 rtl:ml-2"></i> Inbox <span class="inline-flex items-center justify-center w-5 h-5 ltr:ml-2 rtl:mr-2 text-[11px] font-medium border rounded-full text-white bg-red-500 border-red-500">15</span></a>
-                                    </li> -->
-                                    <!-- <li>
+                                    </li>
+                                    <li>
                                         <a class="block ltr:pr-4 rtl:pl-4 py-1.5 text-base font-medium transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:text-custom-500 focus:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:focus:text-custom-500" href="apps-chat.html"><i data-lucide="messages-square" class="inline-block size-4 ltr:mr-2 rtl:ml-2"></i> Chat</a>
-                                    </li> -->
-                                    <!-- <li>
+                                    </li>
+                                    <li>
                                         <a class="block ltr:pr-4 rtl:pl-4 py-1.5 text-base font-medium transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:text-custom-500 focus:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:focus:text-custom-500" href="pages-pricing.html"><i data-lucide="gem" class="inline-block size-4 ltr:mr-2 rtl:ml-2"></i> Upgrade <span class="inline-flex items-center justify-center w-auto h-5 ltr:ml-2 rtl:mr-2 px-1 text-[12px] font-medium border rounded text-white bg-sky-500 border-sky-500">Pro</span></a>
-                                    </li> -->
+                                    </li>
                                     <li class="pt-2 mt-2 border-t border-slate-200 dark:border-zink-500">
                                         <a href="ออกจากระบบ.html" class="block ltr:pr-4 rtl:pl-4 py-1.5 text-base font-medium transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:text-custom-500 focus:text-custom-500 dark:text-zink-200 dark:hover:text-custom-500 dark:focus:text-custom-500"><i data-lucide="log-out" class="inline-block size-4 ltr:mr-2 rtl:ml-2"></i> ออกจากระบบ</a>
                                     </li>
-                                </ul>
+                                </ul> -->
+                            <!-- เปิดใช้การเลือกสิทธิ์ เมื่อกดที่รูป -->
+                            <div class="absolute z-50 hidden p-4 ltr:text-left rtl:text-right bg-white rounded-md shadow-md !top-4 dropdown-menu min-w-[10rem] flex flex-col gap-4 dark:bg-zink-600" aria-labelledby="flagsDropdown">
+                                <?php
+                                    $query_login = $conn->prepare("EXECUTE ENB_NAVBAR :proc,:username,:password");
+                                    $query_login->execute(array(':proc'=>'check_role',':username'=>$_SESSION['AD_ROLEACCOUNT_USERNAME'],':password'=>$_SESSION['AD_ROLEACCOUNT_PASSWORD'],));
+                                    $no=1;
+                                    while($result_login = $query_login->fetch(PDO::FETCH_OBJ)) { 
+                                        $AD_RA_ID = $result_login->RA_ID;
+                                        $AD_ROLE_ID = $result_login->RU_ID;
+                                        $AD_ROLE_NAME = $result_login->RU_NAME;
+                                        $AD_AREA = $result_login->AREA;	                    
+                                ?>                              
+                                <a href="#;" class="flex items-center gap-3 group/items language" onclick="role_session('<?=$_SESSION['AD_ROLEACCOUNT_USERNAME'];?>','<?=$_SESSION['AD_ROLEACCOUNT_PASSWORD'];?>',<?=$AD_ROLE_ID;?>,<?=$AD_RA_ID;?>)">
+                                    <h6 class="transition-all duration-200 ease-linear font-15medium text- text-slate-600 dark:text-zink-200 group-hover/items:text-custom-500"><?=$AD_ROLE_NAME?> - <?=$AD_AREA?></h6>
+                                </a>
+                                <?php $no++; } ?>
                             </div>
                         </div>
                     </div>

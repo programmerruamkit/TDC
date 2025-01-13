@@ -73,79 +73,41 @@ if (isset($_POST['reportData'])) {
         $picr   =   'car_stmtgt_right.png';
     }
 
-    if($SUBLINE =='4L' || $SUBLINE =='RCC' || $SUBLINE =='RATC'){ 
-        
-        $start = explode("-", $_POST['datenow']);
-        $subday = $start[2];
-        $submonth = $start[1];
-        $subyear = $start[0]+543;
-        // Submonth
-            $monthif = $submonth;
-            if($monthif == "01"){
-                $month = "มกราคม";
-            }else if($monthif == "02"){
-                $month = "กุมภาพันธ์";
-            }else if($monthif == "03"){
-                $month = "มีนาคม";
-            }else if($monthif == "04"){
-                $month = "เมษายน";
-            }else if($monthif == "05"){
-                $month = "พฤษภาคม";
-            }else if($monthif == "06"){
-                $month = "มิถุนายน";
-            }else if($monthif == "07"){
-                $month = "กรกฎาคม";
-            }else if($startif8== "08"){
-                $month = "สิงหาคม";
-            }else if($monthif == "09"){
-                $month = "กันยายน";
-            }else if($monthif == "10"){
-                $month = "ตุลาคม";
-            }else if($monthif == "11"){
-                $month = "พฤศจิกายน";
-            }else if($monthif == "12"){
-                $month = "ธันวาคม";
-            }
-        // Submonth
-        $dscon = $month.' ปี '.$subyear;
-        $rsdate = $subday.' '.$month.' '.$subyear;
-        // echo $dscon."<br>";
+    $start = explode("-", $_POST['datenow']);
+    $subday = $start[2];
+    $submonth = $start[1];
+    $subyear = $start[0]+543;
 
-    }else{
-        // $_POST['month']=$_POST['month'];
-        if(isset($_POST['month'])){
-            $monthif = $_POST['month'];
-                if($monthif == "01"){
-                    $month = "มกราคม";
-                }else if($monthif == "02"){
-                    $month = "กุมภาพันธ์";
-                }else if($monthif == "03"){
-                    $month = "มีนาคม";
-                }else if($monthif == "04"){
-                    $month = "เมษายน";
-                }else if($monthif == "05"){
-                    $month = "พฤษภาคม";
-                }else if($monthif == "06"){
-                    $month = "มิถุนายน";
-                }else if($monthif == "07"){
-                    $month = "กรกฎาคม";
-                }else if($startif8== "08"){
-                    $month = "สิงหาคม";
-                }else if($monthif == "09"){
-                    $month = "กันยายน";
-                }else if($monthif == "10"){
-                    $month = "ตุลาคม";
-                }else if($monthif == "11"){
-                    $month = "พฤศจิกายน";
-                }else if($monthif == "12"){
-                    $month = "ธันวาคม";
-                }
-        }
-        $year   =   $_POST['year'];
-        $dscon  =   $monthif.' ปี '.$year;
-        // echo $dscon;
-        $rsdate = $subday.' '.$month.' '.$subyear;
+    $monthif = $submonth;
+    if($monthif == "01"){
+        $month = "มกราคม";
+    }else if($monthif == "02"){
+        $month = "กุมภาพันธ์";
+    }else if($monthif == "03"){
+        $month = "มีนาคม";
+    }else if($monthif == "04"){
+        $month = "เมษายน";
+    }else if($monthif == "05"){
+        $month = "พฤษภาคม";
+    }else if($monthif == "06"){
+        $month = "มิถุนายน";
+    }else if($monthif == "07"){
+        $month = "กรกฎาคม";
+    }else if($startif8== "08"){
+        $month = "สิงหาคม";
+    }else if($monthif == "09"){
+        $month = "กันยายน";
+    }else if($monthif == "10"){
+        $month = "ตุลาคม";
+    }else if($monthif == "11"){
+        $month = "พฤศจิกายน";
+    }else if($monthif == "12"){
+        $month = "ธันวาคม";
     }
+    // Submonth
+    $dscon = $month.' ปี '.$subyear;
+    $rsdate = $subday.' '.$month.' '.$subyear;
+    // echo $dscon."<br>";
     
     // $shid=$_POST['shid'];
     $time=$_POST['time'];
@@ -209,11 +171,20 @@ if (isset($_POST['reportData'])) {
                         <tr>
                             <td style="padding:0px;text-align:left;border: 1px solid black;border-bottom: none;">
                                 <img src="../../assets/images/LogoNewPNG.png" style="float:left;width:30px;height:23px;margin-top:3px;margin-left:3px;margin-bottom:-3px;">
-                                <font style="font-size:13;"><b>'.$result_customer->CTM_NAMEEN.'</b></font>&emsp;&emsp;&emsp;&emsp;
-                                <font style="font-size:15;"><b><u>ใบตรวจสภาพเทรลเลอร์</u></b></font><br>
-                                <font style="font-size:8;">เดือน '.$dscon.'</font>&emsp;&emsp;&emsp;
-                                <font style="font-size:8;">เบอร์เทรลเลอร์</font>
-                                <font style="font-size:14;"><b>'.$rs_get_data->THAINAME.'</b></font>&emsp;&emsp;
+                                <font style="font-size:13;"><b>'.$result_customer->CTM_NAMEEN.'</b></font>&emsp;&emsp;&emsp;&emsp;';
+                                if($SUBLINE =='4L' || $SUBLINE =='RCC' || $SUBLINE =='RATC'){$amt_section .= '
+                                    <font style="font-size:15;"><b><u>ใบตรวจสภาพเทรลเลอร์</u></b></font><br>
+                                    <font style="font-size:8;">เดือน '.$dscon.'</font>&emsp;&emsp;&emsp;
+                                    <font style="font-size:8;">เบอร์เทรลเลอร์</font>
+                                    <font style="font-size:14;"><b>'.$rs_get_data->THAINAME.'</b></font>&emsp;&emsp;';
+                                }else{$amt_section .= '
+                                    <font style="font-size:15;"><b>ใบตรวจสภาพรถ</b></font><br>
+                                    <font style="font-size:8;">เดือน '.$dscon.'</font>&emsp;&emsp;&emsp;
+                                    <font style="font-size:8;">ทะเบียนรถ</font>
+                                    <font style="font-size:14;"><b>'.$_POST['regis'].'</b></font>&emsp;&emsp;
+                                    <font style="font-size:8;">ชื่อรถ</font>
+                                    <font style="font-size:14;"><b>'.$rs_get_data->THAINAME.'</b></font>&emsp;&emsp;';
+                                }$amt_section .= '
                             </td>
                         </tr>
                         <tr>

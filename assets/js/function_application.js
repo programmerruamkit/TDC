@@ -1,9 +1,9 @@
 // LOGIN
-    function login_session(){
+    function login_session(){ 
         var a0 = $('#username').val();
         var a1 = $('#password').val();
         var a2 = $('#registration').val();
-        var a3 = $('#period').val();  
+        var a3 = $('#period').val();
         if(a0 == ""){
             var timerInterval;
             Swal.fire({
@@ -88,6 +88,33 @@
         }
     }
     function role_session(a0, a1, a2, a3){
+        $.ajax({
+            type: 'post',
+            url: 'controllers/controllers.php',
+            data: {
+                keyword: "role_session", 
+                a0: a0,
+                a1: a1,
+                a2: a2,
+                a3: a3
+            },
+            cache: false,
+             beforeSend: function(){
+                console.log(1)
+            },
+            success: function(RS){
+                console.log(2)
+                console.log(RS)
+                if (RS == '"complete"') {
+                    location.href = "ยินดีต้อนรับ.html"
+                }
+            },
+                error: function(){
+                console.log(3)
+            }
+        });
+    }
+    function role_session_welcome(a0, a1, a2, a3){
         $.ajax({
             type: 'post',
             url: 'controllers/controllers.php',

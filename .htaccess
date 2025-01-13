@@ -13,6 +13,7 @@ RewriteRule ^(.*)$ $1.php [NC,L]
 # Redirect specific URLs to corresponding PHP files or HTML pages
 RewriteRule  ^config config/phpinfo.php [NC,L]
 RewriteRule  ^ไม่พบข้อมูล.html app/error/404.html [NC,L]
+RewriteRule  ^ข้อมูลรถ_(.*).html app/overview/overview.php?reg=$1 [NC,L]
 # User authentication pages
 RewriteRule  ^เข้าสู่ระบบ.html app/authentication/login.php [NC,L]
 RewriteRule  ^ทะเบียน_(.*).html app/authentication/login.php?id=$1 [NC,L]

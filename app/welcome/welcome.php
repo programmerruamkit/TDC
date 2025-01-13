@@ -14,7 +14,23 @@
             <div class="col-span-12">
                 <!-- Open Section  ############################################################## -->
                 <div class="ag-format-container">
-                    <h1 class="ag-format-container text-white"><?php echo $_SESSION['AD_ROLE_NAME']; ?> - <?php echo $_SESSION['AD_AREA']; ?></h1>
+                    <!-- <h1 class="ag-format-container text-white"><?php echo $_SESSION['AD_ROLE_NAME']; ?> - <?php echo $_SESSION['AD_AREA']; ?></h1> -->
+                    <h1 class="ag-format-container">
+                        <select name="options" id="options" class="ml-4 text-black" onchange="role_session_welcome('<?=$_SESSION['AD_ROLEACCOUNT_USERNAME'];?>','<?=$_SESSION['AD_ROLEACCOUNT_PASSWORD'];?>',this.value)">
+                            <?php
+                                $query_login = $conn->prepare("EXECUTE ENB_NAVBAR :proc,:username,:password");
+                                $query_login->execute(array(':proc'=>'check_role',':username'=>$_SESSION['AD_ROLEACCOUNT_USERNAME'],':password'=>$_SESSION['AD_ROLEACCOUNT_PASSWORD'],));
+                                $no=1;
+                                while($result_login = $query_login->fetch(PDO::FETCH_OBJ)) { 
+                                    $AD_RA_ID = $result_login->RA_ID;
+                                    $AD_ROLE_ID = $result_login->RU_ID;
+                                    $AD_ROLE_NAME = $result_login->RU_NAME;
+                                    $AD_AREA = $result_login->AREA;	                    
+                            ?>         
+                                <option value="<?=$AD_ROLE_ID;?>" <?php if($_SESSION['AD_ROLE_ID']==$AD_ROLE_ID){echo "selected";}?>><?=$AD_ROLE_NAME?> - <?=$AD_AREA?></option>                     
+                            <?php $no++; } ?>
+                        </select>
+                    </h1>
                     <div class="ag-courses_box">
                         <?php if($_SESSION['AD_ROLE_NAME']!='DRIVER'){ ?>
                             <div class="ag-courses_item">
@@ -31,7 +47,7 @@
                             </a>
                         </div>
                         <div class="ag-courses_item">
-                            <a href="ไม่พบข้อมูล.html" class="ag-courses-item_link" aria-label="link">
+                            <a href="ข้อมูลรถ_<?php if($_SESSION["AD_REGISTRATION"]!=""){echo $_SESSION["AD_REGISTRATION"];}else{echo 'null';}?>.html" class="ag-courses-item_link" aria-label="link">
                                 <div class="ag-courses-item_bg"></div>
                                 <div class="ag-courses-item_title">ข้อมูลรถ</div>
                             </a>
