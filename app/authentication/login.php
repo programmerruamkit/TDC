@@ -31,7 +31,7 @@ require_once($path.'include/head.php');
                 </div>
                 <div class="mb-3"> 
                     <label for="password" class="inline-block mb-2 text-base font-medium">Password / รหัสผ่าน</label>
-                    <input type="text" inputmode="numeric" name="password" id="password" autocomplete="off" class="form-input dark:bg-zink-600/50 border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-600 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="กรอกรหัสผ่าน">
+                    <input type="password" inputmode="numeric" name="password" id="password" autocomplete="off" class="form-input dark:bg-zink-600/50 border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-600 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="กรอกรหัสผ่าน">
                     <div id="password-error" class="hidden mt-1 text-sm text-red-500">Password must be at least 8 characters long and contain both letters and numbers.</div>
                 </div>
                 <?php if(isset($_GET['id'])){   

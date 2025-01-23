@@ -16,15 +16,19 @@
         $part = "../";   	
         include ($part.'config/connect.php');               
  
-        if($a0==='0'){
+        if($a0==='100012'){
             $rsusername=100012;
         }else{
             $rsusername=$a0;
         }
-        if($a1==='0'){
+        if($a1==='1234'){
             $rspassword=100012;
         }else{
-            $rspassword=$a1;
+            if($a1==='100012'){
+                $rspassword=0;
+            }else{
+                $rspassword=$a1;
+            }
         }
         
         $stmt = $conn->prepare("EXECUTE ENB_USERLOGIN :proc,:username");

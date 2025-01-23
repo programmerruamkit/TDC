@@ -46,12 +46,14 @@
                                 <div class="ag-courses-item_title">ใบตรวจสภาพรถ</div>
                             </a>
                         </div>
-                        <div class="ag-courses_item">
-                            <a href="ข้อมูลรถ_<?php if($_SESSION["AD_REGISTRATION"]!=""){echo $_SESSION["AD_REGISTRATION"];}else{echo 'null';}?>.html" class="ag-courses-item_link" aria-label="link">
-                                <div class="ag-courses-item_bg"></div>
-                                <div class="ag-courses-item_title">ข้อมูลรถ</div>
-                            </a>
-                        </div>
+                        <?php if($_SESSION['AD_REGISTRATION']!=''){ ?>
+                            <div class="ag-courses_item">
+                                <a href="ข้อมูลรถ_<?php if($_SESSION["AD_REGISTRATION"]!=""){echo $_SESSION["AD_REGISTRATION"];}else{echo 'null';}?>.html" class="ag-courses-item_link" aria-label="link">
+                                    <div class="ag-courses-item_bg"></div>
+                                    <div class="ag-courses-item_title">ข้อมูลรถ</div>
+                                </a>
+                            </div>
+                        <?php } ?>
                         <!-- <div class="ag-courses_item">
                             <a href="ไม่พบข้อมูล.html" class="ag-courses-item_link" aria-label="link">
                                 <div class="ag-courses-item_bg"></div>
