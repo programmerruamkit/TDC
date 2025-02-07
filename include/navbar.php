@@ -35,7 +35,7 @@
                             vela=setInterval("decrease_num()",1000);  
                         }  
                         function decrease_num(){  
-                            console.log(wait_time);
+                            // console.log(wait_time);
                             if(wait_time>0){  
                             var show_place=document.getElementById('show_text');  
                             show_place.innerHTML = 'Time Out '+wait_time+' Sec.';  
