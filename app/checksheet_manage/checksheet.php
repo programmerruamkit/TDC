@@ -40,17 +40,42 @@
         $SS_PERIOD = $_SESSION["AD_PERIOD"];
     }
 
-    $sql_get_data = $conn->prepare("EXECUTE ENB_SHEETEXAM :proc,:regis");
-    $sql_get_data->execute(array(':proc'=>'select_data',':regis'=>$RGNB,));
+    if($RGNB == '00-00GW'){ 
+        $sql_get_data = $conn->prepare("EXECUTE ENB_SHEETEXAM :proc,:regis");
+        $sql_get_data->execute(array(':proc'=>'select_cartestgw',':regis'=>'00-00GW',));
+    }else{ 
+        $sql_get_data = $conn->prepare("EXECUTE ENB_SHEETEXAM :proc,:regis");
+        $sql_get_data->execute(array(':proc'=>'select_data',':regis'=>$RGNB,));
+    } 
     $rs_get_data = $sql_get_data->fetch(PDO::FETCH_OBJ); 
+    if ($rs_get_data) {
+        $rsVEHICLEREGISNUMBER = $rs_get_data->VEHICLEREGISNUMBER; 
+        $rsTHAINAME = $rs_get_data->THAINAME;
+    } else {
+        $rsVEHICLEREGISNUMBER = "-";
+        $rsTHAINAME = "-";
+    }
 
     if(isset($_POST['rg'])||isset($_SESSION["AD_REGISTRATION"])){
-        $sql_check_process = $conn->prepare("EXECUTE ENB_SHEETEXAMSELECT :proc,:regis,:dateins,:person,:code,:shid,:num");
-        $sql_check_process->execute(array(':proc'=>'check_process',':regis'=>$RGNB,':dateins'=>date('Y-m-d'),':person'=>'',':code'=>$SS_PERIOD,':shid'=>'',':num'=>'',));
+        if($RGNB == '00-00GW'){ 
+            $SSPSC = $_SESSION['AD_PERSONCODE'];
+            $sql_check_process = $conn->prepare("EXECUTE ENB_SHEETEXAMSELECT :proc,:regis,:dateins,:person,:code,:shid,:num");
+            $sql_check_process->execute(array(':proc'=>'check_processcartestgw',':regis'=>$RGNB,':dateins'=>date('Y-m-d'),':person'=>$SSPSC,':code'=>$SS_PERIOD,':shid'=>'',':num'=>'',));
+        }else{ 
+            $sql_check_process = $conn->prepare("EXECUTE ENB_SHEETEXAMSELECT :proc,:regis,:dateins,:person,:code,:shid,:num");
+            $sql_check_process->execute(array(':proc'=>'check_process',':regis'=>$RGNB,':dateins'=>date('Y-m-d'),':person'=>'',':code'=>$SS_PERIOD,':shid'=>'',':num'=>'',));
+        } 
         $rs_check_process = $sql_check_process->fetch(PDO::FETCH_OBJ);
+        if ($rs_check_process) {
+            $rsSHLR_CODE=$rs_check_process->SHLR_CODE;
+            $rsSHLR_PERIODTIME=$rs_check_process->SHLR_PERIODTIME;
+        } else {
+            $rsSHLR_CODE=null;
+            $rsSHLR_PERIODTIME=null;
+        }
     }
-    if(isset($rs_check_process->SHLR_CODE) && $rs_check_process->SHLR_PERIODTIME==$SS_PERIOD){
-        $_SESSION['SHLR_CODE']=$rs_check_process->SHLR_CODE;
+    if(isset($rsSHLR_CODE) && $rsSHLR_PERIODTIME==$SS_PERIOD){
+        $_SESSION['SHLR_CODE']=$rsSHLR_CODE;
     }else{
         $_SESSION['SHLR_CODE']="SHLR_".RandNum($n);
     }
@@ -117,11 +142,11 @@
                                 </div>
                                 <div class="grid grid-cols-1 mt-6 text-center divide-y md:divide-y-0 md:divide-x rtl:divide-x-reverse divide-dashed md:grid-cols-4 divide-slate-200 dark:divide-zink-500">
                                     <div class="p-3">
-                                        <h6 class="mb-1"><?php if(isset($rs_get_data->VEHICLEREGISNUMBER)){echo $rs_get_data->VEHICLEREGISNUMBER;}else{echo "-";}?></h6>
+                                        <h6 class="mb-1"><?php if(isset($rsVEHICLEREGISNUMBER)){echo $rsVEHICLEREGISNUMBER;}else{echo "-";}?></h6>
                                         <p class="text-slate-500 dark:text-zink-200">หมายเลขทะเบียน (หัว)</p>
                                     </div>
                                     <div class="p-3">
-                                        <h6 class="mb-1"><?php if(isset($rs_get_data->THAINAME)){echo $rs_get_data->THAINAME;}else{echo "-";}?></h6>
+                                        <h6 class="mb-1"><?php if(isset($rsTHAINAME)){echo $rsTHAINAME;}else{echo "-";}?></h6>
                                         <p class="text-slate-500 dark:text-zink-200">ชื่อรถ (หัว)</p>
                                     </div>
                                     <div class="p-3">

@@ -24,9 +24,15 @@
     }else{
         $RGNB = "xx-xxxx";
     }
-    $sql_get_data = $conn->prepare("EXECUTE ENB_VEHICLEINFO :proc,:regis");
-    $sql_get_data->execute(array(':proc'=>'select_data',':regis'=>$RGNB,));
-    $rs_get_data = $sql_get_data->fetch(PDO::FETCH_OBJ); 
+    
+    if($RGNB == '00-00GW'){ 
+        $rsVEHICLEREGISNUMBER = '00-00GW';
+        $rsTHAINAME = 'รถสำหรับทดสอบใช้ระบบ';
+    }else{ 
+        $sql_get_data = $conn->prepare("EXECUTE ENB_VEHICLEINFO :proc,:regis");
+        $sql_get_data->execute(array(':proc'=>'select_data',':regis'=>$RGNB,));
+        $rs_get_data = $sql_get_data->fetch(PDO::FETCH_OBJ); 
+    }  
 ?>
 
 <body class="text-base bg-body-bg text-body font-public dark:text-zink-100 dark:bg-zink-800 group-data-[skin=bordered]:bg-body-bordered group-data-[skin=bordered]:dark:bg-zink-700">
@@ -52,12 +58,16 @@
                                         <div class="items-center">
                                             <div class="rounded-md md:col-span-8 md:row-span-2 bg-slate-100 dark:bg-zink-600 flex justify-center items-center">
                                                 <?php 
-                                                    $imgsrc = "http://61.91.5.110/images/truck/".$RGNB.".webp";
-                                                    if(get_headers($imgsrc, 1)[0] == 'HTTP/1.1 200 OK'){
-                                                        echo '<img src="'.$imgsrc.'" alt="" class="w-full h-full object-contain">';
-                                                    } else {
-                                                        echo 'ยังไม่มีรูปภาพ';
-                                                    }
+                                                    if($RGNB == '00-00GW'){ 
+                                                        echo '<img src="https://i.pinimg.com/736x/47/88/c9/4788c97944962aab62827de1e33ef26d.jpg" alt="" class="w-full h-full object-contain">';
+                                                    }else{ 
+                                                        $imgsrc = "http://61.91.5.110/images/truck/".$RGNB.".webp";
+                                                        if(get_headers($imgsrc, 1)[0] == 'HTTP/1.1 200 OK'){
+                                                            echo '<img src="'.$imgsrc.'" alt="" class="w-full h-full object-contain">';
+                                                        } else {
+                                                            echo 'ยังไม่มีรูปภาพ';
+                                                        }
+                                                    } 
                                                 ?>
                                             </div>
                                         </div>
@@ -75,47 +85,47 @@
                                                 <tbody>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">เลขทะเบียนรถ</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->VEHICLEREGISNUMBER)){echo $rs_get_data->VEHICLEREGISNUMBER;}else{echo '';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->VEHICLEREGISNUMBER)){echo $rs_get_data->VEHICLEREGISNUMBER;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">ชื่อรถ (ไทย)</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->THAINAME)){echo $rs_get_data->THAINAME;}else{echo '';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->THAINAME)){echo $rs_get_data->THAINAME;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">ประเภททะเบียน</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->REGISTYPE)){echo $rs_get_data->REGISTYPE;}else{echo '';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->REGISTYPE)){echo $rs_get_data->REGISTYPE;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">สายงาน</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->AFFCUSTOMER)){echo $rs_get_data->AFFCUSTOMER;}else{echo '';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->AFFCUSTOMER)){echo $rs_get_data->AFFCUSTOMER;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">ประเภทรถ</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->VEHICLETYPEDESC)){echo $rs_get_data->VEHICLETYPEDESC;}else{echo '';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->VEHICLETYPEDESC)){echo $rs_get_data->VEHICLETYPEDESC;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">วันที่จดทะเบียนครั้งแรก (วัน/เดือน/ปี)</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->VEHICLEREGISTERFIRSTDATE)){echo $rs_get_data->VEHICLEREGISTERFIRSTDATE;}else{echo '';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->VEHICLEREGISTERFIRSTDATE)){echo $rs_get_data->VEHICLEREGISTERFIRSTDATE;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">ซีรีส์/รุ่น</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->SERIES)){echo $rs_get_data->SERIES;}else{echo '';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->SERIES)){echo $rs_get_data->SERIES;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">GPS</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->GPS)){echo $rs_get_data->GPS;}else{echo '';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->GPS)){echo $rs_get_data->GPS;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">บริษัทประกันภัย</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->INSURANCE)){echo $rs_get_data->INSURANCE;}else{echo '';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->INSURANCE)){echo $rs_get_data->INSURANCE;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">วันที่หมดอายุตามป้ายภาษี</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->TAXEXPIREDDATE)){echo $rs_get_data->TAXEXPIREDDATE;}else{echo '';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->TAXEXPIREDDATE)){echo $rs_get_data->TAXEXPIREDDATE;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">หมายเหตุ</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->REMARK)){echo $rs_get_data->REMARK;}else{echo '';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->REMARK)){echo $rs_get_data->REMARK;}else{echo '---';}?></td>
                                                     </tr>
                                                 </tbody>
                                             </table>

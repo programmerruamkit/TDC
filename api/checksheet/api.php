@@ -9,10 +9,17 @@
     $time = $_POST["time"]; 
     $shid = $_POST["shid"];  
     $num = $_POST["num"];  
+    $SSPSC = $_SESSION['AD_PERSONCODE'];
 
-    $query_checknext = $conn->prepare("EXECUTE ENB_SHEETEXAMSELECT :proc,:regis,:dateins,:person,:code,:shid,:num");
-    $query_checknext->execute(array(':proc'=>'check_next',':regis'=>$regis,':dateins'=>$dateins,':person'=>'',':code'=>$time,':shid'=>$shid,':num'=>$num,));
-    $resul_checknext = $query_checknext->fetch(PDO::FETCH_OBJ);
+    if($regis == '00-00GW'){ 
+        $query_checknext = $conn->prepare("EXECUTE ENB_SHEETEXAMSELECT :proc,:regis,:dateins,:person,:code,:shid,:num");
+        $query_checknext->execute(array(':proc'=>'check_nextcartestgw',':regis'=>$regis,':dateins'=>$dateins,':person'=>$SSPSC,':code'=>$time,':shid'=>$shid,':num'=>$num,));
+        $resul_checknext = $query_checknext->fetch(PDO::FETCH_OBJ);
+    }else{ 
+        $query_checknext = $conn->prepare("EXECUTE ENB_SHEETEXAMSELECT :proc,:regis,:dateins,:person,:code,:shid,:num");
+        $query_checknext->execute(array(':proc'=>'check_next',':regis'=>$regis,':dateins'=>$dateins,':person'=>'',':code'=>$time,':shid'=>$shid,':num'=>$num,));
+        $resul_checknext = $query_checknext->fetch(PDO::FETCH_OBJ);
+    } 
 
     // echo json_encode([
     //     'RPRQ_SAVE_REPAIR' => $resul_checknext->RPRQ_SAVE_REPAIR

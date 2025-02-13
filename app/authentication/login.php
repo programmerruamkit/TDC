@@ -35,9 +35,16 @@ require_once($path.'include/head.php');
                     <div id="password-error" class="hidden mt-1 text-sm text-red-500">Password must be at least 8 characters long and contain both letters and numbers.</div>
                 </div>
                 <?php if(isset($_GET['id'])){   
-                    $query_sel_car = $conn->prepare("EXECUTE ENB_VEHICLEINFO :proc,:regis");
-                    $query_sel_car->execute(array(':proc'=>'select_data',':regis'=>$_GET['id'],));   
-                    $resul_sel_car = $query_sel_car->fetch(PDO::FETCH_OBJ);         
+                    if($_GET['id'] == '00-00GW'){ 
+                        $rsVEHICLEREGISNUMBER = '00-00GW';
+                        $rsTHAINAME = 'รถทดลองใช้ระบบ';
+                    }else{ 
+                        $query_sel_car = $conn->prepare("EXECUTE ENB_VEHICLEINFO :proc,:regis");
+                        $query_sel_car->execute(array(':proc'=>'select_data',':regis'=>$_GET['id'],));   
+                        $resul_sel_car = $query_sel_car->fetch(PDO::FETCH_OBJ);    
+                        $rsVEHICLEREGISNUMBER = $resul_sel_car->VEHICLEREGISNUMBER;
+                        $rsTHAINAME = $resul_sel_car->THAINAME;
+                    }   
                 ?>    
                 <div class="mb-3">
                     <label for="period" class="inline-block mb-2 text-base font-medium">Shift / เลือกกะ</label>
@@ -48,10 +55,10 @@ require_once($path.'include/head.php');
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label class="inline-block mb-2 text-base font-medium">Car registration / ทะเบียนรถ : <font size="5"><b><u><?=$resul_sel_car->VEHICLEREGISNUMBER;?></u></b></font></label>
+                    <label class="inline-block mb-2 text-base font-medium">Car registration / ทะเบียนรถ : <font size="5"><b><u><?=$rsVEHICLEREGISNUMBER;?></u></b></font></label>
                     <br>
-                    <label class="inline-block mb-2 text-base font-medium">Car name / ชื่อรถ : <font size="5"><b><u><?=$resul_sel_car->THAINAME;?></u></b></font></label>
-                    <input type="hidden" name="registration" id="registration" value="<?=$resul_sel_car->VEHICLEREGISNUMBER;?>">
+                    <label class="inline-block mb-2 text-base font-medium">Car name / ชื่อรถ : <font size="5"><b><u><?=$rsTHAINAME;?></u></b></font></label>
+                    <input type="hidden" name="registration" id="registration" value="<?=$rsVEHICLEREGISNUMBER;?>">
                 </div>
                 <?php }else{ ?>
                     <input type="hidden" name="registration" id="registration" value="">
