@@ -17,6 +17,7 @@ RewriteRule  ^ข้อมูลรถ_(.*).html app/overview/overview.php?reg=$
 # User authentication pages
 RewriteRule  ^เข้าสู่ระบบ.html app/authentication/login.php [NC,L]
 RewriteRule  ^ทะเบียน_(.*).html app/authentication/login.php?id=$1 [NC,L]
+RewriteRule  ^RG_(.*).html app/authentication/login.php?id=$1 [NC,L]
 RewriteRule  ^ออกจากระบบ.html app/authentication/logout.php [NC,L]
 # Welcome and landing pages
 RewriteRule  ^ยินดีต้อนรับ.html app/welcome/welcome.php [NC,L]
