@@ -274,6 +274,8 @@ $mpdf = new mPDF('th', 'A4-L', '0', '');
                                     if(isset($rs_reportdaily->DAY2)){
                                         if($rs_reportdaily->DAY2=='normal'){
                                             $amt_section .='<font color="green"><b><img src="../../assets/images/check_true.gif" style="width: 20px;"></b></font>';
+                                        }else if($rs_reportdaily->DAY2=='not_use'){
+                                            $amt_section .='<font color="green"><b><img src="../../assets/images/remove-gray.png" style="width: 20px;"></b></font>';
                                         }else{
                                             $amt_section .='<font color="red"><b><img src="../../assets/images/check_del.gif" style="width: 20px;"></b></font>';
                                         }   
@@ -286,6 +288,8 @@ $mpdf = new mPDF('th', 'A4-L', '0', '');
                                     if(isset($rs_reportdaily->DAY3)){
                                         if($rs_reportdaily->DAY3=='normal'){
                                             $amt_section .='<font color="green"><b><img src="../../assets/images/check_true.gif" style="width: 20px;"></b></font>';
+                                        }else if($rs_reportdaily->DAY3=='not_use'){
+                                            $amt_section .='<font color="green"><b><img src="../../assets/images/remove-gray.png" style="width: 20px;"></b></font>';
                                         }else{
                                             $amt_section .='<font color="red"><b><img src="../../assets/images/check_del.gif" style="width: 20px;"></b></font>';
                                         }   
@@ -298,6 +302,8 @@ $mpdf = new mPDF('th', 'A4-L', '0', '');
                                     if(isset($rs_reportdaily->DAY4)){
                                         if($rs_reportdaily->DAY4=='normal'){
                                             $amt_section .='<font color="green"><b><img src="../../assets/images/check_true.gif" style="width: 20px;"></b></font>';
+                                        }else if($rs_reportdaily->DAY4=='not_use'){
+                                            $amt_section .='<font color="green"><b><img src="../../assets/images/remove-gray.png" style="width: 20px;"></b></font>';
                                         }else{
                                             $amt_section .='<font color="red"><b><img src="../../assets/images/check_del.gif" style="width: 20px;"></b></font>';
                                         }   
@@ -310,6 +316,8 @@ $mpdf = new mPDF('th', 'A4-L', '0', '');
                                     if(isset($rs_reportdaily->DAY5)){
                                         if($rs_reportdaily->DAY5=='normal'){
                                             $amt_section .='<font color="green"><b><img src="../../assets/images/check_true.gif" style="width: 20px;"></b></font>';
+                                        }else if($rs_reportdaily->DAY5=='not_use'){
+                                            $amt_section .='<font color="green"><b><img src="../../assets/images/remove-gray.png" style="width: 20px;"></b></font>';
                                         }else{
                                             $amt_section .='<font color="red"><b><img src="../../assets/images/check_del.gif" style="width: 20px;"></b></font>';
                                         }   
@@ -322,6 +330,8 @@ $mpdf = new mPDF('th', 'A4-L', '0', '');
                                     if(isset($rs_reportdaily->DAY6)){
                                         if($rs_reportdaily->DAY6=='normal'){
                                             $amt_section .='<font color="green"><b><img src="../../assets/images/check_true.gif" style="width: 20px;"></b></font>';
+                                        }else if($rs_reportdaily->DAY6=='not_use'){
+                                            $amt_section .='<font color="green"><b><img src="../../assets/images/remove-gray.png" style="width: 20px;"></b></font>';
                                         }else{
                                             $amt_section .='<font color="red"><b><img src="../../assets/images/check_del.gif" style="width: 20px;"></b></font>';
                                         }   
@@ -334,6 +344,8 @@ $mpdf = new mPDF('th', 'A4-L', '0', '');
                                     if(isset($rs_reportdaily->DAY7)){
                                         if($rs_reportdaily->DAY7=='normal'){
                                             $amt_section .='<font color="green"><b><img src="../../assets/images/check_true.gif" style="width: 20px;"></b></font>';
+                                        }else if($rs_reportdaily->DAY7=='not_use'){
+                                            $amt_section .='<font color="green"><b><img src="../../assets/images/remove-gray.png" style="width: 20px;"></b></font>';
                                         }else{
                                             $amt_section .='<font color="red"><b><img src="../../assets/images/check_del.gif" style="width: 20px;"></b></font>';
                                         }   

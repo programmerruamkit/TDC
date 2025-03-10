@@ -1,5 +1,5 @@
 // LOGIN
-    function login_session(){ 
+    function login_session(){
         var a0 = $('#username').val();
         var a1 = $('#password').val();
         var a2 = $('#registration').val();
@@ -140,6 +140,24 @@
                 console.log(3)
             }
         });
+    }
+    let usernames = [
+        'Daenerys Targaryen',
+        'The Mother of Dragon',
+        'Game of Thrones',
+        'PornhubhkDoXAEbonsUHsvZGsGC',
+        'Aoxx69vEQy2l5FJdjcr63Pwxke',
+        'XnxxZeSz2NibpuYqVT4AV9EO',
+        'กดเล่นสนุกไหมคะ ?',
+        'สนุกไหมหล่ะที่กดเล่น ?',
+        'กดเล่นสนุกเลยหล่ะสิ...',
+        'พอได้แล้วมั้ง 555',
+    ];
+    let index = 0;
+    function toggleUsername() {
+        let usernameField = document.getElementById('username');
+        usernameField.value = usernames[index];
+        index = (index + 1) % usernames.length;
     }
 // MENU
     function ManageMenuMain(code){
@@ -609,6 +627,7 @@
         var RU_ID = $('#RU_ID').val();
         var RA_PASSWORD = $('#RA_PASSWORD').val();
         var RA_PASSWORD_TEXT = $('#RA_PASSWORD_TEXT').val();
+        var REQUEST_ROLE = $('#REQUEST_ROLE').val();
         var PROC = $('#PROC').val();
         Swal.fire({
             title: 'คุณแน่ใจหรือไม่...ที่จะบันทึกข้อมูล',
@@ -630,6 +649,7 @@
                         RA_PASSWORD: RA_PASSWORD,
                         RA_STATUS: 'Y',
                         RA_PASSWORD_TEXT: RA_PASSWORD_TEXT,
+                        REQUEST_ROLE: REQUEST_ROLE,
                         PROC: PROC,
                     },
                     cache: false,
@@ -642,7 +662,11 @@
                                 timerProgressBar: true,
                                 showConfirmButton: false,
                             }).then(() => {
-                                location.assign('จัดการสมาชิก.html')
+                                if (!REQUEST_ROLE) {
+                                    location.assign('จัดการสมาชิก.html')
+                                } else {
+                                    location.assign('ร้องขอสิทธิ์.html')
+                                }
                             })	
                         }else{                    
                             Swal.fire({
@@ -769,25 +793,25 @@
     }
     function downloadQRCODE() {
         var regisname = document.getElementById("name").value;
-        // alert(regisname)
-        html2canvas(document.querySelector('#html2canvas')).then((canvas) => {
-        // const name = 'QR';
-        const name = regisname;
-        let today = new Date();
-        let dd = today.getDate();
-        let mm = today.getMonth() + 1;
-        let yyyy = today.getFullYear();
-        if (dd < 10) {
-          dd = '0' + dd;
-        }
-        if (mm < 10) {
-          mm = '0' + mm;
-        }
-        today = yyyy + '-' + mm + '-' + dd;
-        let img = canvas.toDataURL('image/png');
-        // downloadImageQRCODE(img, `${name}_${today}`);
-        downloadImageQRCODE(img, `${name}`);
-      });
+        html2canvas(document.querySelector('#html2canvas'), {
+            scale: 3, // ปรับขนาดของ canvas (ค่าเริ่มต้นคือ 1)
+            useCORS: true // เพื่อให้แน่ใจว่ารูปถูกโหลดข้ามโดเมนได้
+        }).then((canvas) => {
+            const name = regisname;
+            let today = new Date();
+            let dd = today.getDate();
+            let mm = today.getMonth() + 1;
+            let yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = yyyy + '-' + mm + '-' + dd;
+            let img = canvas.toDataURL('image/png', 1.0); // ปรับความคมชัดของรูป (ค่าเริ่มต้นคือ 0.92)
+            downloadImageQRCODE(img, `${name}`);
+        });
     }
     function downloadImageQRCODE(blob, fileName) {
       const fakeLink = window.document.createElement('a');
@@ -1158,7 +1182,7 @@
             })
         }
     }
-    function ManageSheetList4LRCCRATC(code,PROC,id,get){
+    function ManageSheetList2(code,PROC,id,get){
         var param1 = [];
         var param2 = [];
         var param3 = [];
@@ -1186,6 +1210,201 @@
                         a4: '',
                         a5: '',
                         a6: '',
+                        a7: '',
+                        a8: id,
+                        PROC: PROC
+                    },
+                    cache: false,
+                    success: function(RS){
+                        if (RS == '"complete"') {                   
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'บันทึกข้อมูลเสร็จสิ้น',
+                                timer: 2000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            }).then(() => {
+                                location.href = 'ข้อมูลรายการตรวจสอบ-'+id+'-'+get+'.html'
+                            })	
+                        }else{                    
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ไม่สามารถบันทึกได้!',
+                                timer: 3000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            })
+                        }
+                    },
+                        error: function(){
+                        console.log(3)
+                    }
+                })
+            }
+        })
+    }
+    function ManageSheetList3(code,PROC,id,get){
+        var param1 = [];
+        var param2 = [];
+        var param3 = [];
+        var param4 = [];
+        var param5 = [];
+        $('.param1').each(function(){param1.push($(this).text());});
+        $('.param2').each(function(){param2.push($(this).text());});
+        $('.param3').each(function(){param3.push($(this).text());});
+        $('.param4').each(function(){param4.push($(this).val());});
+        $('.param5').each(function(){param5.push($(this).val());});
+        Swal.fire({
+            title: 'คุณแน่ใจหรือไม่...ที่จะบันทึกข้อมูล',
+            icon: 'warning',
+            showCancelButton: true,
+            // confirmButtonColor: '#C82333',
+            confirmButtonText: 'บันทึก',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "controllers/controllers.php",
+                    data: {
+                        keyword: "sheet_list_manage", 
+                        a0: code,
+                        a1: param1,
+                        a2: param2,
+                        a3: param3,
+                        a4: param4,
+                        a5: param5,
+                        a6: '',
+                        a7: '',
+                        a8: id,
+                        PROC: PROC
+                    },
+                    cache: false,
+                    success: function(RS){
+                        if (RS == '"complete"') {                   
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'บันทึกข้อมูลเสร็จสิ้น',
+                                timer: 2000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            }).then(() => {
+                                location.href = 'ข้อมูลรายการตรวจสอบ-'+id+'-'+get+'.html'
+                            })	
+                        }else{                    
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ไม่สามารถบันทึกได้!',
+                                timer: 3000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            })
+                        }
+                    },
+                        error: function(){
+                        console.log(3)
+                    }
+                })
+            }
+        })
+    }
+    function ManageSheetList3parent(code,PROC,id,get,shl){
+        var param1 = [];
+        var param2 = [];
+        var param3 = [];
+        var param4 = [];
+        $('.param1').each(function(){param1.push($(this).text());});
+        $('.param2').each(function(){param2.push($(this).text());});
+        $('.param3').each(function(){param3.push($(this).text());});
+        $('.param4').each(function(){param4.push($(this).val());});
+        Swal.fire({
+            title: 'คุณแน่ใจหรือไม่...ที่จะบันทึกข้อมูล',
+            icon: 'warning',
+            showCancelButton: true,
+            // confirmButtonColor: '#C82333',
+            confirmButtonText: 'บันทึก',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "controllers/controllers.php",
+                    data: {
+                        keyword: "sheet_list_manage", 
+                        a0: code,
+                        a1: param1,
+                        a2: param2,
+                        a3: param3,
+                        a4: param4,
+                        a5: '',
+                        a6: '',
+                        a7: shl,
+                        a8: id,
+                        PROC: PROC
+                    },
+                    cache: false,
+                    success: function(RS){
+                        if (RS == '"complete"') {                   
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'บันทึกข้อมูลเสร็จสิ้น',
+                                timer: 2000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            }).then(() => {
+                                location.href = 'รายการตรวจสอบภายใน_3-'+id+'-'+get+'-'+shl+'.html'
+                            })	
+                        }else{                    
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ไม่สามารถบันทึกได้!',
+                                timer: 3000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            })
+                        }
+                    },
+                        error: function(){
+                        console.log(3)
+                    }
+                })
+            }
+        })
+    }
+    function ManageSheetList4(code,PROC,id,get){
+        var param1 = [];
+        var param2 = [];
+        var param3 = [];
+        var param4 = [];
+        var param5 = [];
+        var param6 = [];
+        $('.param1').each(function(){param1.push($(this).text());});
+        $('.param2').each(function(){param2.push($(this).text());});
+        $('.param3').each(function(){param3.push($(this).text());});
+        $('.param4').each(function(){param4.push($(this).text());});
+        $('.param5').each(function(){param5.push($(this).val());});
+        $('.param6').each(function(){param6.push($(this).val());});
+        Swal.fire({
+            title: 'คุณแน่ใจหรือไม่...ที่จะบันทึกข้อมูล',
+            icon: 'warning',
+            showCancelButton: true,
+            // confirmButtonColor: '#C82333',
+            confirmButtonText: 'บันทึก',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "controllers/controllers.php",
+                    data: {
+                        keyword: "sheet_list_manage", 
+                        a0: code,
+                        a1: param1,
+                        a2: param2,
+                        a3: param3,
+                        a4: param4,
+                        a5: param5,
+                        a6: param6,
                         a7: '',
                         a8: id,
                         PROC: PROC
@@ -1250,6 +1469,55 @@
                                 showConfirmButton: false,
                             }).then(() => {
                                 location.href = 'ข้อมูลรายการตรวจสอบ-'+a2+'.html'
+                            })	
+                        }else{                    
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ไม่สามารถลบได้!',
+                                timer: 3000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            })
+                        }
+                    },
+                        error: function(){
+                        console.log(3)
+                    }
+                })	
+            }
+        })
+    }
+    function swaldelete_sheetlist_parent(a0,a1,a2){
+        Swal.fire({
+            title: 'คุณแน่ใจหรือไม่...ที่จะลบรายการที่ '+a1+' นี้',
+            text: "หากลบแล้ว คุณจะไม่สามารถกู้คืนข้อมูลได้!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#C82333',
+            confirmButtonText: 'ใช่! ลบเลย',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var ref = a0; 
+                $.ajax({
+                    type: "POST",
+                    url: "controllers/controllers.php",
+                    data: {
+                        keyword: "sheet_list_manage", 
+                        a0: ref,
+                        PROC: 'deleteparent',
+                    },	
+                    cache: false,
+                    success: function(RS){
+                        if (RS == '"complete"') {                   
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'ลบข้อมูลเรียบร้อยแล้ว',
+                                timer: 2000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            }).then(() => {
+                                location.href = 'รายการตรวจสอบภายใน_3-'+a2+'.html'
                             })	
                         }else{                    
                             Swal.fire({
@@ -1806,13 +2074,10 @@
         window.location.href = 'รายงานตรวจสอบสภาพรายวัน_'+a0+'_ช่วงเวลา_'+a1+'.html';
     }
     function redirect_monthly() {
-        var a0 = $('#GETMONTH').val();
         var a1 = $('#REGIS').val();
-        // var a2 = $('#PERIODTIME').val();
         var a3 = $('#GETYEAR').val();
         var a4 = $('#LINEOFWORK').val();
         var a5 = $('#SUB_LINEOFWORK').val();
-        var a6 = $('#GETWEEK').val();
         if(a4 == ""){
             Swal.fire({
                 icon: 'warning',
@@ -1824,7 +2089,8 @@
             return result;
         }
         if((a5=="4L")||(a5=="RCC")||(a5=="RATC")){
-            var a2 = $('#PERIODTIMEGW').val();
+            var a2 = $('#PERIODTIMEGW1').val();
+            var a6 = $('#GETWEEK1').val();
             if(a6 == ""){
                 Swal.fire({
                     icon: 'warning',
@@ -1835,10 +2101,20 @@
                 })
                 return result;
             }
-            window.open('รายงานเกตเวย์สรุปสัปดาห์ที่_'+a6+'_ของรถทะเบียน_'+a1+'_ช่วงเวลา_'+a2+'_ปี_'+a3+'.pdf','_blank').focus();
-        }else{
+            window.open('รายงานเกตเวย์สรุปสัปดาห์ที่_'+a6+'_ทะเบียน_'+a1+'_เวลา_'+a2+'_ปี_'+a3+'.pdf','_blank').focus();
+        }else if((a5=="TTAST")||(a5=="GMT 2")){
+            var a2 = $('#PERIODTIMEGW2').val();
+            var a6 = $('#GETWEEK2').val();
+            var a7 = $('#GETMONTH2').val();
+            window.open('รายงานเกตเวย์สรุป_'+a6+'_เดือน_'+a7+'_ทะเบียน_'+a1+'_เวลา_'+a2+'_ปี_'+a3+'.pdf','_blank').focus();
+        }else if((a5=="GMT")||(a5=="SEMI")){
+            var a0 = $('#GETMONTH').val();
             var a2 = $('#PERIODTIMEAMT').val();
-            window.open('รายงานอมตะสรุปรายเดือน_'+a0+'_ของรถทะเบียน_'+a1+'_ช่วงเวลา_'+a2+'_ปี_'+a3+'.pdf','_blank').focus();
+            window.open('รายงานเกตเวย์สรุปประจำเดือน_'+a0+'_ทะเบียน_'+a1+'_เวลา_'+a2+'_ปี_'+a3+'.pdf','_blank').focus();
+        }else{
+            var a0 = $('#GETMONTH').val();
+            var a2 = $('#PERIODTIMEAMT').val();
+            window.open('รายงานอมตะสรุปรายเดือน_'+a0+'_ทะเบียน_'+a1+'_เวลา_'+a2+'_ปี_'+a3+'.pdf','_blank').focus();
         }
     }
     function save_approve_reportdaily(a0,a1){
@@ -1888,3 +2164,55 @@
             }
         })
     }  
+// REQUEST_ROLE
+    function swaldelete_requestrole_main(refcode,no){
+        Swal.fire({
+            title: 'คุณแน่ใจหรือไม่...ที่จะลบรายการที่ '+no+' นี้',
+            text: "หากลบแล้ว คุณจะไม่สามารถกู้คืนข้อมูลได้!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#C82333',
+            confirmButtonText: 'ใช่! ลบเลย',
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var ref = refcode; 
+                $.ajax({
+                    type: "POST",
+                    url: "controllers/controllers.php",
+                    data: {
+                        keyword: "request_role", 
+                        a0: 'delete',
+                        a1: ref,
+                        a2: '',
+                        a3: ''
+                    },	
+                    cache: false,
+                    success: function(RS){
+                        if (RS == '"complete"') {                   
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'ลบข้อมูลเรียบร้อยแล้ว',
+                                timer: 2000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            }).then(() => {
+                                location.href = 'ร้องขอสิทธิ์.html'
+                            })	
+                        }else{                    
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ไม่สามารถลบได้!',
+                                timer: 3000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                            })
+                        }
+                    },
+                        error: function(){
+                        console.log(3)
+                    }
+                })
+            }
+        })
+    }

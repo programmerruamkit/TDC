@@ -18,7 +18,7 @@ require_once($path.'include/head.php');
             </a>
             <div class="mt-5 text-center">
                 <h4 class="mb-2 text-black-500 dark:text-black-500">ยินดีต้อนรับ</h4>
-                <p class="text-slate-500 dark:text-zink-200">กรุณาเข้าสู่ระบบเพื่อเข้าใช้งาน</p>
+                <p class="text-slate-500 dark:text-zink-200"><a href="#" onclick="toggleUsername(); return false;">กรุณาเข้าสู่ระบบเพื่อเข้าใช้งาน</a></p>
             </div>
             <form name="form1" method="post">
                 <div class="hidden px-4 py-3 mb-3 text-sm text-green-500 border border-green-200 rounded-md bg-green-50 dark:bg-green-400/20 dark:border-green-500/50" id="successAlert">

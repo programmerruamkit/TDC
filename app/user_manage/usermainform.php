@@ -2,10 +2,14 @@
     $path = "../../"; 
     require_once($path.'config/authen.php'); 
     require_once($path.'config/connect.php'); 
-    require_once($path.'config/set_session.php');  
-    require_once($path.'include/head.php');  
-    $_SESSION['SIDEBAR']='จัดการสมาชิก.html';
-    $_SESSION['DROPDOWN']='null';
+    if($_SESSION['SIDEBAR']='ร้องขอสิทธิ์.html'){
+        require_once($path.'include/head.php'); 
+    }else{
+        require_once($path.'config/set_session.php');  
+        require_once($path.'include/head.php'); 
+        $_SESSION['SIDEBAR']='จัดการสมาชิก.html';
+        $_SESSION['DROPDOWN']='null';
+    }
 ?>
 
 <body class="text-base bg-body-bg text-body font-public dark:text-zink-100 dark:bg-zink-800 group-data-[skin=bordered]:bg-body-bordered group-data-[skin=bordered]:dark:bg-zink-700">
@@ -58,31 +62,52 @@
                                             <option value="">------โปรดเลือก------</option>
                                             <?php 
                                                 $SESSION_AREA=$_SESSION["AD_AREA"];
+                                                $SESSION_ROLE_NAME=$_SESSION["AD_ROLE_NAME"];
+                                                if($SESSION_ROLE_NAME=='MASTER'){
+                                                    $findquery='select_roleuser';
+                                                }else{
+                                                    $findquery='select_roleuser_not';
+                                                }
                                                 $query_role = $conn->prepare("EXECUTE ENB_ROLEUSER :proc,:area");
-                                                $query_role->execute(array(':proc'=>'select_roleuser',':area'=>$SESSION_AREA,));
+                                                $query_role->execute(array(':proc'=>$findquery,':area'=>$SESSION_AREA,));
                                                 while($rs_role = $query_role->fetch( PDO::FETCH_OBJ )) { 
                                                     echo '<option value="'.$rs_role->RU_ID.'">'.$rs_role->RU_AREA.' - '.$rs_role->RU_NAME.'</option>';
                                                 } 
                                             ?>
                                         </select>
                                     </div>
+                                    <?php
+                                        if(isset($_GET['rqrid'])){
+                                            $rqrid = $_GET['rqrid'];
+                                        }else{
+                                            $rqrid = '';
+                                        }
+                                    ?>
                                     <div class="mb-3">
                                         <label class="inline-block mb-2 text-base font-medium">&nbsp;</label><br>                        
                                         <?php if(isset($_GET['id'])){ ?>
                                             <input type="hidden" name="PROC" id="PROC" value="addnewrole">
                                             <input type="hidden" name="RA_PASSWORD" id="RA_PASSWORD" value="<?php echo $resul_sel_roleuser->PersonCode; ?>">
                                             <input type="hidden" name="RA_PASSWORD_TEXT" id="RA_PASSWORD_TEXT" value="<?php echo $resul_sel_roleuser->PersonCode; ?>">
+                                            <input type="hidden" name="REQUEST_ROLE" id="REQUEST_ROLE" value="<?php echo $rqrid; ?>">
                                             <button aria-label="button" type="button" onclick="ManageUserMain('ADD','')" class="text-white transition-all duration-200 ease-linear btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">เพิ่มสิทธิ์ใช้งานเมนู</button>
                                         <?php }else{ ?>
                                             <input type="hidden" name="PROC" id="PROC" value="add">
                                             <input type="hidden" name="RA_PASSWORD" id="RA_PASSWORD" value="">
                                             <input type="hidden" name="RA_PASSWORD_TEXT" id="RA_PASSWORD_TEXT" value="">
+                                            <input type="hidden" name="REQUEST_ROLE" id="REQUEST_ROLE" value="">
                                             <button aria-label="button" type="button" onclick="ManageUserMain('ADD','')" class="text-white transition-all duration-200 ease-linear btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">เพิ่มข้อมูล</button>
                                         <?php } ?>
                                         &emsp;
-                                        <a href="จัดการสมาชิก.html">
-                                            <button aria-label="button" type="button" class="text-white btn bg-red-500 border-red-500 hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-red-400/10">ย้อนกลับ</button>
-                                        </a>
+                                        <?php if($_SESSION['SIDEBAR']='ร้องขอสิทธิ์.html'){ ?>
+                                            <a href="ร้องขอสิทธิ์.html">
+                                                <button aria-label="button" type="button" class="text-white btn bg-red-500 border-red-500 hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-red-400/10">ย้อนกลับ</button>
+                                            </a>
+                                        <?php }else{ ?>
+                                            <a href="จัดการสมาชิก.html">
+                                                <button aria-label="button" type="button" class="text-white btn bg-red-500 border-red-500 hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-red-400/10">ย้อนกลับ</button>
+                                            </a>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </form>

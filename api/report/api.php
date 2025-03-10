@@ -27,8 +27,9 @@
         $period = isset($_POST['period']) ? $_POST['period'] : '';
         $datenow = isset($_POST['datenow']) ? $_POST['datenow'] : '';
         $regis = isset($_POST['regis']) ? $_POST['regis'] : '';
+        $sublw = isset($_POST['sublw']) ? $_POST['sublw'] : '';
         // ฟังก์ชันดึงข้อมูลจากฐานข้อมูล
-        function getReportData($conn, $shid, $period, $datenow, $regis) {
+        function getReportData($conn, $shid, $period, $datenow, $regis, $sublw) {
             // ดึงข้อมูลหัวข้อ
             $data = [];
             $qr_reportdaily_head = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
@@ -41,7 +42,7 @@
                     'SHL_PERIODTIME_REAL' => $row_head->SHL_PERIODTIME_REAL,
                     'items' => []
                 ];
-                if($row_head->SHL_PERIODTIME_REAL=="BEFORESTART"){
+                if($row_head->SHL_PERIODTIME_REAL=="BEFORESTART" && $sublw!="GMT"){
                     $qr_reportdaily_amt1 = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
                     $qr_reportdaily_amt1->execute(array(':proc'=>'select_report_amt_1',':datenow'=>$datenow,':period'=>$period,':reg'=>$regis,':countgroup'=>'BEFORESTART',':shid'=>$shid));
                     $rs_reportdaily_amt1 = $qr_reportdaily_amt1->fetchAll(PDO::FETCH_OBJ);
@@ -76,6 +77,8 @@
                     $item = [
                         'SHL_NUMBER' => $row_item->SHL_NUMBER,
                         'SHL_NAME' => $row_item->SHL_NAME,
+                        'SHL_DESCRIPTION' => $row_item->SHL_DESCRIPTION,
+                        'SHL_RANK' => $row_item->SHL_RANK,
                         'DAY1' => $row_item->DAY1,
                         'DAY1REMARK' => $row_item->DAY1REMARK,
                         'DAY1_CHECK' => null,  // ค่าเริ่มต้น
@@ -100,7 +103,7 @@
             return $data;
         }
         // เรียกใช้งานฟังก์ชันดึงข้อมูล
-        $response_data = getReportData($conn, $shid, $period, $datenow, $regis);
+        $response_data = getReportData($conn, $shid, $period, $datenow, $regis, $sublw);
         // ส่งข้อมูลในรูปแบบ JSON
         echo json_encode($response_data);
     }

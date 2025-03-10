@@ -85,9 +85,25 @@
                                             if (!file_exists($PNG_WEB_DIR))
                                             mkdir($PNG_WEB_DIR);
                                             $filename = $PNG_WEB_DIR."$rs_car->VEHICLEREGISNUMBER.png";
+                                            // ปรับระดับการแก้ไขข้อผิดพลาด (L, M, Q, H)
                                             $errorCorrectionLevel = 'M'; 
-                                            $matrixPointSize = 5;               
-                                            QRcode::png("$webhost/ทะเบียน_$rs_car->VEHICLEREGISNUMBER.html", $filename, $errorCorrectionLevel, $matrixPointSize, 2);   
+                                            // ปรับขนาดของ QR Code (1-10)
+                                            $matrixPointSize = 10;     
+                                            QRcode::png("$webhost/ทะเบียน_$rs_car->VEHICLEREGISNUMBER.html", $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+                                            
+                                            // แสดงภาษีหมดอายุจาก TMS
+                                            if (!empty($rs_car->TAXEXPIREDDATE)) {
+                                                $taxExpireDate = $rs_car->TAXEXPIREDDATE;
+                                                $datetime = DateTime::createFromFormat('Y-m-d H:i:s.u', substr($taxExpireDate, 0, 23));
+                                                $thaiYear = $datetime->format('Y') + 543;
+                                                $formattedDate = $datetime->format("d/m") . "/" . $thaiYear;
+                                                $today = new DateTime();
+                                                $diff = $today->diff($datetime);
+                                                $daysRemaining = $diff->days;
+                                                $TAXEXPIREDDATE = "$formattedDate (อีก $daysRemaining วัน)";
+                                            } else {
+                                                $TAXEXPIREDDATE = "<font color='red'><b>ไม่มีข้อมูลวันที่ภาษีหมดอายุ</b></font>";
+                                            }
                                     ?>
                                     <tr>
                                         <td ><?php print "$no.";?></td>
@@ -116,7 +132,9 @@
                                             </select>
                                         </td>
                                         <td align="center" >
-                                            <input type="date" autocomplete="off" onchange="ManageCarMain('<?=$rs_car->VEHICLEREGISNUMBER ?>',this.value,'<?=$_GET['id']?>','dateexpire')" value="<?php print $result_vhctcmg->VHCTMG_DATEEXPIRE; ?>" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
+                                            <!-- วันที่ภาษีหมดอายุ จากการแมตซ์ใน TDC ยกเลิกใช้ เนื่องจากดึงข้อมูลจาก TMS -->
+                                            <!-- <input type="date" autocomplete="off" onchange="ManageCarMain('<?=$rs_car->VEHICLEREGISNUMBER ?>',this.value,'<?=$_GET['id']?>','dateexpire')" value="<?php print $result_vhctcmg->VHCTMG_DATEEXPIRE; ?>" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"> -->
+                                            <?php echo "$TAXEXPIREDDATE"; ?>
                                         </td>
                                         <td align="center">       
                                             <button aria-label="button" data-modal-target="AddCarModal" 

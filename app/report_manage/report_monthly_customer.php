@@ -134,7 +134,7 @@
     <?php require_once($path.'include/footer.php'); ?>
     </div>
 </div>
-<!-- INSERT MODAL -->
+<!-- Condition MODAL -->
 <div id="conditionPDF" modal-center="" class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show ">
     <div class="w-screen md:w-[30rem] bg-white shadow rounded-md dark:bg-zink-600">
         <div class="flex items-center justify-between p-4 border-b dark:border-zink-300/20">
@@ -156,22 +156,24 @@
                         <label for="userId" class="inline-block mb-2 text-base font-medium">สายงาน</label>
                         <input type="text" name="LINEOFWORK" id="LINEOFWORK" value="" class="form-input bg-slate-200 border-slate-300 focus:outline-none focus:border-custom-500" placeholder="สายงาน" autocomplete="off" readonly>
                     </div>
-                </div>           
+                </div>
+                <!-- 4L RCC RATC -->
                 <div id="content1" class="grid grid-cols-3 gap-2 md:grid-cols-2 xl:grid-cols-2">
                     <div class="mb-3">
                         <label for="userId" class="inline-block mb-2 text-base font-medium">เลือกสัปดาห์</label>             
                         <div class="flex items-center gap-2">
-                            <input type="week" name="GETWEEK" id="GETWEEK" autocomplete="off" value="<?php echo $datenow; ?>" class="datepic form-input p-2 border-slate-300 focus:outline-none focus:border-custom-500">
+                            <input type="week" name="GETWEEK1" id="GETWEEK1" autocomplete="off" value="<?php echo $datenow; ?>" class="datepic form-input p-2 border-slate-300 focus:outline-none focus:border-custom-500">
                         </div>   
                     </div>
                     <div class="mb-3">
                         <label for="joiningDateInput" class="inline-block mb-2 text-base font-medium">เลือกช่วงเวลา</label>
-                        <select name="PERIODTIMEGW" id="PERIODTIMEGW" class="form-input border-slate-300 focus:outline-none focus:border-custom-500" data-choices-search-false="">
-                            <option value="กลางวัน" <?php if($PERIODTIME=="กลางวัน"){echo "selected";}else{echo "";}?>>กลางวัน</option>
-                            <option value="กลางคืน" <?php if($PERIODTIME=="กลางคืน"){echo "selected";}else{echo "";}?>>กลางคืน</option>
+                        <select name="PERIODTIMEGW1" id="PERIODTIMEGW1" class="form-input border-slate-300 focus:outline-none focus:border-custom-500" data-choices-search-false="">
+                            <option value="กลางวัน">กลางวัน</option>
+                            <option value="กลางคืน">กลางคืน</option>
                         </select>
                     </div>
                 </div>
+                <!-- AMT GMT SEMI -->
                 <div id="content2" class="grid grid-cols-3 gap-2 md:grid-cols-2 xl:grid-cols-3">
                     <div class="mb-3">
                         <label for="userId" class="inline-block mb-2 text-base font-medium">เลือกเดือน</label>
@@ -202,8 +204,42 @@
                     <div class="mb-3">
                         <label for="joiningDateInput" class="inline-block mb-2 text-base font-medium">เลือกช่วงเวลา</label>
                         <select name="PERIODTIMEAMT" id="PERIODTIMEAMT" class="form-input border-slate-300 focus:outline-none focus:border-custom-500" data-choices-search-false="">
-                            <option value="กลางวัน" <?php if($PERIODTIME=="กลางวัน"){echo "selected";}else{echo "";}?>>กลางวัน</option>
-                            <option value="กลางคืน" <?php if($PERIODTIME=="กลางคืน"){echo "selected";}else{echo "";}?>>กลางคืน</option>
+                            <option value="กลางวัน">กลางวัน</option>
+                            <option value="กลางคืน">กลางคืน</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- TTAST GMT 2 -->
+                <div id="content3" class="grid grid-cols-3 gap-2 md:grid-cols-2 xl:grid-cols-3">
+                    <div class="mb-3">
+                        <label for="userId" class="inline-block mb-2 text-base font-medium">เลือกเดือน</label>
+                        <select name="GETMONTH2" id="GETMONTH2" class="form-input border-slate-300 focus:outline-none focus:border-custom-500" data-choices-search-false="">
+                            <option value="มกราคม" <?php if($GETMONTH=="มกราคม"){echo "selected";}else{echo "";}?>>มกราคม</option>
+                            <option value="กุมภาพันธ์" <?php if($GETMONTH=="กุมภาพันธ์"){echo "selected";}else{echo "";}?>>กุมภาพันธ์</option>
+                            <option value="มีนาคม" <?php if($GETMONTH=="มีนาคม"){echo "selected";}else{echo "";}?>>มีนาคม</option>
+                            <option value="เมษายน" <?php if($GETMONTH=="เมษายน"){echo "selected";}else{echo "";}?>>เมษายน</option>
+                            <option value="พฤษภาคม" <?php if($GETMONTH=="พฤษภาคม"){echo "selected";}else{echo "";}?>>พฤษภาคม</option>
+                            <option value="มิถุนายน" <?php if($GETMONTH=="มิถุนายน"){echo "selected";}else{echo "";}?>>มิถุนายน</option>
+                            <option value="กรกฎาคม" <?php if($GETMONTH=="กรกฎาคม"){echo "selected";}else{echo "";}?>>กรกฎาคม</option>
+                            <option value="สิงหาคม" <?php if($GETMONTH=="สิงหาคม"){echo "selected";}else{echo "";}?>>สิงหาคม</option>
+                            <option value="กันยายน" <?php if($GETMONTH=="กันยายน"){echo "selected";}else{echo "";}?>>กันยายน</option>
+                            <option value="ตุลาคม" <?php if($GETMONTH=="ตุลาคม"){echo "selected";}else{echo "";}?>>ตุลาคม</option>
+                            <option value="พฤศจิกายน" <?php if($GETMONTH=="พฤศจิกายน"){echo "selected";}else{echo "";}?>>พฤศจิกายน</option>
+                            <option value="ธันวาคม" <?php if($GETMONTH=="ธันวาคม"){echo "selected";}else{echo "";}?>>ธันวาคม</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="userId" class="inline-block mb-2 text-base font-medium">เลือกช่วงเดือน</label>
+                        <select name="GETWEEK2" id="GETWEEK2" class="form-input border-slate-300 focus:outline-none focus:border-custom-500" data-choices-search-false="">
+                            <option value="ครึ่งเดือนแรก">ครึ่งเดือนแรก</option>
+                            <option value="ครึ่งเดือนหลัง">ครึ่งเดือนหลัง</option>
+                        </select>  
+                    </div>
+                    <div class="mb-3">
+                        <label for="joiningDateInput" class="inline-block mb-2 text-base font-medium">เลือกช่วงเวลา</label>
+                        <select name="PERIODTIMEGW2" id="PERIODTIMEGW2" class="form-input border-slate-300 focus:outline-none focus:border-custom-500" data-choices-search-false="">
+                            <option value="กลางวัน">กลางวัน</option>
+                            <option value="กลางคืน">กลางคืน</option>
                         </select>
                     </div>
                 </div>
@@ -238,18 +274,22 @@
         $(".modal-body #LINEOFWORK").val(lineofwork );
         $(".modal-body #SUB_LINEOFWORK").val(sublineofwork );
         // alert(sublineofwork)
-        if (sublineofwork==='4L') { // alert("111")
-            content2.classList.remove('block');     content2.classList.add('hidden');
-            content1.classList.remove('hidden');    content1.classList.add('block');
-        } else if (sublineofwork==='RCC') { // alert("222")
-            content2.classList.remove('block');     content2.classList.add('hidden');
-            content1.classList.remove('hidden');    content1.classList.add('block');
-        } else if (sublineofwork==='RATC') {    // alert("333")
-            content2.classList.remove('block');     content2.classList.add('hidden');
-            content1.classList.remove('hidden');    content1.classList.add('block');
-        } else {    // alert("444")
-            content1.classList.remove('block');     content1.classList.add('hidden');
-            content2.classList.remove('hidden');    content2.classList.add('block');
+        if (sublineofwork === 'TTAST' || sublineofwork === 'GMT 2') { // alert("111")
+            content1.classList.remove('block'); content1.classList.add('hidden');
+            content2.classList.remove('block'); content2.classList.add('hidden');
+            content3.classList.remove('hidden'); content3.classList.add('block');
+        } else if (sublineofwork === '4L' || sublineofwork === 'RCC' || sublineofwork === 'RATC') { // alert("222")
+            content1.classList.remove('hidden'); content1.classList.add('block');
+            content2.classList.remove('block'); content2.classList.add('hidden');
+            content3.classList.remove('block'); content3.classList.add('hidden');
+        } else if (sublineofwork === 'GMT' || sublineofwork === 'SEMI') { // alert("333")
+            content1.classList.remove('block'); content1.classList.add('hidden');
+            content2.classList.remove('hidden'); content2.classList.add('block');
+            content3.classList.remove('block'); content3.classList.add('hidden');
+        } else { // alert("999")
+            content1.classList.remove('block'); content1.classList.add('hidden');
+            content2.classList.remove('block'); content2.classList.add('hidden');
+            content3.classList.remove('block'); content3.classList.add('hidden');
         }
         // As pointed out in comments, 
         // it is unnecessary to have to manually call the modal.

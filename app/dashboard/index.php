@@ -190,9 +190,10 @@
                             var HoursAgo = (item.HoursAgo === null) ? "" : item.HoursAgo+":";
                             var MinutesAgo = (item.MinutesAgo === null) ? "" : item.MinutesAgo+" น.ที่ผ่านมา";
                             var MinutesAgoDefualt = (item.MinutesAgoDefualt === null) ? "" : item.MinutesAgoDefualt+" นาทีที่ผ่านมา";
+                            var regisLink = (item.REGIS === '00-00GW') ? `<td class="px-2 py-2.5 border-2 border-slate-200 dark:border-zink-500">${item.SHLC_ID_RANDOM}</td>` : `<td class="px-2 py-2.5 border-2 border-slate-200 dark:border-zink-500 text-custom-500"><a href="ยืนยันการตรวจสอบรายวันของรถทะเบียน_${item.REGIS}_วันที่_${item.SHLC_DATEINSERT}_ช่วงเวลา_${item.PERIODTIME}_${item.SUB_LINEOFWORK}.html" target="_blank">${item.SHLC_ID_RANDOM}</a></td>`;
                             reportTable.append(`
                                 <tr>
-                                    <td class="px-2 py-2.5 border-2 border-slate-200 dark:border-zink-500 text-custom-500"><a href="ยืนยันการตรวจสอบรายวันของรถทะเบียน_${item.REGIS}_วันที่_${item.SHLC_DATEINSERT}_ช่วงเวลา_${item.PERIODTIME}_${item.SUB_LINEOFWORK}" target="_blank">${item.SHLC_ID_RANDOM}</a></td>
+                                    ${regisLink}
                                     <td class="text-center py-2.5 border-2 border-slate-200 dark:border-zink-500">${item.REGIS}</td>
                                     <td class="px-2 py-2.5 border-2 border-slate-200 dark:border-zink-500">${item.THAINAME}</td>
                                     <td class="text-center py-2.5 border-2 border-slate-200 dark:border-zink-500">${item.PERIODTIME}</td>

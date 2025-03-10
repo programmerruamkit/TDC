@@ -48,8 +48,9 @@
                                 </thead>
                                 <tbody>
                                     <?php 
-                                        $query_emp = $conn->prepare("EXECUTE ENB_USERACCOUNT :proc");
-                                        $query_emp->execute(array(':proc'=>'select_accountmain',));
+                                        $SESSION_AREA=$_SESSION["AD_AREA"];
+                                        $query_emp = $conn->prepare("EXECUTE ENB_USERACCOUNT :proc,:username,:area");
+                                        $query_emp->execute(array(':proc'=>'select_accountmain',':username'=>'',':area'=>$SESSION_AREA));
                                         $no=0;
                                         while($result_emp = $query_emp->fetch( PDO::FETCH_OBJ )){ 
                                             $no++;

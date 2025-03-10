@@ -10,16 +10,16 @@
 		$a3 = $_POST['a3'];
 		$rs = loginsession($KEYWORD,$a0,$a1,$a2,$a3);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{echo $rs;}
-		  break;
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}
     if ($_POST['keyword'] == "role_session") {
@@ -30,16 +30,16 @@
 		$a3 = $_POST['a3'];
 		$rs = rolesession($KEYWORD,$a0,$a1,$a2,$a3);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{echo $rs;}
-		  break;
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}
     if ($_POST['keyword'] == "menu_mainsub_manage") {
@@ -55,16 +55,16 @@
 		$MN_PARENT = $_POST['MN_PARENT'];
 		$rs = menumainsubmanage($KEYWORD,$MN_CODE,$MN_NAME,$MN_ICON,$MN_URL,$MN_SORT,$MN_STATUS,$PROC,$MN_LEVEL,$MN_PARENT);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{echo $rs;}
-		  break;
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}
     if ($_POST['keyword'] == "role_main_manage") {
@@ -76,16 +76,16 @@
 		$PROC = $_POST['PROC'];
 		$rs = rolemainmanage($KEYWORD,$RU_CODE,$RU_NAME,$RU_AREA,$RU_STATUS,$PROC);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{echo $rs;}
-		  break;
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}
     if ($_POST['keyword'] == "role_sub_manage") {
@@ -99,16 +99,16 @@
 		$PROC = $_POST['PROC'];
 		$rs = rolesubmanage($KEYWORD,$RM_CODE,$MN_ID,$RM_STATUS,$RU_ID,$RM_ID,$AREA,$PROC);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{echo $rs;}
-		  break;
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}
     if ($_POST['keyword'] == "user_main_manage") {
@@ -119,19 +119,20 @@
 		$RA_PASSWORD = $_POST['RA_PASSWORD'];
 		$RA_STATUS = $_POST['RA_STATUS'];
 		$RA_PASSWORD_TEXT = $_POST['RA_PASSWORD_TEXT'];
+		$REQUEST_ROLE = $_POST['REQUEST_ROLE'];
 		$PROC = $_POST['PROC'];
-		$rs = usermainmanage($KEYWORD,$RA_CODE,$RA_PERSONCODE,$RU_ID,$RA_PASSWORD,$RA_STATUS,$RA_PASSWORD_TEXT,$PROC);
+		$rs = usermainmanage($KEYWORD,$RA_CODE,$RA_PERSONCODE,$RU_ID,$RA_PASSWORD,$RA_STATUS,$RA_PASSWORD_TEXT,$REQUEST_ROLE,$PROC);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{echo $rs;}
-		  break;
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}
     if ($_POST['keyword'] == "car_main_manage") {
@@ -142,16 +143,16 @@
 		$PROC = $_POST['PROC'];
 		$rs = carmainmanage($KEYWORD,$a0,$a1,$a2,$PROC);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{echo $rs;}
-		  break;
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}
     if ($_POST['keyword'] == "setting_manage") {
@@ -169,16 +170,16 @@
 		$PROC = $_POST['PROC'];
 		$rs = settingmanage($KEYWORD,$a0,$a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$a9,$PROC);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{echo $rs;}
-		  break;
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}
     if ($_POST['keyword'] == "linework_manage") {
@@ -189,16 +190,16 @@
 		$PROC = $_POST['PROC'];
 		$rs = lineworkmanage($KEYWORD,$a0,$a1,$a2,$PROC);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{echo $rs;}
-		  break;
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}
     if ($_POST['keyword'] == "list_main_manage") {
@@ -212,16 +213,16 @@
 		$PROC = $_POST['PROC'];
 		$rs = listmainmanage($KEYWORD,$a0,$a1,$a2,$a3,$a4,$a5,$PROC);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{echo $rs;}
-		  break;
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}
     if ($_POST['keyword'] == "sheet_list_manage") {
@@ -238,16 +239,16 @@
 		$PROC = $_POST['PROC'];
 		$rs = sheetlistmanage($KEYWORD,$a0,$a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8,$PROC);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{echo $rs;}
-		  break;
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}
     if ($_POST['keyword'] == "check_sheet_question") {
@@ -263,18 +264,18 @@
 		$a8 = $_POST['a8'];
 		$rs = checksheetquestion($KEYWORD,$PROC,$a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{
+			break;
+				default :{
 				// echo $rs;
 			}
-		  break;
+			break;
 		}
 	}
     if ($_POST['keyword'] == "save_approve_daily") {
@@ -283,17 +284,41 @@
 		$a1 = $_POST['a1'];
 		$rs = saveapprovedaily($KEYWORD,$PROC,$a1);
 		switch ($rs) {
-		  case 'complete':{
+			case 'complete':{
 				// echo json_encode(array("statusCode"=>200));
 			}
-		  break;
-		  case 'error':{
+			break;
+			case 'error':{
 				// echo json_encode(array("statusCode"=>201));
 			}
-		  break;
-			default :{
+			break;
+				default :{
 				// echo $rs;
 			}
-		  break;
+			break;
+		}			
+	}
+    if ($_POST['keyword'] == "request_role") {
+		$KEYWORD = $_POST['keyword'];
+		$PROC = $_POST['a0'];
+		$a1 = $_POST['a1'];
+		$a2 = $_POST['a2'];
+		$a3 = $_POST['a3'];
+		$rs = requestrole($KEYWORD,$PROC,$a1,$a2,$a3);
+		switch ($rs) {
+			case 'complete':{
+				// echo json_encode(array("statusCode"=>200));
+			}
+			break;
+			case 'error':{
+				// echo json_encode(array("statusCode"=>201));
+			}
+			break;
+			case 'duplicate':{
+				// echo json_encode(array("statusCode"=>201));
+			}
+			break;
+				default :{echo $rs;}
+			break;
 		}
 	}

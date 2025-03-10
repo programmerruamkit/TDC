@@ -108,6 +108,8 @@
                                             $img="https://img2.pic.in.th/pic/teacher_man_avatar_person_2836.png";
                                         }else if($_SESSION["AD_ROLE_NAME"]==="DRIVER"){
                                             $img="https://img2.pic.in.th/pic/captain_man_people_avatar_person_2848.png";
+                                        }else if($_SESSION["AD_ROLE_NAME"]==="TENKO"){
+                                            $img="https://img2.pic.in.th/pic/security_man_avatar_person_2843.png";
                                         }
                                     ?>
                                     <img src="<?=$img;?>" alt="" class="w-[37.5px] h-[37.5px] rounded-full">

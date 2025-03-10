@@ -98,7 +98,7 @@
                                         if(isset($rs_get_data->LW_LINEOFWORK)){      
                                             $showlw=$rs_get_data->LW_LINEOFWORK;
                                             $sublw=$rs_get_data->SUB_LINEOFWORK;
-                                            if($sublw=="4L"||$sublw=="RCC"||$sublw=="RATC"){
+                                            if($sublw=="4L"||$sublw=="RCC"||$sublw=="RATC"||$sublw=="TTAST"||$sublw=="GMT2"||$sublw=="GMT"){
                                                 $showct=$rs_get_data->COUNTSHID;
                                             }else{
                                                 $showct=$rs_get_data->COUNTSHID+1;
@@ -119,19 +119,53 @@
                             <table class="table-reportdaily w-full rounded-lg text-black border">
                                 <thead class="bg-slate-200 ">
                                     <tr>
-                                        <th class="px-3 py-1 text-sm text-center font-bold border border-slate-300" rowspan="3" colspan="2">รายการตรวจสภาพความพร้อมที่ยอมรับได้</th>
-                                        <td class="px-3 py-1 text-sm text-left font-bold border border-slate-300" rowspan="1" colspan="2">วันที่....<?php echo thai_date_fullmonth($timestamp) ?>....</td>     
+                                        <?php 
+                                            if(isset($rs_get_data->LW_LINEOFWORK)){     
+                                                if($sublw=="4L"||$sublw=="RCC"||$sublw=="RATC"){
+                                                    echo '<th class="px-3 py-1 text-sm text-center font-bold border border-slate-300" rowspan="3" colspan="2">รายการตรวจสภาพความพร้อมที่ยอมรับได้</th>';
+                                                }else if($sublw=="TTAST"||$sublw=="GMT2"||$sublw=="GMT"){
+                                                    echo '<th class="px-3 py-1 text-sm text-center font-bold border border-slate-300" rowspan="3" colspan="2">หัวข้อตรวจสอบ</th>';
+                                                    echo '<th class="px-3 py-1 text-sm text-center font-bold border border-slate-300" rowspan="3" colspan="1">มาตรฐานการตรวจสอบ</th>';
+                                                }else if($sublw=="SEMI"){
+                                                    echo '<th class="px-3 py-1 text-sm text-center font-bold border border-slate-300" rowspan="3" colspan="2">หัวข้อตรวจสอบ</th>';
+                                                    echo '<th class="px-3 py-1 text-sm text-center font-bold border border-slate-300" rowspan="3" colspan="1">มาตรฐานการตรวจสอบ</th>';
+                                                }else{
+                                                    echo '<th class="px-3 py-1 text-sm text-center font-bold border border-slate-300" rowspan="3" colspan="2">รายการตรวจสภาพความพร้อมที่ยอมรับได้</th>';
+                                                }
+                                            }else{
+                                                echo '<th class="px-3 py-1 text-sm text-center font-bold border border-slate-300" rowspan="3" colspan="2">รายการตรวจสภาพความพร้อมที่ยอมรับได้</th>';
+                                            }
+                                        ?>
+                                        <?php if($sublw=="TTAST"||$sublw=="GMT2"||$sublw=="GMT"){ ?>
+                                            <td class="px-3 py-1 text-sm text-left font-bold border border-slate-300" rowspan="1" colspan="3">วันที่....<?php echo thai_date_fullmonth($timestamp) ?>....</td>   
+                                        <?php }else{ ?>  
+                                            <td class="px-3 py-1 text-sm text-left font-bold border border-slate-300" rowspan="1" colspan="2">วันที่....<?php echo thai_date_fullmonth($timestamp) ?>....</td>
+                                        <?php } ?>
                                     </tr>
                                     <tr>
-                                        <td class="px-3 py-1 text-sm text-left font-bold border border-slate-300" colspan="2" align="left">เวลา......กะ<?php echo $PERIODTIME ?>......</td>         
+                                        <?php if($sublw=="TTAST"||$sublw=="GMT2"||$sublw=="GMT"){ ?>
+                                            <td class="px-3 py-1 text-sm text-left font-bold border border-slate-300" colspan="3" align="left">เวลา....<?php echo $rs_reportdaily_who->TimeOnly ?>..กะ<?php echo $PERIODTIME ?>....</td>  
+                                        <?php }else{ ?>  
+                                            <td class="px-3 py-1 text-sm text-left font-bold border border-slate-300" colspan="2" align="left">เวลา....<?php echo $rs_reportdaily_who->TimeOnly ?>..กะ<?php echo $PERIODTIME ?>....</td>  
+                                        <?php } ?>       
                                     </tr>
                                     <tr>
-                                        <td class="px-3 py-1 text-sm text-center font-bold border border-slate-300 w-5">ผล</td>
+                                        <?php if($sublw=="TTAST"||$sublw=="GMT2"||$sublw=="GMT"){ ?>
+                                            <td class="px-3 py-1 text-sm text-center font-bold border border-slate-300 w-5">ระดับ</td>
+                                            <td class="px-3 py-1 text-sm text-center font-bold border border-slate-300 w-5">ผล</td>
+                                        <?php }else{ ?>
+                                            <td class="px-3 py-1 text-sm text-center font-bold border border-slate-300 w-5">ผล</td>
+                                        <?php } ?>
                                         <td class="px-3 py-1 text-sm text-center font-bold border border-slate-300 w-80">หมายเหตุ</td>
                                     </tr>
                                 </thead>
                                 <tbody class="border border-slate-300"></tbody>
                             </table>
+                            <?php
+                                if($sublw=="TTAST"||$sublw=="GMT2"){
+                                    echo "<img src='assets/images/TTASTCHECK.png' width='100%'>";
+                                }
+                            ?>
                             <br>
                             <div class="flex items-center justify-center gap-2 shrink-0">                                   
                                 <?php if(isset($rs_check_approve->SHLA_CREATEBY)){ ?>
@@ -160,6 +194,9 @@
                     <input type="hidden" id="time" value="<?php echo $PERIODTIME; ?>">
                     <input type="hidden" id="shid" value="<?php echo $rs_get_data->SH_ID; ?>">
                     <input type="hidden" id="regis" value="<?php echo $_GET['regis']; ?>">
+                    <input type="hidden" id="sublw" value="<?php echo $sublw; ?>">
+                    <input type="hidden" id="TimeOnly" value="<?php echo $rs_reportdaily_who->TimeOnly ?>">
+                    <input type="hidden" id="DATEEXPIRE" value="<?php echo $rs_get_data->DATEEXPIRE.' '.$rs_get_data->DATEEXPIRE_YEAR ?>">
                 <!-- Close Section ############################################################## -->
             </div>
         </div>
@@ -190,6 +227,8 @@
         var pfind = $('#pfind').val();
         var shid = $('#shid').val();
         var regis = $('#regis').val();
+        var sublw = $('#sublw').val();
+        var dateexpire = $('#DATEEXPIRE').val();
         $.ajax({
             url: 'api/report/api.php',
             type: 'POST',
@@ -199,7 +238,8 @@
                 datenow: datenow,
                 period: pfind,
                 regis: regis,
-                shid: shid
+                shid: shid,
+                sublw: sublw
             },
             success: function(data) {
                 $('.table-reportdaily tbody').empty();
@@ -212,11 +252,26 @@
                     </tr>`);
                 }else{
                     data.forEach(function(head) {
-                        $('.table-reportdaily tbody').append(
-                            `<tr class="border border-slate-300 bg-slate-500">
-                                <td class="px-3 py-1 border border-slate-300 text-white" colspan="4">${head.SHL_PERIODTIME}</td>
-                            </tr>`
-                        );
+                        
+                        if(sublw=="TTAST"||sublw=="GMT2"||sublw=="GMT"){
+                            $('.table-reportdaily tbody').append(
+                                `<tr class="border border-slate-300 bg-slate-500">
+                                    <td class="px-3 py-1 border border-slate-300 text-white" colspan="6">${head.SHL_PERIODTIME}</td>
+                                </tr>`
+                            );
+                        }else if(sublw=="SEMI"){
+                            $('.table-reportdaily tbody').append(
+                                `<tr class="border border-slate-300 bg-slate-500">
+                                    <td class="px-3 py-1 border border-slate-300 text-white" colspan="5">${head.SHL_PERIODTIME}</td>
+                                </tr>`
+                            );
+                        }else{
+                            $('.table-reportdaily tbody').append(
+                                `<tr class="border border-slate-300 bg-slate-500">
+                                    <td class="px-3 py-1 border border-slate-300 text-white" colspan="4">${head.SHL_PERIODTIME}</td>
+                                </tr>`
+                            );
+                        }
                         head.items.forEach(function(item) {
                             let Day1Check;
                             // แทนที่ ternary operator ด้วย if-else
@@ -239,16 +294,57 @@
                             } else if (item.SAVE_REPAIR === false) {
                                 repaircheck = ''; // คงเป็นค่าว่างตามเงื่อนไข
                             }
-                            $('.table-reportdaily tbody').append(`
-                                <tr class="border border-slate-300">
-                                    <td class="px-2 py-1 border border-slate-300 w-5 text-center">${item.SHL_NUMBER}</td>
-                                    <td class="px-3 py-1 border border-slate-300">${item.SHL_NAME}</td>
-                                    <td class="px-0 py-1 border border-slate-300">${Day1Check}</td>
-                                    <td class="px-3 py-1 border border-slate-300">
-                                        ${item.DAY1REMARK ? item.DAY1REMARK : ''} ${repaircheck}
-                                    </td>
-                                </tr>
-                            `);
+                            if(sublw=="TTAST"||sublw=="GMT2"||sublw=="GMT"){
+                                $('.table-reportdaily tbody').append(`
+                                    <tr class="border border-slate-300">
+                                        <td class="px-2 py-1 border border-slate-300 w-5 text-center">${item.SHL_NUMBER}</td>
+                                        <td class="px-3 py-1 border border-slate-300">${item.SHL_NAME}</td>
+                                        <td class="px-3 py-1 border border-slate-300">${item.SHL_DESCRIPTION}</td>
+                                        <td class="px-3 py-1 border border-slate-300 text-center">${item.SHL_RANK}</td>
+                                        <td class="px-0 py-1 border border-slate-300">${Day1Check}</td>
+                                        <td class="px-3 py-1 border border-slate-300">
+                                            ${item.DAY1REMARK ? item.DAY1REMARK : ''} ${repaircheck}
+                                        </td>
+                                    </tr>
+                                `);
+                            }else if(sublw=="SEMI"){
+                                if(item.SHL_NUMBER==1){
+                                    $('.table-reportdaily tbody').append(`                                                    
+                                        <tr class="border border-slate-300">
+                                            <td class="px-2 py-1 border border-slate-300 w-5 text-center">1</td>
+                                            <td class="px-3 py-1 border border-slate-300">ป้ายภาษีหมดอายุ: ${dateexpire}</td>
+                                            <td class="px-3 py-1 border border-slate-300">ไม่ฉีกขาด, ลอกหลุด, สูญหาย</td>
+                                            <td class="px-0 py-1 border border-slate-300">${Day1Check}</td>
+                                            <td class="px-3 py-1 border border-slate-300">
+                                                ${item.DAY1REMARK ? item.DAY1REMARK : ''} ${repaircheck}
+                                            </td>
+                                        </tr>
+                                    `);
+                                }else{
+                                    $('.table-reportdaily tbody').append(`
+                                        <tr class="border border-slate-300">
+                                            <td class="px-2 py-1 border border-slate-300 w-5 text-center">${item.SHL_NUMBER}</td>
+                                            <td class="px-3 py-1 border border-slate-300">${item.SHL_NAME}</td>
+                                            <td class="px-3 py-1 border border-slate-300">${item.SHL_DESCRIPTION}</td>
+                                            <td class="px-0 py-1 border border-slate-300">${Day1Check}</td>
+                                            <td class="px-3 py-1 border border-slate-300">
+                                                ${item.DAY1REMARK ? item.DAY1REMARK : ''} ${repaircheck}
+                                            </td>
+                                        </tr>
+                                    `);
+                                }
+                            }else{
+                                $('.table-reportdaily tbody').append(`
+                                    <tr class="border border-slate-300">
+                                        <td class="px-2 py-1 border border-slate-300 w-5 text-center">${item.SHL_NUMBER}</td>
+                                        <td class="px-3 py-1 border border-slate-300">${item.SHL_NAME}</td>
+                                        <td class="px-0 py-1 border border-slate-300">${Day1Check}</td>
+                                        <td class="px-3 py-1 border border-slate-300">
+                                            ${item.DAY1REMARK ? item.DAY1REMARK : ''} ${repaircheck}
+                                        </td>
+                                    </tr>
+                                `);
+                            }
                         });
                     });
                 }
@@ -268,6 +364,8 @@
             var time = $('#time').val();
             var shid = $('#shid').val();
             var regis = $('#regis').val();
+            var sublw = $('#sublw').val();
+            var TimeOnly = $('#TimeOnly').val();
             Swal.fire({
                 // title: 'Loading...',
                 text: 'กรุณารอสักครู่ ขณะที่เราสร้างไฟล์ PDF ของคุณ',
@@ -284,7 +382,9 @@
                     shid: shid,
                     period: pfind,
                     datenow: datenow,
-                    regis: regis
+                    regis: regis,
+                    sublw: sublw,
+                    TimeOnly: TimeOnly
                 },
                 success: function(response) {
                     try {
@@ -301,6 +401,8 @@
                         formData.append('time', time);
                         formData.append('datenow', datenow);
                         formData.append('regis', regis);
+                        formData.append('sublw', sublw);
+                        formData.append('TimeOnly', TimeOnly);
 
                         $.ajax({
                             url: 'app/report_manage/report_daily_pdf.php', // URL ของ PHP script ที่จะสร้าง PDF

@@ -113,12 +113,12 @@ if (isset($_POST['reportData'])) {
     $time=$_POST['time'];
     if($time=='กลางวัน'){
         $period='DAY';
-        $cheked1='<img src="../../assets/images/checkbox_true.png" style="width: 15px;">';
-        $cheked2='<img src="../../assets/images/checkbox_none.png" style="width: 15px;">';
+        $cheked1='<img src="'.$path.'assets/images/checkbox_true.png" style="width: 15px;">';
+        $cheked2='<img src="'.$path.'assets/images/checkbox_none.png" style="width: 15px;">';
     }else if($time=='กลางคืน'){
         $period='NIGHT';
-        $cheked1='<img src="../../assets/images/checkbox_none.png" style="width: 15px;">';
-        $cheked2='<img src="../../assets/images/checkbox_true.png" style="width: 15px;">';
+        $cheked1='<img src="'.$path.'assets/images/checkbox_none.png" style="width: 15px;">';
+        $cheked2='<img src="'.$path.'assets/images/checkbox_true.png" style="width: 15px;">';
     }
 
     $qr_reportdaily_who = $conn->prepare("EXECUTE ENB_REPORT :proc,:datenow,:period,:reg,:countgroup,:shid");
@@ -161,73 +161,122 @@ if (isset($_POST['reportData'])) {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" amt_section="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="../../assets/css/report.css">
-            <link rel="shortcut icon" href="../../assets/images/pdf.png" loading="lazy">
+            <link rel="stylesheet" href="'.$path.'assets/css/report.css">
+            <link rel="shortcut icon" href="'.$path.'assets/images/pdf.png" loading="lazy">
         </head>
         <body style="background-color: #ffffff;">
             <div class="container">
                 <table style="white-space:nowrap">
                     <thead>
                         <tr>
-                            <td style="padding:0px;text-align:left;border: 1px solid black;border-bottom: none;">
-                                <img src="../../assets/images/LogoNewPNG.png" style="float:left;width:30px;height:23px;margin-top:3px;margin-left:3px;margin-bottom:-3px;">
-                                <font style="font-size:13;"><b>'.$result_customer->CTM_NAMEEN.'</b></font>&emsp;&emsp;&emsp;&emsp;';
+                            <td style="padding:0px;text-align:left;border: 1px solid black;border-bottom: none;">';
                                 if($SUBLINE =='4L' || $SUBLINE =='RCC' || $SUBLINE =='RATC'){$amt_section .= '
+                                    <img src="'.$path.'assets/images/LogoNewPNG.png" style="float:left;width:30px;height:23px;margin-top:3px;margin-left:3px;margin-bottom:-3px;">
+                                    <font style="font-size:13;"><b>'.$result_customer->CTM_NAMEEN.'</b></font>&emsp;&emsp;&emsp;&emsp;
                                     <font style="font-size:15;"><b><u>ใบตรวจสภาพเทรลเลอร์</u></b></font><br>
-                                    <font style="font-size:8;">เดือน '.$dscon.'</font>&emsp;&emsp;&emsp;
+                                    <font style="font-size:8;">&nbsp;เดือน '.$dscon.'</font>&emsp;&emsp;&emsp;
                                     <font style="font-size:8;">เบอร์เทรลเลอร์</font>
                                     <font style="font-size:14;"><b>'.$rs_get_data->THAINAME.'</b></font>&emsp;&emsp;';
+                                }else if($SUBLINE=="TTAST"||$SUBLINE=="GMT2"||$SUBLINE=="GMT"){$amt_section .= '
+                                    <img src="'.$path.'assets/images/LogoNewPNG.png" style="float:left;width:30px;height:30px;margin-top:3px;margin-left:3px;margin-bottom:-3px;">
+                                    <font style="font-size:10;">'.$result_customer->CTM_NAMETH.'</font>&emsp;&emsp;&emsp;&emsp;
+                                    <font style="font-size:18;"><b><i>ใบตรวจสภาพรถบรรทุก</i></b></font><br>
+                                    <font style="font-size:10;">&nbsp;วันที่ </font>
+                                    <font style="font-size:12;"><b>'.$rsdate.'</b></font>&emsp;
+                                    <font style="font-size:10;">สายงาน </font>
+                                    <font style="font-size:12;"><b>'.$result_customer->LW_LINEOFWORK.'</b></font>&emsp;
+                                    <font style="font-size:10;">ทะเบียนรถ </font>
+                                    <font style="font-size:12;"><b>'.$_POST['regis'].'</b></font>&emsp;
+                                    <font style="font-size:10;">เบอร์รถ </font>
+                                    <font style="font-size:12;"><b>'.$rs_get_data->THAINAME.'</b></font>&emsp;
+                                    <font style="font-size:10;">เวลา </font>
+                                    <font style="font-size:12;"><b>'.$_POST['TimeOnly'].' กะ'.$time.'</b></font>';
                                 }else{$amt_section .= '
+                                    <img src="'.$path.'assets/images/LogoNewPNG.png" style="float:left;width:30px;height:23px;margin-top:3px;margin-left:3px;margin-bottom:-3px;">
+                                    <font style="font-size:13;"><b>'.$result_customer->CTM_NAMEEN.'</b></font>&emsp;&emsp;&emsp;&emsp;
                                     <font style="font-size:15;"><b>ใบตรวจสภาพรถ</b></font><br>
-                                    <font style="font-size:8;">เดือน '.$dscon.'</font>&emsp;&emsp;&emsp;
+                                    <font style="font-size:8;">&nbsp;เดือน '.$dscon.'</font>&emsp;&emsp;&emsp;
                                     <font style="font-size:8;">ทะเบียนรถ</font>
                                     <font style="font-size:14;"><b>'.$_POST['regis'].'</b></font>&emsp;&emsp;
                                     <font style="font-size:8;">ชื่อรถ</font>
                                     <font style="font-size:14;"><b>'.$rs_get_data->THAINAME.'</b></font>&emsp;&emsp;';
                                 }$amt_section .= '
                             </td>
-                        </tr>
-                        <tr>
-                            <td style="padding:3px;text-align:left;line-height:15px;border: 1px solid black;border-bottom: none;">
-                                <font style="font-size:8;">
-                                    <b><u>คำสั่งในการปฏิบัติงาน</u></b> : ให้ตรวจเทรลเลอร์ก่อนวิ่งงาน ตามรายการตรวจ ดังต่อไปนี้ <br>
-                                    <b><u>วิธีการตรวจ</u></b> : ถ้าปกติพร้อมใช้งานให้ทำเครื่องหมายถูก <img src="../../assets/images/pdf_true.png" style="width: 5px;"> ในช่องผล ถ้าผิดปกติไม่พร้อมใช้งานให้ทำเครื่องหมายผิด <img src="../../assets/images/pdf_false.png" style="width: 5px;"> ในช่องผลพร้อมระบุสิ่งที่ผิดปกติ
-                                    <br>อ้างอิงตามมาตรฐานการตรวจรถเทรลเลอร์ก่อนการปฏิบัติงาน (TRAILER READINESS CHECK STANDARD)
-                                </font>
-                            </div>
-                            </td>
-                        </tr>
+                        </tr>';        
+                            if($SUBLINE=="TTAST"||$SUBLINE=="GMT2"){$amt_section .='
+                                <tr>
+                                    <td style="padding:3px;text-align:center;line-height:15px;border: 1px solid black;border-bottom: none;"><font style="font-size:10;">ใบตรวจสภาพรถก่อนปฏิบัติงาน</font></td>
+                                </tr>';
+                            }else if($SUBLINE=="GMT"){$amt_section .='
+                                <tr>
+                                    <td style="padding:3px;text-align:center;line-height:15px;border: 1px solid black;border-bottom: none;"><img src="'.$path.'assets/images/GMT.png" width="70%" height="10%"></td>
+                                </tr>';
+                            }else{$amt_section .='
+                                <tr>
+                                    <td style="padding:3px;text-align:left;line-height:15px;border: 1px solid black;border-bottom: none;">
+                                        <font style="font-size:8;">
+                                            <b><u>คำสั่งในการปฏิบัติงาน</u></b> : ให้ตรวจเทรลเลอร์ก่อนวิ่งงาน ตามรายการตรวจ ดังต่อไปนี้ <br>
+                                            <b><u>วิธีการตรวจ</u></b> : ถ้าปกติพร้อมใช้งานให้ทำเครื่องหมายถูก <img src="'.$path.'assets/images/pdf_true.png" style="width: 5px;"> ในช่องผล ถ้าผิดปกติไม่พร้อมใช้งานให้ทำเครื่องหมายผิด <img src="'.$path.'assets/images/pdf_false.png" style="width: 5px;"> ในช่องผลพร้อมระบุสิ่งที่ผิดปกติ
+                                            <br>อ้างอิงตามมาตรฐานการตรวจรถเทรลเลอร์ก่อนการปฏิบัติงาน (TRAILER READINESS CHECK STANDARD)
+                                        </font>
+                                    </div>
+                                    </td>
+                                </tr>';
+                            }$amt_section .='
                     </thead>
-                </table>';$amt_section .='
+                </table>
                 <table style="width: 100%;font-size:17;">
-                    <thead>
-                        <tr style="background-color:lightgray;">
-                            <th rowspan="3" colspan="2"  style="border: 2px solid black;" width="900px"><h3>รายการตรวจสภาพความพร้อมที่ยอมรับได้</h3></th>
-                            <td rowspan="1" colspan="2"  style="border: 2px solid black;" width="150px" align="left">วันที่....'.$rsdate.'....</td>
-                        </tr>
-                        <tr style="background-color:lightgray;">
-                            <td style="border: 2px solid black;" colspan="2" align="left" width="150px">เวลา......กะ'.$time.'......</td>
-                        </tr>
-                        <tr style="background-color:lightgray;">
-                            <td style="border: 2px solid black;" align="center" width="50px">ผล</td>
-                            <td style="border: 2px solid black;" align="center" width="500px">หมายเหตุ</td>
-                        </tr>
+                    <thead>';        
+                        if($SUBLINE=="TTAST"||$SUBLINE=="GMT2"||$SUBLINE=="GMT"){$amt_section .='
+                            <tr style="background-color:lightgray;">
+                                <th rowspan="1" colspan="1"  style="border: 2px solid black;" width="5px">ลำดับ</th>
+                                <th rowspan="1" colspan="1"  style="border: 2px solid black;" width="400px">หัวข้อตรวจสอบ</th>
+                                <th rowspan="1" colspan="1"  style="border: 2px solid black;" width="700px">มาตรฐานการตรวจสอบ</th>
+                                <td rowspan="1" colspan="1"  style="border: 2px solid black;" width="70px">ระดับ</td>
+                                <td rowspan="1" colspan="1"  style="border: 2px solid black;" width="70px">ผล</td>
+                                <td rowspan="1" colspan="1"  style="border: 2px solid black;" width="200px">หมายเหตุ</td>
+                            </tr>';
+                        }else{$amt_section .='
+                            <tr style="background-color:lightgray;">
+                                <th rowspan="3" colspan="2"  style="border: 2px solid black;" width="900px"><h3>รายการตรวจสภาพความพร้อมที่ยอมรับได้</h3></th>
+                                <td rowspan="1" colspan="2"  style="border: 2px solid black;" width="150px" align="left">วันที่....'.$rsdate.'....</td>
+                            </tr>
+                            <tr style="background-color:lightgray;">
+                                <td style="border: 2px solid black;" colspan="2" align="left" width="150px">เวลา....'.$_POST['TimeOnly'].'..กะ'.$time.'....</td>
+                            </tr>
+                            <tr style="background-color:lightgray;">
+                                <td style="border: 2px solid black;" align="center" width="50px">ผล</td>
+                                <td style="border: 2px solid black;" align="center" width="500px">หมายเหตุ</td>
+                            </tr>';
+                        }$amt_section .='
                     </thead>
                     <tbody>'; foreach ($reportData as $section) { $amt_section .='
-                        <tr>
-                            <th style="background-color:black;color:white;border: 2px solid black;text-align:left;" colspan="4">'.$section['SHL_PERIODTIME'].'</th>
+                        <tr>';        
+                            if($SUBLINE=="TTAST"||$SUBLINE=="GMT2"){$amt_section .='';
+                            }else if($SUBLINE=="GMT"){$amt_section .='
+                                <th style="background-color:black;color:white;border: 2px solid black;text-align:left;" colspan="6">'.$section['SHL_PERIODTIME'].'</th>';
+                            }else{$amt_section .='
+                                <th style="background-color:black;color:white;border: 2px solid black;text-align:left;" colspan="4">'.$section['SHL_PERIODTIME'].'</th>';
+                            }$amt_section .='
                         </tr>'; foreach ($section['items'] as $item) { $amt_section .= '
-                        <tr>
-                            <td style="border-left: 2px solid black;border-right:none;width:10px">'.$item['SHL_NUMBER'].'</td>
-                            <td style="border-left:none;border-right: 2px solid black;width:890px" align="left">'.$item['SHL_NAME'].'</td>
-                            <td style="border-right: 2px solid black;width:3%">';
+                        <tr>';        
+                            if($SUBLINE=="TTAST"||$SUBLINE=="GMT2"||$SUBLINE=="GMT"){$amt_section .='
+                                <td style="border-left:none;border-right: 2px solid black;" align="center">'.$item['SHL_NUMBER'].'</td>
+                                <td style="border-left:none;border-right: 2px solid black;" align="left">'.$item['SHL_NAME'].'</td>
+                                <td style="border-left:none;border-right: 2px solid black;" align="left">'.$item['SHL_DESCRIPTION'].'</td>
+                                <td style="border-left:none;border-right: 2px solid black;" align="center">'.$item['SHL_RANK'].'</td>';
+                            }else{$amt_section .='
+                                <td style="border-left: 2px solid black;border-right:none;width:10px">'.$item['SHL_NUMBER'].'</td>
+                                <td style="border-left:none;border-right: 2px solid black;width:890px" align="left">'.$item['SHL_NAME'].'</td>';
+                            }$amt_section .='
+                            <td style="border-right: 2px solid black;">';
                                 if(isset($item['DAY1'])){
                                     if($item['DAY1']=='normal'){
-                                        $amt_section .='<font color="green"><b><img src="../../assets/images/check_true.gif" style="width: 20px;"></b></font>';
+                                        $amt_section .='<font color="green"><b><img src="'.$path.'assets/images/check_true.gif" style="width: 20px;"></b></font>';
                                     }else if($item['DAY1']=='not_use'){
-                                        $amt_section .='<font color="green"><b><img src="../../assets/images/remove-gray.png" style="width: 20px;"></b></font>';
+                                        $amt_section .='<font color="green"><b><img src="'.$path.'assets/images/remove-gray.png" style="width: 20px;"></b></font>';
                                     }else{                  
-                                        $amt_section .='<font color="red"><b><img src="../../assets/images/check_del.gif" style="width: 20px;"></b></font>';
+                                        $amt_section .='<font color="red"><b><img src="'.$path.'assets/images/check_del.gif" style="width: 20px;"></b></font>';
                                     }   
                                 }else{
                                     if($item['CHECK_STATUS']=='stopchecking'){
@@ -237,7 +286,7 @@ if (isset($_POST['reportData'])) {
                                     }
                                 } $amt_section .='
                             </td>
-                            <td style="border-right: 2px solid black;width:30%" align="left">';
+                            <td style="border-right: 2px solid black;" align="left">';
                                 if(isset($item['DAY1REMARK'])){
                                     if(isset($item['SAVE_REPAIR'])){
                                         $amt_section .=$item['DAY1REMARK'].' <font color="red" size="2"><b>(ส่งแจ้งซ่อมแล้ว)</b></font>';
@@ -248,17 +297,40 @@ if (isset($_POST['reportData'])) {
                                     $amt_section .='';
                                 } $amt_section .='
                             </td>
-                        </tr>'; } } $amt_section .='
-                        <tr>
-                            <td style="border: 2px solid black;text-align:right;" colspan="2"><b>ลงชื่อพนักงานขับรถ</b></td>
-                            <td style="border: 2px solid black;" colspan="2">'.$rs_reportdaily_who->EMP_NAME.'</td>
-                        </tr>
-                        <tr style="height: 20px;">
-                            <td style="border: 2px solid black;text-align:right;" colspan="2"><b>ลงชื่อผู้ควบคุม/เจ้าหน้าที่เท็งโกะ</b></td>
-                            <td style="border: 2px solid black;" colspan="2">'.$rs_check_approve->EMP_NAME.'</td>
-                        </tr>
+                        </tr>'; }} 
+                        if($SUBLINE=="TTAST"||$SUBLINE=="GMT2"){$amt_section .='
+                            <tr>
+                                <td style="border: 2px solid black;text-align:right;" colspan="3"><b>ลงชื่อพนักงานขับรถ</b></td>
+                                <td style="border: 2px solid black;" colspan="3">'.$rs_reportdaily_who->EMP_NAME.'</td>
+                            </tr>
+                            <tr style="height: 20px;">
+                                <td style="border: 2px solid black;text-align:right;" colspan="3"><b>ลงชื่อผู้ควบคุม/เจ้าหน้าที่เท็งโกะ</b></td>
+                                <td style="border: 2px solid black;" colspan="3">'.$rs_check_approve->EMP_NAME.'</td>
+                            </tr>';
+                        }else if($SUBLINE=="GMT"){$amt_section .='
+                                <tr>
+                                    <td style="border: 2px solid black;text-align:right;" colspan="4"><b>ลงชื่อพนักงานขับรถ</b></td>
+                                    <td style="border: 2px solid black;" colspan="3">'.$rs_reportdaily_who->EMP_NAME.'</td>
+                                </tr>
+                                <tr style="height: 20px;">
+                                    <td style="border: 2px solid black;text-align:right;" colspan="4"><b>ลงชื่อผู้ควบคุม/เจ้าหน้าที่เท็งโกะ</b></td>
+                                    <td style="border: 2px solid black;" colspan="3">'.$rs_check_approve->EMP_NAME.'</td>
+                                </tr>';
+                        }else{$amt_section .='
+                            <tr>
+                                <td style="border: 2px solid black;text-align:right;" colspan="2"><b>ลงชื่อพนักงานขับรถ</b></td>
+                                <td style="border: 2px solid black;" colspan="2">'.$rs_reportdaily_who->EMP_NAME.'</td>
+                            </tr>
+                            <tr style="height: 20px;">
+                                <td style="border: 2px solid black;text-align:right;" colspan="2"><b>ลงชื่อผู้ควบคุม/เจ้าหน้าที่เท็งโกะ</b></td>
+                                <td style="border: 2px solid black;" colspan="2">'.$rs_check_approve->EMP_NAME.'</td>
+                            </tr>';
+                        }$amt_section .='
                     </tbody>
-                </table>
+                </table>';
+                if($SUBLINE=="TTAST"||$SUBLINE=="GMT2"){
+                    $amt_section .='<img src="'.$path.'assets/images/TTASTCHECK.png" width="100%" height="20%">';
+                }$amt_section .='
             </div>
         </body>
     </html>';

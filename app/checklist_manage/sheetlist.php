@@ -32,19 +32,31 @@
                     <div class="card">
                         <div class="card-body">
                             <?php 
-                            // echo $SUBLINE ; 
+                            // echo $SUBLINE;
                             ?>
                             <div class="shrink-0">    
                                 <?php if($SUBLINE =='4L' || $SUBLINE =='RCC' || $SUBLINE =='RATC'){ ?>
-                                    <a href="เพิ่มรายการตรวจสอบ_4L-<?php echo $_GET['id']; ?>-<?php echo $_GET['get']; ?>.html">
+                                    <a href="เพิ่มรายการตรวจสอบ_2-<?php echo $_GET['id']; ?>-<?php echo $_GET['get']; ?>.html">
                                         <button aria-label="button" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
                                             <i data-lucide="plus" class="inline-block size-4"></i> <span class="align-middle">เพิ่มรายการตรวจสอบ 4L/RCC/RATC</span>
                                         </button>
                                     </a>&emsp;
-                                <?php }else{ ?>
-                                    <a href="เพิ่มรายการตรวจสอบ-<?php echo $_GET['id']; ?>-<?php echo $_GET['get']; ?>.html">
+                                <?php }else if($SUBLINE =='TTAST' || $SUBLINE =='GMT2' || $SUBLINE =='GMT'){ ?>
+                                    <a href="เพิ่มรายการตรวจสอบ_3-<?php echo $_GET['id']; ?>-<?php echo $_GET['get']; ?>.html">
                                         <button aria-label="button" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
-                                            <i data-lucide="plus" class="inline-block size-4"></i> <span class="align-middle">เพิ่มรายการตรวจสอบ</span>
+                                            <i data-lucide="plus" class="inline-block size-4"></i> <span class="align-middle">เพิ่มรายการตรวจสอบ TTAST/GMT2/GMT</span>
+                                        </button>
+                                    </a>&emsp;
+                                <?php }else if($SUBLINE =='SEMI'){ ?>
+                                    <a href="เพิ่มรายการตรวจสอบ_4-<?php echo $_GET['id']; ?>-<?php echo $_GET['get']; ?>.html">
+                                        <button aria-label="button" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                                            <i data-lucide="plus" class="inline-block size-4"></i> <span class="align-middle">เพิ่มรายการตรวจสอบ SEMI</span>
+                                        </button>
+                                    </a>&emsp;
+                                <?php }else{ ?>
+                                    <a href="เพิ่มรายการตรวจสอบ_1-<?php echo $_GET['id']; ?>-<?php echo $_GET['get']; ?>.html">
+                                        <button aria-label="button" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+                                            <i data-lucide="plus" class="inline-block size-4"></i> <span class="align-middle">เพิ่มรายการตรวจสอบ AMT</span>
                                         </button>
                                     </a>&emsp;
                                 <?php } ?>
@@ -57,14 +69,21 @@
                             <br>
                             <table id="borderedTable" class="bordered group" style="width:100%">
                                 <thead>
-                                    <tr>                                        
+                                    <tr>
+                                        <th width="5%"  class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">ลำดับ</th>
+                                        <th width="20%" class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">หัวข้อตรวจสอบ</th>
                                         <?php if($SUBLINE =='4L' || $SUBLINE =='RCC' || $SUBLINE =='RATC'){ ?>
-                                            <th width="5%"  class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">ลำดับ</th>
-                                            <th width="20%" class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">หัวข้อตรวจสอบ</th>
+                                            <th width="10%" class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">กลุ่ม</th>
+                                        <?php }else if($SUBLINE =='TTAST' || $SUBLINE =='GMT2' || $SUBLINE =='GMT'){ ?>
+                                            <th width="20%" class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">มาตรฐานการตรวจสอบ</th>
+                                            <th width="10%" class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">ระดับ</th>
+                                            <th width="10%" class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">กลุ่ม</th>
+                                        <?php }else if($SUBLINE =='SEMI'){ ?>
+                                            <th width="20%" class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">มาตรฐานการตรวจสอบ</th>
+                                            <th width="5%"  class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">วิธีการ</th>
+                                            <th width="5%"  class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">เวลา</th>
                                             <th width="10%" class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">กลุ่ม</th>
                                         <?php }else{ ?>
-                                            <th width="5%"  class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">ลำดับ</th>
-                                            <th width="20%" class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">หัวข้อตรวจสอบ</th>
                                             <th width="20%" class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">มาตรฐานการตรวจสอบ</th>
                                             <th width="5%"  class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">ระดับ</th>
                                             <th width="5%"  class="px-3.5 py-2.5 font-semibold border border-slate-200 dark:border-zink-500">วิธีการ</th>
@@ -102,20 +121,29 @@
                                                 $RS_PERIODTIME = 'เทรลเลอร์ดีเซล';
                                             }else if($rs_sheetlist->SHL_PERIODTIME=='TRAILLERTYPEBELT'){
                                                 $RS_PERIODTIME = 'เทรลเลอ์ชนิดที่ใช้สายเบลท์ รัดล้อ';
+                                            }else if($rs_sheetlist->SHL_PERIODTIME=='BEFOREWORK'){
+                                                $RS_PERIODTIME = 'ก่อนปฏิบัติงาน';
                                             }else{
                                                 $RS_PERIODTIME = 'ไม่ได้จัดกลุ่ม';
                                             }
                                     ?>                                        
                                     <tr align="center">
+                                        <td width="5%" align="center"><?php echo $rs_sheetlist->SHL_NUMBER ?></td>
+                                        <td width="20%" align="left"><?php echo truncateText($rs_sheetlist->SHL_NAME) ?></td>
                                         <?php if($SUBLINE =='4L' || $SUBLINE =='RCC' || $SUBLINE =='RATC'){ ?>
-                                            <td width="5%" align="center"><?php echo $rs_sheetlist->SHL_NUMBER ?></td>
-                                            <td width="20%" align="left"><?php echo $rs_sheetlist->SHL_NAME ?></td>
+                                            <td width="10%" align="left"><?php echo $RS_PERIODTIME ?></td>
+                                        <?php }else if($SUBLINE =='TTAST' || $SUBLINE =='GMT2' || $SUBLINE =='GMT'){ ?>
+                                            <td width="20%" align="left"><?php echo truncateText($rs_sheetlist->SHL_DESCRIPTION); ?></td>
+                                            <td width="10%" align="center"><?php echo $rs_sheetlist->SHL_RANK ?></td>
+                                            <td width="10%" align="left"><?php echo $RS_PERIODTIME ?></td>
+                                        <?php }else if($SUBLINE =='SEMI'){ ?>
+                                            <td width="20%" align="left"><?php echo truncateText($rs_sheetlist->SHL_DESCRIPTION); ?></td>
+                                            <td width="5%" align="left"><?php echo $rs_sheetlist->SHL_HOWTO ?></td>
+                                            <td width="5%" align="left"><?php echo $RS_TIME ?></td>
                                             <td width="10%" align="left"><?php echo $RS_PERIODTIME ?></td>
                                         <?php }else{ ?>
-                                            <td width="5%" align="center"><?php echo $rs_sheetlist->SHL_NUMBER ?></td>
-                                            <td width="20%" align="left"><?php echo $rs_sheetlist->SHL_NAME ?></td>
-                                            <td width="20%" align="left"><?php echo $rs_sheetlist->SHL_DESCRIPTION ?></td>
-                                            <td width="5%" align="left"><?php echo $rs_sheetlist->SHL_RANK ?></td>
+                                            <td width="20%" align="left"><?php echo truncateText($rs_sheetlist->SHL_DESCRIPTION); ?></td>
+                                            <td width="5%" align="center"><?php echo $rs_sheetlist->SHL_RANK ?></td>
                                             <td width="5%" align="left"><?php echo $rs_sheetlist->SHL_HOWTO ?></td>
                                             <td width="5%" align="left"><?php echo $RS_TIME ?></td>
                                             <td width="10%" align="left"><?php echo $RS_PERIODTIME ?></td>
@@ -123,19 +151,22 @@
                                         <td width="10%" align="center">
                                             <div class="flex justify-center gap-2">
                                                 <div class="edit">
-                                                    <?php if($SUBLINE =='4L' || $SUBLINE =='RCC' || $SUBLINE =='RATC'){ ?>
-                                                        <a href="แก้ไขรายการตรวจสอบ_4L-<?php echo $_GET['id']; ?>-<?php echo $_GET['get']; ?>-<?php echo $rs_sheetlist->SHL_ID; ?>.html">
-                                                            <button aria-label="button" class="py-1 text-xs text-black btn bg-yellow-500 border-yellow-500 hover:text-black hover:bg-yellow-600 hover:border-yellow-600 focus:text-black focus:bg-yellow-600 focus:border-yellow-600 focus:ring focus:ring-yellow-100 active:text-black active:bg-yellow-600 active:border-yellow-600 active:ring active:ring-yellow-100 dark:ring-yellow-400/20 edit-item-btn">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
-                                                            </button>
-                                                        </a>
-                                                    <?php }else{ ?>
-                                                        <a href="แก้ไขรายการตรวจสอบ-<?php echo $_GET['id']; ?>-<?php echo $_GET['get']; ?>-<?php echo $rs_sheetlist->SHL_ID; ?>.html">
-                                                            <button aria-label="button" class="py-1 text-xs text-black btn bg-yellow-500 border-yellow-500 hover:text-black hover:bg-yellow-600 hover:border-yellow-600 focus:text-black focus:bg-yellow-600 focus:border-yellow-600 focus:ring focus:ring-yellow-100 active:text-black active:bg-yellow-600 active:border-yellow-600 active:ring active:ring-yellow-100 dark:ring-yellow-400/20 edit-item-btn">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
-                                                            </button>
-                                                        </a>
-                                                    <?php } ?>
+                                                    <?php 
+                                                        if($SUBLINE =='4L' || $SUBLINE =='RCC' || $SUBLINE =='RATC'){ 
+                                                            $URL='แก้ไขรายการตรวจสอบ_2';
+                                                        }else if($SUBLINE =='TTAST' || $SUBLINE =='GMT2'){ 
+                                                            $URL='แก้ไขรายการตรวจสอบ_3';
+                                                        }else if($SUBLINE =='SEMI'){ 
+                                                            $URL='แก้ไขรายการตรวจสอบ_4';
+                                                        }else{ 
+                                                            $URL='แก้ไขรายการตรวจสอบ_1';
+                                                        }
+                                                    ?>                                                    
+                                                    <a href="<?php echo $URL ?>-<?php echo $_GET['id']; ?>-<?php echo $_GET['get']; ?>-<?php echo $rs_sheetlist->SHL_ID; ?>.html">
+                                                        <button aria-label="button" class="py-1 text-xs text-black btn bg-yellow-500 border-yellow-500 hover:text-black hover:bg-yellow-600 hover:border-yellow-600 focus:text-black focus:bg-yellow-600 focus:border-yellow-600 focus:ring focus:ring-yellow-100 active:text-black active:bg-yellow-600 active:border-yellow-600 active:ring active:ring-yellow-100 dark:ring-yellow-400/20 edit-item-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+                                                        </button>
+                                                    </a>
                                                 </div>
                                                 <div class="remove">
                                                     <button aria-label="button" type="button" onclick="swaldelete_sheetlist('<?php print $rs_sheetlist->SHL_CODE ?>','<?php print $no;?>','<?php echo $_GET['id']; ?>-<?php echo $_GET['get']; ?>')" class="py-1 text-xs text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-custom-400/20 remove-item-btn">

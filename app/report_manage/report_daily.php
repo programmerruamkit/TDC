@@ -152,7 +152,7 @@
                                 '<center>'+rowstatus+'</center>', 
                                 '<center>'+rowapprove+'</center>', 
                                 '<div class="flex justify-center gap-2">'+
-                                    '<a href="ยืนยันการตรวจสอบรายวันของรถทะเบียน_'+item.REGIS+'_วันที่_'+item.SHLC_DATEINSERT+'_ช่วงเวลา_'+item.PERIODTIME+'_'+chk_linework+'" target="_blank" class="flex items-center gap-2">'+
+                                    '<a href="ยืนยันการตรวจสอบรายวันของรถทะเบียน_'+item.REGIS+'_วันที่_'+item.SHLC_DATEINSERT+'_ช่วงเวลา_'+item.PERIODTIME+'_'+chk_linework+'.html" target="_blank" class="flex items-center gap-2">'+
                                         '<button aria-label="button" class="py-1 text-xs text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 edit-item-btn">'+
                                             '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>'+
                                         '</button>'+

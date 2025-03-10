@@ -22,7 +22,9 @@
     }    
     $rs_get_data = $sql_get_data->fetch(PDO::FETCH_OBJ);  
     $sublw=$rs_get_data->SUB_LINEOFWORK;
-    if($sublw=="4L"||$sublw=="RCC"||$sublw=="RATC"||$sublw=="TTAST"||$sublw=="GMT2"||$sublw=="GMT"){
+    if($sublw=="4L"||$sublw=="RCC"||$sublw=="RATC"){
+        $showct=$rs_get_data->COUNTSHID;
+    }else if($sublw=="TTAST"||$sublw=="GMT2"){
         $showct=$rs_get_data->COUNTSHID;
     }else{
         $showct=$rs_get_data->COUNTSHID+1;
@@ -55,19 +57,15 @@
                     echo '<font size="4">'.$_GET['num'].'. '.$rs_get_exam->SHL_NAME.'</font>';
                     echo '<font size="4">'.$rs_get_exam->DESCRIPTION.'</font>';
                     // echo '<font size="2"><b>วิธีการตรวจ</b> : ถ้าปกติพร้อมใช้งานให้ทำเครื่องหมายถูก ในช่องผล ถ้าผิดปกติไม่พร้อมใช้งานให้ทำเครื่องหมายผิด ในช่องผลพร้อมระบุสิ่งที่ผิดปกติ</font>';
-                }else if($sublw=="TTAST"||$sublw=="GMT2"||$sublw=="GMT"){
+                }else if($sublw=="TTAST"||$sublw=="GMT2"){
                     echo '<font size="4">'.$_GET['num'].'. '.$rs_get_exam->SHL_NAME.'</font>';
                     echo '<font size="4">'.$rs_get_exam->DESCRIPTION.'</font>';
                 }else{
                     echo '<center><font size="4" color="red"><b>ก่อนติดเครื่องยนต์</b></font></center>';
                     // echo '<font size="2">หัวข้อตรวจสอบ</font>';
                     echo '<font size="4">1. ป้ายภาษีหมดอายุ: '.$rs_get_data->DATEEXPIRE.' '.$rs_get_data->DATEEXPIRE_YEAR.'</font>';
+                    echo '<font size="2">มาตรฐานการตรวจสอบ: ระดับ A ใช้วิธีการ ตา,มือ</font>';
                     echo '<font size="4">ไม่ฉีกขาด, ลอกหลุด, สูญหาย</font>';
-                    if($sublw=="SEMI"){
-                        echo '<font size="2">มาตรฐานการตรวจสอบ: ใช้วิธีการ ตา,มือ</font>';
-                    }else{
-                        echo '<font size="2">มาตรฐานการตรวจสอบ: ระดับ A ใช้วิธีการ ตา,มือ</font>';
-                    }
                 }
             }else{                                 
                 if($sublw=="4L"||$sublw=="RCC"||$sublw=="RATC"){
@@ -80,7 +78,7 @@
                     echo '<font size="4">'.$_GET['num'].'. '.$rs_get_exam->SHL_NAME.'</font>';
                     echo '<font size="4">'.$rs_get_exam->DESCRIPTION.'</font>';
                     // echo '<font size="2"><b>วิธีการตรวจ</b> : ถ้าปกติพร้อมใช้งานให้ทำเครื่องหมายถูก ในช่องผล ถ้าผิดปกติไม่พร้อมใช้งานให้ทำเครื่องหมายผิด ในช่องผลพร้อมระบุสิ่งที่ผิดปกติ</font>';
-                }else if($sublw=="TTAST"||$sublw=="GMT2"||$sublw=="GMT"){
+                }else if($sublw=="TTAST"||$sublw=="GMT2"){
                     echo '<font size="4">'.$_GET['num'].'. '.$rs_get_exam->SHL_NAME.'</font>';
                     echo '<font size="4">'.$rs_get_exam->DESCRIPTION.'</font>';
                 }else{
@@ -98,11 +96,7 @@
                     // echo '<font size="2">หัวข้อตรวจสอบ</font>';
                     echo '<font size="4">'.$_GET['num'].'. '.$rs_get_exam->SHL_NAME.'</font>';
                     echo '<font size="4">'.$rs_get_exam->DESCRIPTION.'</font>';
-                    if($sublw=="SEMI"){
-                        echo '<font size="2">มาตรฐานการตรวจสอบ: ใช้วิธีการ '.$rs_get_exam->SHL_HOWTO.'</font>';
-                    }else{
-                        echo '<font size="2">มาตรฐานการตรวจสอบ: ระดับ '.$rs_get_exam->SHL_RANK.' ใช้วิธีการ '.$rs_get_exam->SHL_HOWTO.'</font>';
-                    }
+                    echo '<font size="2">มาตรฐานการตรวจสอบ: ระดับ '.$rs_get_exam->SHL_RANK.' ใช้วิธีการ '.$rs_get_exam->SHL_HOWTO.'</font>';
                 }
             } 
         ?>

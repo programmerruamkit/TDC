@@ -28,3 +28,13 @@
 <div style="display:none"><button id="addRow">Add New Row</button></div>
 <div style="display:none"><button id="deleteButton">Delete Selected Row</button></div>
 <div style="display:none"><input type="text" id="min" name="min"><input type="text" id="max" name="max"></div>
+<?php
+    // ตัดคำยาวๆ ให้เป็นคำสั้นๆ ...
+    function truncateText($text, $length = 20) {
+        if (mb_strlen($text, 'UTF-8') > $length) {
+            return mb_substr($text, 0, $length, 'UTF-8') . '...';
+        }
+        return $text;
+    }
+    
+?>

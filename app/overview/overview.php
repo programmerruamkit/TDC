@@ -26,12 +26,33 @@
     }
     
     if($RGNB == '00-00GW'){ 
-        $rsVEHICLEREGISNUMBER = '00-00GW';
-        $rsTHAINAME = 'รถสำหรับทดสอบใช้ระบบ';
+        $rsVEHICLEREGISNUMBER       =   '00-00GW';
+        $rsTHAINAME                 =   'รถสำหรับทดสอบใช้ระบบ';
+        $rsREGISTYPE                =   'Head';
+        $rsAFFCUSTOMER              =   'RTC GW';
+        $rsVEHICLETYPEDESC          =   'รถบรรทุก';
+        $rsVEHICLEREGISTERFIRSTDATE =   '01/02/2000';
+        $rsSERIES                   =   'Transformers';
+        $rsGPS                      =   'AutoBot';
+        $rsINSURANCE                =   'Michael Bay';
+        $rsTAXEXPIREDDATE           =   '28/06/2007';
+        $rsREMARK                   =   'Optimus Prime';
     }else{ 
         $sql_get_data = $conn->prepare("EXECUTE ENB_VEHICLEINFO :proc,:regis");
         $sql_get_data->execute(array(':proc'=>'select_data',':regis'=>$RGNB,));
         $rs_get_data = $sql_get_data->fetch(PDO::FETCH_OBJ); 
+        $rsVEHICLEREGISNUMBER       =   $rs_get_data->VEHICLEREGISNUMBER;
+        $rsTHAINAME                 =   $rs_get_data->THAINAME;
+        $rsREGISTYPE                =   $rs_get_data->REGISTYPE;
+        $rsAFFCUSTOMER              =   $rs_get_data->AFFCUSTOMER;
+        $rsVEHICLETYPEDESC          =   $rs_get_data->VEHICLETYPEDESC;
+        $rsVEHICLEREGISTERFIRSTDATE =   $rs_get_data->VEHICLEREGISTERFIRSTDATE;
+        $rsSERIES                   =   $rs_get_data->SERIES;
+        $rsGPS                      =   $rs_get_data->GPS;
+        $rsINSURANCE                =   $rs_get_data->INSURANCE;
+        $rsTAXEXPIREDDATE           =   $rs_get_data->TAXEXPIREDDATE;
+        $rsREMARK                   =   $rs_get_data->REMARK;
+
     }  
 ?>
 
@@ -85,47 +106,47 @@
                                                 <tbody>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">เลขทะเบียนรถ</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->VEHICLEREGISNUMBER)){echo $rs_get_data->VEHICLEREGISNUMBER;}else{echo '---';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rsVEHICLEREGISNUMBER)){echo $rsVEHICLEREGISNUMBER;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">ชื่อรถ (ไทย)</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->THAINAME)){echo $rs_get_data->THAINAME;}else{echo '---';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rsTHAINAME)){echo $rsTHAINAME;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">ประเภททะเบียน</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->REGISTYPE)){echo $rs_get_data->REGISTYPE;}else{echo '---';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rsREGISTYPE)){echo $rsREGISTYPE;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">สายงาน</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->AFFCUSTOMER)){echo $rs_get_data->AFFCUSTOMER;}else{echo '---';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rsAFFCUSTOMER)){echo $rsAFFCUSTOMER;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">ประเภทรถ</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->VEHICLETYPEDESC)){echo $rs_get_data->VEHICLETYPEDESC;}else{echo '---';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rsVEHICLETYPEDESC)){echo $rsVEHICLETYPEDESC;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">วันที่จดทะเบียนครั้งแรก (วัน/เดือน/ปี)</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->VEHICLEREGISTERFIRSTDATE)){echo $rs_get_data->VEHICLEREGISTERFIRSTDATE;}else{echo '---';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rsVEHICLEREGISTERFIRSTDATE)){echo $rsVEHICLEREGISTERFIRSTDATE;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">ซีรีส์/รุ่น</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->SERIES)){echo $rs_get_data->SERIES;}else{echo '---';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rsSERIES)){echo $rsSERIES;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">GPS</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->GPS)){echo $rs_get_data->GPS;}else{echo '---';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rsGPS)){echo $rsGPS;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">บริษัทประกันภัย</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->INSURANCE)){echo $rs_get_data->INSURANCE;}else{echo '---';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rsINSURANCE)){echo $rsINSURANCE;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">วันที่หมดอายุตามป้ายภาษี</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->TAXEXPIREDDATE)){echo $rs_get_data->TAXEXPIREDDATE;}else{echo '---';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rsTAXEXPIREDDATE)){echo $rsTAXEXPIREDDATE;}else{echo '---';}?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="px-3.5 py-2.5 font-semibold border-b border-transparent w-64 ltr:text-left rtl:text-right text-slate-500 dark:text-zink-200">หมายเหตุ</th>
-                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rs_get_data->REMARK)){echo $rs_get_data->REMARK;}else{echo '---';}?></td>
+                                                        <td class="px-3.5 py-2.5 border-b border-transparent"><?php if(isset($rsREMARK)){echo $rsREMARK;}else{echo '---';}?></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
