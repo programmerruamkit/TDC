@@ -1,4 +1,5 @@
 <?php
+    session_name("TRAILER");
 	session_start();
     
 	// echo"<pre>";

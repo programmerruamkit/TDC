@@ -1,5 +1,6 @@
 
 <?php
+    session_name("TRAILER");
     session_start();     
     session_destroy(); 
     $path = "../../"; 

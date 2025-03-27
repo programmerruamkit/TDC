@@ -2,7 +2,7 @@
     $path = "../../"; 
     require_once($path.'config/authen.php'); 
     require_once($path.'config/connect.php'); 
-    if($_SESSION['SIDEBAR']='ร้องขอสิทธิ์.html'){
+    if($_SESSION['SIDEBAR']=='ร้องขอสิทธิ์.html'){
         require_once($path.'include/head.php'); 
     }else{
         require_once($path.'config/set_session.php');  
@@ -99,7 +99,7 @@
                                             <button aria-label="button" type="button" onclick="ManageUserMain('ADD','')" class="text-white transition-all duration-200 ease-linear btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">เพิ่มข้อมูล</button>
                                         <?php } ?>
                                         &emsp;
-                                        <?php if($_SESSION['SIDEBAR']='ร้องขอสิทธิ์.html'){ ?>
+                                        <?php if($_SESSION['SIDEBAR']=='ร้องขอสิทธิ์.html'){ ?>
                                             <a href="ร้องขอสิทธิ์.html">
                                                 <button aria-label="button" type="button" class="text-white btn bg-red-500 border-red-500 hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-red-400/10">ย้อนกลับ</button>
                                             </a>

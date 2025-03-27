@@ -1,4 +1,5 @@
 <?php 
+session_name("TRAILER");
 session_start();     
     $path = "../../"; 
     require_once($path.'config/authen.php'); 
