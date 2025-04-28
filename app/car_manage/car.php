@@ -11,13 +11,13 @@
 ?>
 <style>             
     .specific {
-      width: 200px;
-      height: 200px;
+      width: 250px;
+      height: 250px;
       margin: auto;
     }	                                      
     .boxqrcode {
-      width: 250px;
-      height: 180px;
+      width: 230px;
+      height: 190px;
       margin: auto;
     }
     .textcard {    
@@ -86,9 +86,9 @@
                                             mkdir($PNG_WEB_DIR);
                                             $filename = $PNG_WEB_DIR."$rs_car->VEHICLEREGISNUMBER.png";
                                             // ปรับระดับการแก้ไขข้อผิดพลาด (L, M, Q, H)
-                                            $errorCorrectionLevel = 'M'; 
+                                            $errorCorrectionLevel = 'M';
                                             // ปรับขนาดของ QR Code (1-10)
-                                            $matrixPointSize = 10;     
+                                            $matrixPointSize = 10;
                                             QRcode::png("$webhost/ทะเบียน_$rs_car->VEHICLEREGISNUMBER.html", $filename, $errorCorrectionLevel, $matrixPointSize, 2);
                                             
                                             // แสดงภาษีหมดอายุจาก TMS
@@ -153,10 +153,11 @@
                                                 <form name="form1" method="post">
                                                     <center>
                                                         <div class="mb-3">
-                                                            <div class="specific" id="html2canvas">
+                                                            <div class="specific border-2" id="html2canvas">
                                                                 <font class="textcard"><b><span id='REGIS'></span></b></font>
                                                                 <img id="modalImg" src="" alt='QRCODE' class='boxqrcode'>
-                                                            </div>
+                                                                <font class="textcard"><b>ระบบตรวจสอบรถบรรทุก</b></font>
+                                                            </div><br>
                                                             <button type="button" onclick="downloadQRCODE()" class="relative ltr:pl-[calc(theme('spacing.3')_*_4.2)] rtl:pr-[calc(theme('spacing.3')_*_4.2)] text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
                                                                 <i class="ri-download-2-line w-[37.5px] bg-white/10 flex absolute ltr:-left-[1px] rtl:-right-[1px] -bottom-[1px] -top-[1px] items-center justify-center"></i>
                                                                 Download QR Code

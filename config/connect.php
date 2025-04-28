@@ -4,15 +4,10 @@
   // error_reporting(0); 
   error_reporting(E_ALL); 
   date_default_timezone_set('Asia/Bangkok');
-  // ไม่ใช้ `no-store` เพื่ออนุญาตให้ cache
   header("Cache-Control: public, max-age=3600"); // ให้ cache ข้อมูลในเวลา 1 ชั่วโมง
-  // หมดอายุทันที
   // header("Cache-Control: no-cache, max-age=0");
-  // Cache สำหรับผู้ใช้แต่ละคน (ไม่แชร์กับผู้ใช้คนอื่น)
   header("Cache-Control: private, max-age=3600");
-  // กำหนดการไม่ cache หน้า แต่ไม่ห้าม bfcache
   // header("Cache-Control: private, max-age=0, must-revalidate");
-  // ตัวอย่างการตั้งค่า Content-Type ให้เหมาะสม
   header('Content-Type: text/html; charset=UTF-8');
 
   function base_url(){
@@ -54,7 +49,26 @@
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         // echo "เชื่อมต่อฐานข้อมูลได้: ";
       }catch(PDOException $exception){
-        echo "เชื่อมต่อฐานข้อมูล 1 ไม่ได้: " . $exception->getMessage();
+        // echo "เชื่อมต่อฐานข้อมูล 1 ไม่ได้: " . $exception->getMessage();
+        echo '<div style="
+                text-align: center; 
+                font-family: Arial, sans-serif; 
+                margin-top: 50px; 
+                padding: 30px;
+                background-color: #f8d7da; 
+                color: #721c24; 
+                border: 2px solid #f5c6cb; 
+                border-radius: 10px; 
+                max-width: 800px; 
+                margin: auto;
+            ">';
+        echo '    <h1 style="color: #d8000c;">⚠️ ขออภัยในความไม่สะดวก</h1>';
+        echo '    <h2>ระบบ <span style="color: #0056b3;">ตรวจสอบรถบรรทุก</span> ไม่สามารถเชื่อมต่อฐานข้อมูลระบบ<span style="color: #0056b3;"></span>ได้</h2>';
+        echo '    <p style="font-size: 18px; color: #721c24;">ทีมงานกำลังดำเนินการแก้ไขปัญหาโดยเร็วที่สุด ขออภัยในความไม่สะดวก</p>';
+        echo '    <p style="font-size: 16px; color: #721c24;">';
+        // echo '        หากมีข้อสงสัย กรุณาติดต่อฝ่ายสนับสนุนที่ <b>xxx-xxx-xxxx</b> หรืออีเมล <b>support@example.com</b>';
+        echo '    </p>';
+        echo '</div>';
         exit();
       }
       return $this->conn;
@@ -78,7 +92,30 @@
         $this->conn1->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         // echo "เชื่อมต่อฐานข้อมูลได้: ";
       }catch(PDOException $exception){
-        echo "เชื่อมต่อฐานข้อมูล 2 ไม่ได้: " . $exception->getMessage();
+        // echo "เชื่อมต่อฐานข้อมูล 2 ไม่ได้: " . $exception->getMessage();
+        echo '<div style="
+                text-align: center; 
+                font-family: Arial, sans-serif; 
+                margin-top: 50px; 
+                padding: 30px;
+                background-color: #f8d7da; 
+                color: #721c24; 
+                border: 2px solid #f5c6cb; 
+                border-radius: 10px; 
+                max-width: 800px; 
+                margin: auto;
+            ">';
+        echo '    <h1 style="color: #d8000c;">⚠️ ขออภัยในความไม่สะดวก</h1>';
+        echo '    <h2>ระบบ <span style="color: #0056b3;">ตรวจสอบรถบรรทุก</span> ไม่สามารถเชื่อมต่อฐานข้อมูลระบบ <span style="color: #0056b3;">TMS</span> ได้</h2>';
+        echo '    <p style="font-size: 18px; color: #721c24;">';
+        echo '        ระบบ ตรวจสอบรถบรรทุก จำเป็นต้องใช้ข้อมูลจากฐานข้อมูลของระบบ TMS<br>';
+        echo '        หากฐานข้อมูลของระบบ TMS มีปัญหา อาจส่งผลให้ระบบ ตรวจสอบรถบรรทุก ไม่สามารถใช้งานได้ชั่วคราว';
+        echo '    </p>';
+        echo '    <p style="font-size: 18px; color: #721c24;">ทีมงานกำลังดำเนินการแก้ไขปัญหาโดยเร็วที่สุด ขออภัยในความไม่สะดวก</p>';
+        echo '    <p style="font-size: 16px; color: #721c24;">';
+        // echo '        หากมีข้อสงสัย กรุณาติดต่อฝ่ายสนับสนุนที่ <b>xxx-xxx-xxxx</b> หรืออีเมล <b>support@example.com</b>';
+        echo '    </p>';
+        echo '</div>';
         exit();
       }
       return $this->conn1;
@@ -179,7 +216,7 @@
   $conn1      =   $Database1->connect1();
 
 // SETTING
-  $query_setting = $conn->prepare("SELECT * FROM SETTING") or die($conn->error);
+  $query_setting = $conn->prepare("SELECT * FROM SETTING") or die("Error: " . $conn->errorInfo());
   $query_setting->execute();
   $result_setting = $query_setting->fetch(PDO::FETCH_OBJ);  
 
@@ -187,7 +224,7 @@
   $webhost        = "http://61.91.5.111:85";
 
 // GETDATENOW
-  $query_getdate = $conn->prepare("SELECT * FROM vwGETDATE") or die($conn->error);
+  $query_getdate = $conn->prepare("SELECT * FROM vwGETDATE") or die("Error: " . $conn->errorInfo());
   $query_getdate->execute();
   $result_getdate = $query_getdate->fetch(PDO::FETCH_OBJ);  
   $GETYEARTH = $result_getdate->GETYEAR+543;

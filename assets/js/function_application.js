@@ -153,11 +153,31 @@
         'กดเล่นสนุกเลยหล่ะสิ...',
         'พอได้แล้วมั้ง 555',
     ];
-    let index = 0;
+    let firstClick = true;
+    let index = 3;
     function toggleUsername() {
         let usernameField = document.getElementById('username');
-        usernameField.value = usernames[index];
-        index = (index + 1) % usernames.length;
+        let randomInterval = setInterval(() => {
+            usernameField.value = generateRandomText();
+        }, 100);
+        setTimeout(() => {
+            clearInterval(randomInterval);
+            if (firstClick) {
+                usernameField.value = usernames[Math.floor(Math.random() * 3)];
+                firstClick = false;
+            } else {
+                usernameField.value = usernames[index];
+                index = (index + 1) % usernames.length;
+            }
+        }, 1000);
+    }
+    function generateRandomText() {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let text = "";
+        for (let i = 0; i < 20; i++) {
+            text += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return text;
     }
 // MENU
     function ManageMenuMain(code){

