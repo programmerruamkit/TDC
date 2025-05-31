@@ -155,29 +155,75 @@
     ];
     let firstClick = true;
     let index = 3;
-    function toggleUsername() {
+    function toggleUsername(callback = null) {
         let usernameField = document.getElementById('username');
         let randomInterval = setInterval(() => {
-            usernameField.value = generateRandomText();
+            usernameField.value = generateRandomText(10);
         }, 100);
         setTimeout(() => {
             clearInterval(randomInterval);
             if (firstClick) {
-                usernameField.value = usernames[Math.floor(Math.random() * 3)];
+                usernameField.value = generateRandomText(10);
                 firstClick = false;
             } else {
-                usernameField.value = usernames[index];
+                usernameField.value = generateRandomText(10);
                 index = (index + 1) % usernames.length;
+            }
+            console.log("Before alert"); 
+            if (typeof callback === 'function') {
+                callback();
             }
         }, 1000);
     }
-    function generateRandomText() {
+    function generateRandomText(n) {
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         let text = "";
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < n; i++) {
             text += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return text;
+    }
+    function handleLoginClick() {
+        toggleUsername(requestTempPassword);  
+        console.log("handleLoginClick called");
+    }
+    function generateTempPassword(length = 6) {
+        const characters = '023456789';
+        let password = '';
+        for (let i = 0; i < length; i++) {
+            password += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return password;
+    }
+    function createAndSendPassword($username) {
+        $password = generateTempPassword();
+        $_SESSION['temp_password'] = $password;
+        $_SESSION['temp_username'] = $username;
+        $_SESSION['temp_expire'] = time() + 300; 
+    }
+    function requestTempPassword() {
+        console.log("requestTempPassword called"); 
+        const username = document.getElementById('username').value;
+        if (!username) {
+            console.warn("ไม่พบชื่อผู้ใช้");
+            return;
+        }
+        const password = generateTempPassword(6);
+        $.post('controllers/controllers.php', {
+            keyword: 'store_temp_password',
+            username: username,
+            password: password
+        }, function(response) {
+            console.log('ส่งรหัสชั่วคราวแล้ว:', response);
+
+            Swal.fire({
+                icon: 'success',
+                title: 'รหัสผ่านชั่วคราวถูกส่งไปมือถือคุณแล้ว',
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+        });
     }
 // MENU
     function ManageMenuMain(code){

